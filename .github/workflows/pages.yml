@@ -1,21 +1,15 @@
-name: Testar e publicar no GitHub Pages
+name: Verificar calculadora digital
 on:
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
-  pages: write
-  id-token: write
-concurrency:
-  group: pages
-  cancel-in-progress: false
 jobs:
-  test-and-deploy:
+  tests:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Obter código
         uses: actions/checkout@v4
@@ -25,20 +19,3 @@ jobs:
           node-version: '22'
       - name: Executar testes
         run: npm test
-      - name: Configurar GitHub Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - name: Preparar apenas arquivos públicos
-        run: |
-          mkdir -p dist/assets
-          cp index.html styles.css app.js calculations.js bmi-who-data.js manifest.webmanifest sw.js dist/
-          cp assets/icon.svg dist/assets/
-          touch dist/.nojekyll
-      - name: Enviar site estático
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-      - name: Publicar
-        id: deployment
-        uses: actions/deploy-pages@v4
