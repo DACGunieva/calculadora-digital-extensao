@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#123f34">
+  <meta name="description" content="Calculadora digital gratuita de IMC e pico de fluxo expiratório (PFE) para atividades de extensão em saúde. Cálculos locais, sem coleta de dados.">
+  <meta name="color-scheme" content="light">
+  <meta property="og:title" content="Calculadora Digital | Extensão em Saúde">
+  <meta property="og:description" content="IMC e PFE em uma ferramenta gratuita, educativa e sem armazenamento de dados.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="./assets/icon.svg">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Calculadora Digital | Extensão em Saúde</title>
+  <script type="module" defer src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#principal">Pular para o conteúdo</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand" aria-label="Extensão em Saúde — Calculadora Digital">
+        <span class="brand-logo" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M7 21h7l4-9 5 17 4-8h6" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="20" r="18" stroke="currentColor" opacity=".35" stroke-width="1.5"/></svg>
+        </span>
+        <div><span class="brand-top">EXTENSÃO EM SAÚDE</span><strong>Calculadora Digital</strong></div>
+      </div>
+      <a class="header-help" href="#metodologia"><span class="header-help-icon" aria-hidden="true">?</span> Entenda os cálculos</a>
+    </div>
+  </header>
+
+  <main id="principal">
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-text">
+        <span class="eyebrow"><span class="eyebrow-line"></span> FERRAMENTA DE APOIO À EXTENSÃO</span>
+        <h1 id="hero-title">Cálculos simples.<br><em>Cuidados precisos.</em></h1>
+        <p>Uma ferramenta prática para apoiar aferições e orientações educativas em ações de saúde. Sem cadastro, sem envio de dados.</p>
+        <div class="hero-highlights" aria-label="Características">
+          <span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 9 17l11-11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Cálculo imediato</span>
+          <span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7a4 4 0 018 0v3" stroke="currentColor" stroke-width="1.8"/></svg> Privacidade local</span>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="hero-graphic"><div class="graphic-rings"></div><div class="graphic-circle"><svg viewBox="0 0 160 160" fill="none"><path d="M22 80h25l15-32 25 67 18-35h33" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="graphic-mini mini-top">01 / IMC</span><span class="graphic-mini mini-bottom">02 / PFE</span></div>
+      </div>
+    </section>
+
+    <section class="calculator container" aria-labelledby="calc-title">
+      <div class="section-heading"><div><span class="section-kicker">SELECIONE UMA FERRAMENTA</span><h2 id="calc-title">Vamos calcular?</h2></div><span class="small-feature"><span class="online-dot"></span> Funciona sem conta</span></div>
+      <div class="calc-shell">
+        <div class="tool-tabs" role="tablist" aria-label="Tipo de calculadora">
+          <button type="button" class="tool-tab active" id="tab-imc" role="tab" aria-selected="true" aria-controls="panel-imc" tabindex="0" data-tab="imc"><span class="tab-number">01</span><span class="tab-copy"><strong>Índice de Massa Corporal</strong><small>IMC · 3 perfis</small></span><span class="tab-arrow" aria-hidden="true">↗</span></button>
+          <button type="button" class="tool-tab" id="tab-pfe" role="tab" aria-selected="false" aria-controls="panel-pfe" tabindex="-1" data-tab="pfe"><span class="tab-number">02</span><span class="tab-copy"><strong>Pico de Fluxo Expiratório</strong><small>PFE · Referências brasileiras</small></span><span class="tab-arrow" aria-hidden="true">↗</span></button>
+        </div>
+
+        <div class="workspace">
+          <section class="tool-panel" id="panel-imc" role="tabpanel" aria-labelledby="tab-imc">
+            <div class="work-grid">
+              <div class="form-side">
+                <div class="panel-heading"><span class="panel-icon" aria-hidden="true">↗</span><div><h3>Calculadora de IMC</h3><p>Adultos, crianças/adolescentes e gestantes — selecione o perfil.</p></div></div>
+                <form id="imc-form" novalidate>
+                  <div class="field profile-field"><label for="imc-profile">Perfil da pessoa atendida</label><div class="input-wrap select-wrap"><select id="imc-profile" required><option value="adult">Adulto · IMC padrão</option><option value="child">Criança / adolescente · curvas OMS</option><option value="pregnant">Gestante · pré-gestacional e ganho de peso</option></select></div></div>
+                  <div class="field-row">
+                    <div class="field"><label for="weight" id="weight-label">Peso <span>kg</span></label><div class="input-wrap"><input id="weight" name="weight" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 68,5" required><span class="input-unit">kg</span></div><small id="weight-tip">Informe o peso atual</small></div>
+                    <div class="field"><label for="height-imc">Altura <span>cm</span></label><div class="input-wrap"><input id="height-imc" name="height" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 170" required><span class="input-unit">cm</span></div><small id="height-tip">Sem calçados, em centímetros</small></div>
+                  </div>
+                  <div class="field-group-detail" id="child-fields" hidden>
+                    <p class="group-label">Avaliação do crescimento · OMS/SISVAN</p>
+                    <div class="field-row field-row-thirds">
+                      <div class="field"><label for="child-years">Idade (anos)</label><div class="input-wrap"><input id="child-years" type="text" inputmode="numeric" placeholder="Ex.: 8" autocomplete="off"></div></div>
+                      <div class="field"><label for="child-months">Meses adicionais</label><div class="input-wrap"><input id="child-months" type="text" inputmode="numeric" placeholder="0 a 11" autocomplete="off"></div></div>
+                      <div class="field"><label for="child-sex">Referência OMS</label><div class="input-wrap select-wrap"><select id="child-sex"><option value="">Selecione</option><option value="female">Meninas</option><option value="male">Meninos</option></select></div></div>
+                    </div>
+                    <p class="field-explainer">Idade em anos e meses completos. Curvas OMS 2006 (0–60 meses) e OMS 2007 (61–228 meses), adotadas pelo SISVAN. Menores de 2 anos exigem comprimento deitado e avaliação profissional.</p>
+                  </div>
+                  <div class="field-group-detail" id="pregnant-fields" hidden>
+                    <p class="group-label">Acompanhamento gestacional · Ministério da Saúde</p>
+                    <div class="field-row">
+                      <div class="field"><label for="pre-weight">Peso anterior à gestação</label><div class="input-wrap"><input id="pre-weight" type="text" inputmode="decimal" placeholder="Ex.: 62" autocomplete="off"><span class="input-unit">kg</span></div></div>
+                      <div class="field"><label for="gest-weeks">Semana gestacional</label><div class="input-wrap"><input id="gest-weeks" type="text" inputmode="numeric" placeholder="Ex.: 24" autocomplete="off"><span class="input-unit">sem.</span></div></div>
+                    </div>
+                    <p class="field-explainer">Voltado a gestação única em adultas. O IMC é classificado usando o <strong>peso anterior à gestação</strong>; o ganho atual é comparado às curvas por semana no pré-natal, não à meta total.</p>
+                  </div>
+                  <div class="soft-note"><span class="note-symbol" aria-hidden="true">i</span><p id="imc-profile-note"><strong>Adultos (18+).</strong> O IMC é uma medida de rastreamento, não um diagnóstico. Em outros perfis, aplicam-se referências próprias.</p></div>
+                  <p class="form-error" id="imc-error" role="alert" hidden></p>
+                  <div class="form-actions"><button type="submit" class="primary-button">Calcular IMC <span aria-hidden="true">↗</span></button><button type="reset" class="text-button">Limpar campos</button></div>
+                </form>
+              </div>
+              <div class="result-side" aria-live="polite" aria-atomic="true" id="imc-result">
+                <div class="empty-result"><span class="result-overline">RESULTADO</span><div class="placeholder-glyph" aria-hidden="true">—</div><h4>Seu resultado aparece aqui</h4><p>Preencha os campos para visualizar o IMC e sua classificação.</p></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="tool-panel" id="panel-pfe" role="tabpanel" aria-labelledby="tab-pfe" hidden>
+            <div class="work-grid">
+              <div class="form-side">
+                <div class="panel-heading"><span class="panel-icon" aria-hidden="true">↗</span><div><h3>Calculadora de PFE</h3><p>Registre três sopros válidos. O maior resultado será considerado.</p></div></div>
+                <form id="pfe-form" novalidate>
+                  <div class="field-row field-row-thirds">
+                    <div class="field"><label for="age">Idade</label><div class="input-wrap"><input id="age" type="text" inputmode="numeric" autocomplete="off" placeholder="Ex.: 35" required><span class="input-unit">anos</span></div></div>
+                    <div class="field"><label for="height-pfe">Altura</label><div class="input-wrap"><input id="height-pfe" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 170" required><span class="input-unit">cm</span></div></div>
+                    <div class="field"><label for="ref-sex">Sexo da referência</label><div class="input-wrap select-wrap"><select id="ref-sex" required><option value="">Selecione</option><option value="female">Feminina</option><option value="male">Masculina</option></select></div></div>
+                  </div>
+                  <p class="field-explainer">Use a idade e estatura para localizar estudos brasileiros, quando compatíveis com o medidor. Fora dessas condições, o site registra o maior valor sem estimar um previsto.</p>
+                  <fieldset class="effort-fieldset"><legend>Três medições válidas <span>(L/min)</span></legend><div class="field-row field-row-thirds"><div class="field"><label for="effort1">1ª tentativa</label><div class="input-wrap"><input id="effort1" type="text" inputmode="numeric" autocomplete="off" placeholder="Ex.: 420" required></div></div><div class="field"><label for="effort2">2ª tentativa</label><div class="input-wrap"><input id="effort2" type="text" inputmode="numeric" autocomplete="off" placeholder="Ex.: 450" required></div></div><div class="field"><label for="effort3">3ª tentativa</label><div class="input-wrap"><input id="effort3" type="text" inputmode="numeric" autocomplete="off" placeholder="Ex.: 440" required></div></div></div></fieldset>
+                  <div class="field-row separate-fields"><div class="field"><label for="meter-scale">Escala do aparelho</label><div class="input-wrap select-wrap"><select id="meter-scale"><option value="unknown">Desconhecido / outro aparelho</option><option value="wright">Wright / Healthscan (escolares MG)</option><option value="assess">ASSESS Peak Flow Meter (adultos)</option></select></div><small>Referências brasileiras restritas a aparelho, idade e sexo estudados.</small></div><div class="field"><label for="personal-best">Melhor valor pessoal <span>(opcional)</span></label><div class="input-wrap"><input id="personal-best" type="text" inputmode="numeric" autocomplete="off" placeholder="Ex.: 510"><span class="input-unit">L/min</span></div><small>Usado somente para comparar zonas pessoais.</small></div></div>
+                  <div class="soft-note"><span class="note-symbol" aria-hidden="true">i</span><p><strong>Registre o maior sopro, nunca a média.</strong> PFE isolado não diagnostica asma ou outras doenças. Avalie a técnica e os sintomas.</p></div>
+                  <p class="form-error" id="pfe-error" role="alert" hidden></p>
+                  <div class="form-actions"><button type="submit" class="primary-button">Calcular PFE <span aria-hidden="true">↗</span></button><button type="reset" class="text-button">Limpar campos</button></div>
+                </form>
+              </div>
+              <div class="result-side" aria-live="polite" aria-atomic="true" id="pfe-result"><div class="empty-result"><span class="result-overline">RESULTADO</span><div class="placeholder-glyph" aria-hidden="true">—</div><h4>Vamos avaliar as medições</h4><p>Complete as três tentativas para ver o maior PFE e as comparações possíveis.</p></div></div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="privacy-strip"><span class="privacy-badge" aria-hidden="true">⌁</span><div><strong>Seus dados ficam neste dispositivo.</strong><span> Nenhum resultado é armazenado, enviado a servidores ou usado para rastreamento. Ao atualizar a página, os dados desaparecem.</span></div></div>
+    </section>
+
+    <section class="method-section container" id="metodologia" aria-labelledby="method-title">
+      <div class="method-head"><div><span class="section-kicker">PARA USAR COM RESPONSABILIDADE</span><h2 id="method-title">Metodologia e limites</h2></div><p>Transparência sobre o que a calculadora faz — e o que ela não substitui.</p></div>
+      <div class="method-grid"><article class="method-card"><span class="method-num">01 — IMC</span><h3>Referência populacional</h3><p>Para adultos, pontos de corte usuais; na infância e adolescência, z-escore OMS por idade e sexo (SISVAN); em gestantes, IMC pré-gestacional e acompanhamento do ganho.</p><a href="https://www.gov.br/saude/pt-br/composicao/saps/vigilancia-alimentar-e-nutricional/arquivos/orientacoes-para-a-coleta-e-analise-de-dados-antropometricos-em-servicos-de-saude" target="_blank" rel="noopener noreferrer">Fonte: SISVAN, Ministério da Saúde <span aria-hidden="true">↗</span></a></article><article class="method-card"><span class="method-num">02 — PFE</span><h3>Referência dependente da escala</h3><p>Estudos brasileiros: escolares de Minas Gerais (12–18 anos; Wright) e homens de 50–80 anos (ASSESS). Não são valores universais do Brasil; outras combinações exibem apenas o valor medido.</p><a href="https://www.portalnepas.org.br/amabc/article/view/215" target="_blank" rel="noopener noreferrer">Fonte: Boaventura et al., 2007 <span aria-hidden="true">↗</span></a></article><article class="method-card"><span class="method-num">03 — INTERPRETAÇÃO</span><h3>Contexto clínico primeiro</h3><p>Percentual do valor previsto não é igual às zonas de um plano de asma. As zonas, quando exibidas, usam o melhor valor pessoal informado e não substituem orientação profissional.</p><a href="https://www.lung.org/lung-health-diseases/lung-disease-lookup/asthma/treatment/devices/peak-flow" target="_blank" rel="noopener noreferrer">Fonte: American Lung Association <span aria-hidden="true">↗</span></a></article></div>
+      <p class="clinical-disclaimer"><strong>Fontes adicionais:</strong> <a href="https://bvs.saude.gov.br/bvs/cartazes/acompanhar_ganho_peso_gestacional.pdf" target="_blank" rel="noopener noreferrer">Ganho gestacional — Ministério da Saúde (2024)</a> · <a href="https://www.who.int/tools/growth-reference-data-for-5to19-years" target="_blank" rel="noopener noreferrer">OMS 2007</a> · <a href="https://www.scielo.br/j/fm/a/kBhqhNYjJBVBGKRmx68wD9t/" target="_blank" rel="noopener noreferrer">Comparação de medidores de PFE</a>.</p>
+      <p class="clinical-disclaimer"><strong>Aviso importante:</strong> ferramenta educativa de apoio a atividades de extensão, não destinada a diagnóstico, prescrição, definição de tratamentos ou decisões de urgência. Sintomas graves exigem assistência imediata, independentemente do resultado.</p>
+    </section>
+  </main>
+  <footer class="footer"><div class="container footer-inner"><div><span class="footer-brand">EXTENSÃO EM SAÚDE</span><p>Calculadora Digital · Versão 2.0</p></div><span>Feito para apoiar o cuidado. Não para substituir pessoas.</span></div></footer>
+</body>
+</html>

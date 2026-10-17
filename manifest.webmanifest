@@ -1,0 +1,11 @@
+{
+  "name": "Calculadora Digital — Extensão em Saúde",
+  "short_name": "Calc. Extensão",
+  "description": "IMC e PFE, sem coleta de dados pessoais.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f7f0",
+  "theme_color": "#123f34",
+  "icons": [{"src": "./assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}]
+}
