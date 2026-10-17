@@ -33,7 +33,9 @@ HTML, CSS, JavaScript ES modules, Node.js para os testes. Sem dependências exte
 `npm test` (Node ≥20). Para visualizar: `python3 -m http.server 8000`, depois abrir `http://localhost:8000`.
 
 ## Implantação
-`.github/workflows/pages.yml` testa, compila um diretório `dist` estático e publica no GitHub Pages a cada commit na branch `main`. No repositório: Settings → Pages → Build and deployment → **GitHub Actions**. Endereço esperado: `https://dacgunieva.github.io/calculadora-digital-extensao/` (verificar quando implantado).
+Site estático hospedado no Render e conectado à branch `main` deste repositório; cada novo commit dispara implantação automática. Endereço público: https://calculadora-digital-extensao.onrender.com/.
+
+O workflow do GitHub Actions executa somente testes, sem solicitar ativação do GitHub Pages. O projeto permanece independente do sistema de certificados DACG.
 
 ## Fontes e notas
 - Ministério da Saúde, SISVAN: https://www.gov.br/saude/pt-br/composicao/saps/vigilancia-alimentar-e-nutricional/arquivos/orientacoes-para-a-coleta-e-analise-de-dados-antropometricos-em-servicos-de-saude
