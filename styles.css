@@ -147,55 +147,39 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
 .field-group-detail .field-explainer{margin:10px 0 0}
 @media(max-width:650px){.field-group-detail{padding:12px}.field-group-detail .field-row-thirds{grid-template-columns:1fr 1fr}.field-group-detail .field-row-thirds .field:last-child{grid-column:1/-1}}
 
-/* Rodapé institucional: estrutura, logos e contatos alinhados ao portal de certificados DACG. */
-.calculator.container { padding-top: clamp(28px, 4vw, 50px); }
-.institutional-footer { margin-top: 0; border-top: 1px solid #e0ddd4; background: #faf9f5; color: #45423a; padding: 1.65rem 1.25rem; }
-.institutional-footer .footer-inner { width:100%; max-width: 980px; margin:0 auto; padding:0; display:grid; grid-template-columns:minmax(0,1.15fr) minmax(190px,.8fr) minmax(0,1.15fr); gap:1.6rem; align-items:stretch; }
-.institutional-footer .footer-section { min-width:0; display:flex; flex-direction:column; justify-content:center; }
-.institutional-footer .footer-section-contato { text-align:left; }
-.institutional-footer .footer-section-centro { text-align:center; padding:0 1.4rem; border-left:1px solid #e0ddd4; border-right:1px solid #e0ddd4; }
-.institutional-footer .footer-section-realizacao { text-align:center; }
-.institutional-footer .footer-label { font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color:#7a7566; margin-bottom:.9rem; }
-.institutional-footer .contatos { display:flex; flex-direction:column; gap:.5rem; }
-.institutional-footer .contato-item { display:flex; flex-direction:column; gap:.04rem; min-width:0; }
-.institutional-footer .contato-nome { font-size:.72rem; color:#7a7566; }
-.institutional-footer .contato-link { color:#45423a; font-size:.82rem; line-height:1.25; text-decoration:none; overflow-wrap:anywhere; }
-.institutional-footer .contato-instagram { color:#7a7566; font-size:.74rem; line-height:1.25; text-decoration:none; overflow-wrap:anywhere; }
-.institutional-footer .contato-link,.institutional-footer .contato-instagram { display:inline-flex; align-items:center; gap:.38rem; width:fit-content; max-width:100%; }
-.institutional-footer .contato-link:hover,.institutional-footer .contato-instagram:hover { text-decoration:underline; }
-.institutional-footer .contato-icon { width:1rem; height:1rem; flex:0 0 auto; fill:currentColor; }
-.institutional-footer .footer-selo-oficial { width:fit-content; max-width:330px; margin:0 auto; padding:.48rem .72rem; border:1px solid rgba(42,106,76,.14); border-radius:999px; background:linear-gradient(180deg,rgba(42,106,76,.055),rgba(42,106,76,.025)); color:#5e675f; font-size:.61rem; line-height:1.35; font-weight:600; display:inline-flex; align-items:center; justify-content:center; gap:.38rem; text-align:center; }
-.institutional-footer .footer-selo-oficial svg { width:.88rem; height:.88rem; flex:0 0 auto; fill:#2a6a4c; }
-.institutional-footer .footer-meta { margin:.72rem auto 0; padding-top:.6rem; max-width:270px; border-top:1px solid rgba(122,117,102,.16); font-size:.68rem; line-height:1.5; letter-spacing:.018em; color:#6f6a5d; }
-.institutional-footer .footer-versao { font-weight:700; color:#716c60; white-space:nowrap; }
-.institutional-footer .footer-afiliacao { margin-top:.4rem; }
-.institutional-footer .footer-portal { color:#245640; font-weight:650; font-size:.7rem; margin:1rem auto 0; text-decoration:none; display:inline-flex; width:fit-content; gap:.35rem; align-items:center; border-bottom:1px solid transparent; }
-.institutional-footer .footer-portal:hover { border-color:currentColor; }
-.institutional-footer .logos { display:flex; justify-content:center; align-items:center; gap:1.35rem; flex-wrap:nowrap; min-height:74px; }
-.institutional-footer .logos img { height:64px; width:auto; max-width:31%; object-fit:contain; }
-.institutional-footer .logos img:nth-child(1) { height:66px; }
-.institutional-footer .logos img:nth-child(2) { height:auto; width:108px; max-width:36%; }
-.institutional-footer .logos img:nth-child(3) { height:70px; }
-@media (max-width:720px) {
-  .institutional-footer { padding:1.35rem .95rem; }
-  .institutional-footer .footer-inner { grid-template-columns:1fr; gap:1.15rem; }
-  .institutional-footer .footer-section-contato,.institutional-footer .footer-section-realizacao { text-align:center; }
-  .institutional-footer .contato-link,.institutional-footer .contato-instagram { margin-left:auto; margin-right:auto; }
-  .institutional-footer .footer-section-centro { border-left:0; border-right:0; border-top:1px solid #e0ddd4; border-bottom:1px solid #e0ddd4; padding:1.05rem 0; }
-  .institutional-footer .logos { min-height:0; gap:.85rem; }
-  .institutional-footer .logos img { max-width:31%; }
-  .institutional-footer .logos img:nth-child(1) { height:52px; }
-  .institutional-footer .logos img:nth-child(2) { height:auto; width:92px; max-width:36%; }
-  .institutional-footer .logos img:nth-child(3) { height:56px; }
-}
-@media (max-width:480px) {
-  .institutional-footer .footer-label { font-size:.66rem; margin-bottom:.7rem; }
-  .institutional-footer .contatos { gap:.45rem; }
-  .institutional-footer .contato-nome { font-size:.68rem; }
-  .institutional-footer .contato-link { font-size:.75rem; }
-  .institutional-footer .contato-instagram { font-size:.7rem; }
-  .institutional-footer .logos { gap:.5rem; }
-  .institutional-footer .logos img:nth-child(1) { height:48px; }
-  .institutional-footer .logos img:nth-child(2) { height:auto; width:84px; max-width:37%; }
-  .institutional-footer .logos img:nth-child(3) { height:52px; }
+/* Rodapé compacto: logos visíveis e contatos em seção expansível. */
+.institutional-footer{background:#f9f9f3;color:#24453a;border-top:1px solid #d9e3d9;padding:14px 24px 10px}
+.institutional-footer .footer-inner{display:block;width:100%;max-width:1060px;margin:auto;padding:0}
+.institutional-footer .footer-compact-row{display:flex;justify-content:space-between;align-items:center;gap:24px;min-height:62px}
+.institutional-footer .footer-identity{display:flex;flex-direction:column;gap:3px;min-width:0}
+.institutional-footer .footer-identity strong{font-size:13px;font-weight:800;color:#20483a;line-height:1.3}
+.institutional-footer .footer-identity>span{font-size:11px;line-height:1.3;color:#627368}
+.institutional-footer .footer-caption a{color:#416c55;text-decoration:none}
+.institutional-footer .footer-caption a:hover{text-decoration:underline}
+.institutional-footer .footer-partners{display:flex;gap:20px;align-items:center;justify-content:flex-end;flex-shrink:0}
+.institutional-footer .footer-partners img{width:auto;height:48px;max-width:110px;object-fit:contain;display:block}
+.institutional-footer .footer-partners img:nth-child(2){width:89px;height:auto}
+.institutional-footer .footer-contacts{border-top:1px solid #e3e8df;margin-top:10px}
+.institutional-footer .footer-contacts summary{cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 8px 1px;list-style:none;color:#426752;font-size:11px;line-height:1.5;font-weight:650}
+.institutional-footer .footer-contacts summary::-webkit-details-marker{display:none}
+.institutional-footer .footer-contacts summary:hover{color:#1b4834}
+.institutional-footer .footer-contacts summary span{font-size:17px;line-height:1}
+.institutional-footer .footer-contacts[open] summary span{transform:rotate(180deg)}
+.institutional-footer .footer-contact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding:16px 4px 12px}
+.institutional-footer .footer-contact-group{display:flex;flex-direction:column;gap:5px;min-width:0}
+.institutional-footer .footer-contact-group strong{font-size:11px;color:#314e3b}
+.institutional-footer .footer-contact-group a{color:#496452;font-size:11px;line-height:1.4;max-width:100%;width:fit-content;text-decoration:none;overflow-wrap:anywhere}
+.institutional-footer .footer-contact-group a:hover{color:#164b36;text-decoration:underline}
+@media(max-width:720px){
+  .institutional-footer{padding:13px 14px 9px}
+  .institutional-footer .footer-compact-row{flex-direction:column;justify-content:center;gap:10px;text-align:center}
+  .institutional-footer .footer-identity{align-items:center}
+  .institutional-footer .footer-identity strong{font-size:12px}
+  .institutional-footer .footer-identity>span{font-size:10px}
+  .institutional-footer .footer-partners{gap:13px;justify-content:center;width:100%}
+  .institutional-footer .footer-partners img{height:36px;max-width:85px}
+  .institutional-footer .footer-partners img:nth-child(2){width:72px}
+  .institutional-footer .footer-contacts{margin-top:9px}
+  .institutional-footer .footer-contact-grid{grid-template-columns:1fr;gap:12px}
+  .institutional-footer .footer-contact-group{align-items:center}
 }
