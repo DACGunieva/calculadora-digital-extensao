@@ -1,4 +1,4 @@
-import {parseDecimal,inRange,calcBmi,bmiClass,gestationalAssessment,childBmiAssessment,bestPef,pefRatio,personalBestZone} from './calculations.js';
+import {parseDecimal,inRange,calcBmi,bmiClass,gestationalAssessment,childBmiAssessment,bestPef} from './calculations.js';
 import {BMI_WHO_LMS} from './bmi-who-data.js';
 const $ = id=>document.getElementById(id);
 const fmt=(x,d=1)=>new Intl.NumberFormat('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}).format(x);
@@ -61,38 +61,29 @@ $('imc-form').addEventListener('submit',e=>{
 $('imc-form').addEventListener('reset',()=>queueMicrotask(()=>{profileToggle();$('imc-result').innerHTML=INITIAL_IMC;}));
 
 $('pfe-form').addEventListener('submit',e=>{
-  e.preventDefault();showError('pfe-error','');
-  const age=num('age'),height=num('height-pfe'),sex=$('ref-sex').value;
+  e.preventDefault();
+  showError('pfe-error','');
+  // O maior PFE não depende de dados demográficos ou referência normativa.
   const readings=[num('effort1'),num('effort2'),num('effort3')];
-  const rawPersonal=$('personal-best').value.trim(),personal=rawPersonal?parseDecimal(rawPersonal):null;
-  const rawTable=$('table-reference').value.trim(),tableRef=rawTable?parseDecimal(rawTable):null;
-  if(!Number.isInteger(age)||!inRange(age,5,100)||!inRange(height,80,220)||!['male','female'].includes(sex)){
-    showError('pfe-error','Informe idade inteira de 5 a 100 anos, altura de 80 a 220 cm e referência de sexo.');return;
+  try {
+    const best=bestPef(readings);
+    const rows=detail('1ª tentativa',fmt0(readings[0])+' L/min')
+      +detail('2ª tentativa',fmt0(readings[1])+' L/min')
+      +detail('3ª tentativa',fmt0(readings[2])+' L/min')
+      +detail('Aparelho','Medicate · escala ATS · 60–900 L/min');
+    const note='Este é o maior PFE válido das três manobras, não a média. Sem uma referência compatível verificada, este resultado não classifica normalidade nem determina diagnóstico. Considere os sintomas e a avaliação profissional.';
+    $('pfe-result').innerHTML=result('MAIOR PFE VÁLIDO',fmt0(best),'L/min','Maior das três tentativas','normal',rows,note);
+    $('pfe-result').scrollIntoView?.({behavior:'smooth',block:'nearest'});
+  }catch(error){
+    showError('pfe-error',error instanceof RangeError
+      ?'Informe as três leituras em números inteiros de 60 a 900 L/min. Confira cada tentativa.'
+      :'Não foi possível calcular o PFE. Atualize a página e tente novamente.');
   }
-  if(!readings.every(v=>Number.isInteger(v)&&inRange(v,60,900))){
-    showError('pfe-error','Informe três medições válidas na escala Medicate ATS: 60 a 900 L/min (números inteiros).');return;
-  }
-  if(personal!==null&&(!Number.isInteger(personal)||!inRange(personal,60,900))){
-    showError('pfe-error','O melhor valor pessoal deve ser inteiro, entre 60 e 900 L/min.');return;
-  }
-  if(tableRef!==null&&(!Number.isInteger(tableRef)||!inRange(tableRef,60,900))){
-    showError('pfe-error','O valor da tabela deve ser inteiro, entre 60 e 900 L/min.');return;
-  }
-  const best=bestPef(readings);
-  const zone=personal===null?null:personalBestZone(pefRatio(best,personal));
-  const relation=tableRef===null?'':best<tableRef?'Abaixo do valor informado':best>tableRef?'Acima do valor informado':'Igual ao valor informado';
-  const rows=detail('Três sopros',`${readings.map(fmt0).join(' / ')} L/min`)
-    +detail('Aparelho','Medicate · ATS · 60–900 L/min')
-    +(tableRef!==null
-      ?detail('Valor previsto informado',`${fmt0(tableRef)} L/min`)+detail('Medido / previsto informado',`${fmt(pefRatio(best,tableRef))}%`)+detail('Comparação com a tabela',relation)
-      :detail('Valor previsto','Tabela não informada: sem classificação populacional'))
-    +(zone?detail('Medido / melhor valor pessoal',`${fmt(pefRatio(best,personal))}%`)
-      +`<div class="zone-bar" aria-label="Zonas baseadas no melhor valor pessoal"><span class="zone-red"></span><span class="zone-yellow"></span><span class="zone-green"></span></div><span class="result-pill pill-${zone.level}">${zone.name} · melhor pessoal</span><p class="zone-explainer">${zone.description}</p>`
-      :detail('Zonas pessoais','Melhor valor pessoal não informado'));
-  const note='A referência digitada deve ter sido consultada em tabela compatível com a escala ATS, idade, altura e sexo. A comparação não estabelece diagnóstico. Zonas pessoais dependem de um melhor valor pessoal previamente definido. Sempre avalie os sintomas e siga orientações profissionais.';
-  $('pfe-result').innerHTML=result('MAIOR PFE VÁLIDO',fmt0(best),'L/min','Maior das três tentativas','normal',rows,note);
 });
-$('pfe-form').addEventListener('reset',()=>{showError('pfe-error','');$('pfe-result').innerHTML=INITIAL_PFE;});
+$('pfe-form').addEventListener('reset',()=>queueMicrotask(()=>{
+  showError('pfe-error','');
+  $('pfe-result').innerHTML=INITIAL_PFE;
+}));
 const tabs=[...document.querySelectorAll('[role="tab"]')];
 function activateTab(name,focus=false){
   tabs.forEach(tab=>{const active=tab.dataset.tab===name;tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;tab.classList.toggle('active',active);if(active&&focus)tab.focus();});

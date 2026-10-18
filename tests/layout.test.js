@@ -21,9 +21,11 @@ test('inclui logos institucionais idênticos ao portal de certificados',()=>{
   assert.ok(styles.includes('.institutional-footer .footer-inner'));
 });
 
-test('PFE Medicate usa somente ATS e referência inserida da tabela',()=>{
+test('PFE usa Medicate ATS sem campos extras',()=>{
  assert.ok(html.includes('Medicate Peak Flow Meter'));
  assert.ok(html.includes('Escala ATS · 60 a 900 L/min'));
- assert.ok(html.includes('id="table-reference"'));
- assert.ok(!html.includes('id="meter-scale"'));
+ assert.ok(!html.includes('id="table-reference"'));
+ assert.ok(!html.includes('id="personal-best"'));
+ for(const id of ['effort1','effort2','effort3'])assert.ok(html.includes('id="'+id+'"'));
+ assert.ok(html.includes('src="./app.js?v=2.3.0"'));
 });

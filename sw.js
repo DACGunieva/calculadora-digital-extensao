@@ -1,6 +1,24 @@
-// O service worker só guarda arquivos do aplicativo, nunca entradas de pacientes.
-const CACHE_NAME='calculadora-extensao-static-v2.2.0';
-const ASSETS=['./','./index.html','./styles.css','./app.js','./calculations.js','./bmi-who-data.js','./assets/icon.svg','./manifest.webmanifest'];
-self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));});
-self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('calculadora-extensao-static-')&&k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||new URL(e.request.url).origin!==self.location.origin)return;e.respondWith(caches.match(e.request).then(v=>v||fetch(e.request)));});
+// Cache apenas dos arquivos públicos; não armazena dados preenchidos.
+const CACHE_NAME='calculadora-extensao-static-v2.3.0';
+const ASSETS=['./','./index.html','./styles.css?v=2.3.0','./app.js?v=2.3.0','./calculations.js','./bmi-who-data.js','./assets/icon.svg','./manifest.webmanifest'];
+self.addEventListener('install',event=>{
+  event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));
+});
+self.addEventListener('activate',event=>{
+  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('calculadora-extensao-static-')&&key!==CACHE_NAME).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));
+});
+self.addEventListener('fetch',event=>{
+  if(event.request.method!=='GET'||new URL(event.request.url).origin!==self.location.origin)return;
+  event.respondWith(fetch(event.request).then(response=>{
+    if(response.ok){
+      const copy=response.clone();
+      event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.put(event.request,copy)));
+    }
+    return response;
+  }).catch(async()=>{
+    const cached=await caches.match(event.request);
+    if(cached)return cached;
+    if(event.request.mode==='navigate')return caches.match('./index.html');
+    return Response.error();
+  }));
+});

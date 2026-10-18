@@ -1,6 +1,6 @@
 # Calculadora Digital — Extensão em Saúde
 
-Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.2.0**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.3.0**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
 
 ## Funcionalidades
 
@@ -19,16 +19,14 @@ Cálculo `massa(kg)/(altura(m)^2)` com classificação por limiares usuais para 
 - Exibe ganho atual de peso e **intervalo de referência do ganho total** ao final de uma gestação única em adultas: baixo peso 9,7–12,2 kg; eutrofia 8,0–12,0; sobrepeso 7,0–9,0; obesidade 5,0–7,2 (Ministério da Saúde, material de 2024).
 - A semana gestacional é exibida para registro e não participa do cálculo do intervalo TOTAL. Não compara ganho atual ao intervalo total nem atribui adequação em uma semana. Para isso, consultar a curva gestacional da Caderneta da Gestante. Gestação múltipla, adolescência e condições clínicas específicas precisam de avaliação própria.
 
-### PFE — Medicate, ATS 60–900 L/min
-- Equipamento confirmado: Medicate Peak Flow Meter, referência 72000MM, escala ATS 60–900 L/min.
-- Registra três manobras válidas e considera o maior valor, nunca a média. Leituras fora da escala são rejeitadas.
-- Permite informar manualmente o PFE previsto consultado na tabela impressa compatível com o aparelho, idade, sexo e altura; calcula a porcentagem e a posição relativa, sem diagnóstico.
-- A tabela exata que acompanha o aparelho ainda precisa ser fornecida e verificada antes de automatizar os valores previstos.
-- A tabela no verso do manual oficial é um diário semanal, não uma tabela normativa.
-- Se houver melhor valor pessoal previamente estabelecido, calcula zona verde (≥80%), amarela (50%–<80%) ou vermelha (<50%) apenas comparando com esse melhor valor pessoal.
-- Tabelas do estudo Wright ou ASSESS não são utilizadas no fluxo Medicate; tabelas do CFF não são automaticamente atribuídas à escala ATS sem comprovação de compatibilidade.
-- Manual do fabricante: https://dorja.com.br/wp-content/uploads/2023/10/manual-final-peak-flow-medicate.pdf
-- Ficha técnica: https://dorja.com.br/produto/medidor-de-pico-de-fluxo-expiratorio/
+### PFE — Medicate (escala ATS, 60–900 L/min)
+- **Somente as três leituras são obrigatórias**; retorna o maior valor válido, não a média.
+- Os campos de valor previsto da tabela e melhor valor pessoal foram removidos.
+- Idade, altura e sexo permanecem opcionais e não bloqueiam o cálculo. Ainda não são usados para comparação normativa porque falta a tabela específica validada do Medicate.
+- Sem tabela ou melhor valor pessoal confirmado, não classifica o resultado como bom/ruim e não exibe zonas de asma.
+- A tabela azul do manual é um diário de medições, não uma tabela populacional de normalidade.
+- Arquivos JS/CSS usam URLs versionadas; o service worker busca primeiro na rede quando online para evitar versões conflitantes.
+- Modelo: Medicate Peak Flow Meter, ATS 60–900 L/min.
 
 ## Tecnologias
 HTML, CSS, JavaScript ES modules, Node.js para os testes. Sem dependências externas ou chamadas de API.
