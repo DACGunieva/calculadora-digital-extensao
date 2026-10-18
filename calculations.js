@@ -66,8 +66,8 @@ export function childBmiAssessment(bmi, years, extraMonths, sex, whoLms) {
 }
 
 export function bestPef(readings) {
-  if (!Array.isArray(readings) || readings.length!==3 || !readings.every(v=>Number.isInteger(v)&&inRange(v,30,900))) {
-    throw new RangeError('Informe três leituras válidas entre 30 e 900 L/min.');
+  if (!Array.isArray(readings) || readings.length!==3 || !readings.every(v=>Number.isInteger(v)&&inRange(v,60,900))) {
+    throw new RangeError('Informe três leituras Medicate ATS válidas entre 60 e 900 L/min.');
   }
   return Math.max(...readings);
 }

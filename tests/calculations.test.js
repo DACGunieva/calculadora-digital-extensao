@@ -46,6 +46,8 @@ test('PFE: maior valor, zonas apenas pelo melhor pessoal',()=>{
  assert.equal(personalBestZone(80).level,'normal');
  assert.equal(personalBestZone(49.9).level,'danger');
  assert.throws(()=>bestPef([440,500]),RangeError);
+ assert.throws(()=>bestPef([59,120,180]),RangeError);
+ assert.equal(bestPef([60,120,900]),900);
 });
 test('referência brasileira Wright: tabelas do artigo',()=>{
  assert.ok(Math.abs(predictedPefBrazil(12,120,'female','wright').predicted-194.79)<1e-8);

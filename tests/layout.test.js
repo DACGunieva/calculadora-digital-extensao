@@ -20,3 +20,10 @@ test('inclui logos institucionais idênticos ao portal de certificados',()=>{
     assert.ok(html.includes('https://certificados-dacg.onrender.com/assets/'+p),p);
   assert.ok(styles.includes('.institutional-footer .footer-inner'));
 });
+
+test('PFE Medicate usa somente ATS e referência inserida da tabela',()=>{
+ assert.ok(html.includes('Medicate Peak Flow Meter'));
+ assert.ok(html.includes('Escala ATS · 60 a 900 L/min'));
+ assert.ok(html.includes('id="table-reference"'));
+ assert.ok(!html.includes('id="meter-scale"'));
+});

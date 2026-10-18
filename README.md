@@ -1,6 +1,6 @@
 # Calculadora Digital — Extensão em Saúde
 
-Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.0**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.2.0**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
 
 ## Funcionalidades
 
@@ -19,12 +19,16 @@ Cálculo `massa(kg)/(altura(m)^2)` com classificação por limiares usuais para 
 - Exibe ganho atual de peso e **intervalo de referência do ganho total** ao final de uma gestação única em adultas: baixo peso 9,7–12,2 kg; eutrofia 8,0–12,0; sobrepeso 7,0–9,0; obesidade 5,0–7,2 (Ministério da Saúde, material de 2024).
 - A semana gestacional é exibida para registro e não participa do cálculo do intervalo TOTAL. Não compara ganho atual ao intervalo total nem atribui adequação em uma semana. Para isso, consultar a curva gestacional da Caderneta da Gestante. Gestação múltipla, adolescência e condições clínicas específicas precisam de avaliação própria.
 
-### PFE — referências regionais brasileiras com restrições
-- Registra três sopros válidos (L/min) e calcula o maior, nunca a média.
-- **Escolares 12–18 anos com aparelho Wright/Healthscan:** pesquisa de Boaventura et al., MG, 2007, tabela por idade e altura (120–200 cm); interpolação linear apenas entre estaturas tabuladas. As tabelas foram usadas diretamente porque há pequenas inconsistências entre regressão publicada e tabela do artigo. A ferramenta deve ser aplicada com cautela e apenas com equipamento compatível.
-- **Homens 50–80 anos com ASSESS Peak Flow Meter:** `PFE = -140.438 - 2.351 × idade + 409.689 × altura_m`, Teymeny et al., Fisioterapia Brasil, 2008. Estatura restrita por segurança a 150–190 cm, sem extrapolação. Este estudo contém um grupo local relativamente pequeno e não estabelece referência nacional.
-- **Outras idades, sexos e aparelhos:** valor previsto propositalmente indisponível. Não é substituído por equações estrangeiras. É possível comparar ao **melhor valor pessoal** (opcional), que permite exibir zonas de acompanhamento apenas se existir orientação clínica individualizada.
-- Razão observado/previsto não deve ser usada isoladamente para decisão clínica. Diferentes medidores podem não ser intercambiáveis.
+### PFE — Medicate, ATS 60–900 L/min
+- Equipamento confirmado: Medicate Peak Flow Meter, referência 72000MM, escala ATS 60–900 L/min.
+- Registra três manobras válidas e considera o maior valor, nunca a média. Leituras fora da escala são rejeitadas.
+- Permite informar manualmente o PFE previsto consultado na tabela impressa compatível com o aparelho, idade, sexo e altura; calcula a porcentagem e a posição relativa, sem diagnóstico.
+- A tabela exata que acompanha o aparelho ainda precisa ser fornecida e verificada antes de automatizar os valores previstos.
+- A tabela no verso do manual oficial é um diário semanal, não uma tabela normativa.
+- Se houver melhor valor pessoal previamente estabelecido, calcula zona verde (≥80%), amarela (50%–<80%) ou vermelha (<50%) apenas comparando com esse melhor valor pessoal.
+- Tabelas do estudo Wright ou ASSESS não são utilizadas no fluxo Medicate; tabelas do CFF não são automaticamente atribuídas à escala ATS sem comprovação de compatibilidade.
+- Manual do fabricante: https://dorja.com.br/wp-content/uploads/2023/10/manual-final-peak-flow-medicate.pdf
+- Ficha técnica: https://dorja.com.br/produto/medidor-de-pico-de-fluxo-expiratorio/
 
 ## Tecnologias
 HTML, CSS, JavaScript ES modules, Node.js para os testes. Sem dependências externas ou chamadas de API.

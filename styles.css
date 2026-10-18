@@ -183,3 +183,10 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
   .institutional-footer .footer-contact-grid{grid-template-columns:1fr;gap:12px}
   .institutional-footer .footer-contact-group{align-items:center}
 }
+
+/* Identificação do Medicate em PFE */
+.pfe-device{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:13px 15px;margin:0 0 23px;border:1px solid #d5e4d9;background:#f2f8f0;border-radius:12px;flex-wrap:wrap}
+.pfe-device div{display:flex;flex-direction:column;gap:3px}
+.pfe-device strong{font-size:12px;color:#1d4f38}
+.pfe-device span{font-size:11px;color:#5e7564}
+.pfe-device a{font-size:11px;font-weight:700;color:#28634a;text-decoration:underline;text-underline-offset:3px}
