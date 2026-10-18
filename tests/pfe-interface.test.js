@@ -25,7 +25,7 @@ test('clicar em calcular usa somente as três manobras',async()=>{
   }
   globalThis.document={getElementById:element,querySelectorAll:()=>[]};
   globalThis.window={addEventListener(){}};
-  globalThis.navigator={};
+  Object.defineProperty(globalThis,'navigator',{configurable:true,value:{}});
   element('age').value='';
   element('height-pfe').value='';
   element('ref-sex').value='';
