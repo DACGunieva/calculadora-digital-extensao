@@ -1,4 +1,4 @@
-import {parseDecimal,inRange,calcBmi,bmiClass,gestationalAssessment,childBmiAssessment,bestPef} from './calculations.js';
+import {parseDecimal,inRange,calcBmi,bmiClass,gestationalAssessment,childBmiAssessment,bestPef,pefRatio,personalBestZone} from './calculations.js';
 import {BMI_WHO_LMS} from './bmi-who-data.js';
 const $ = id=>document.getElementById(id);
 const fmt=(x,d=1)=>new Intl.NumberFormat('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}).format(x);
@@ -60,19 +60,82 @@ $('imc-form').addEventListener('submit',e=>{
 });
 $('imc-form').addEventListener('reset',()=>queueMicrotask(()=>{profileToggle();$('imc-result').innerHTML=INITIAL_IMC;}));
 
+// As zonas baseiam-se exclusivamente no MELHOR PFE PESSOAL previamente estabelecido.
+// Sem essa referência, a faixa é uma legenda, sem atribuição clínica.
+let latestPfeBest=null;
+function pefZonesMarkup(){
+  return `<section class="pfe-zones" aria-label="Faixas de acompanhamento do PFE">
+    <h4>Faixas de acompanhamento</h4>
+    <div class="pfe-zone-status" id="pfe-zone-status" role="status">Sem referência pessoal: nenhuma zona atribuída.</div>
+    <div class="pfe-zone-bar" role="img" aria-label="Vermelho: abaixo de 50% do melhor pessoal; amarelo: 50% a menos de 80%; verde: 80% ou mais.">
+      <span class="pfe-zone-segment pfe-zone-segment-red"></span>
+      <span class="pfe-zone-segment pfe-zone-segment-yellow"></span>
+      <span class="pfe-zone-segment pfe-zone-segment-green"></span>
+      <span class="pfe-zone-marker" id="pfe-zone-marker" hidden aria-hidden="true"></span>
+    </div>
+    <div class="pfe-zone-labels" aria-hidden="true"><span>0%</span><span>50%</span><span>80%</span><span>100%+</span></div>
+    <div class="pfe-zone-legend">
+      <span><i class="pfe-key pfe-key-red" aria-hidden="true"></i>Vermelho · ruim (&lt;50%)</span>
+      <span><i class="pfe-key pfe-key-yellow" aria-hidden="true"></i>Amarelo · alerta (50–&lt;80%)</span>
+      <span><i class="pfe-key pfe-key-green" aria-hidden="true"></i>Verde · bom (≥80%)</span>
+    </div>
+    <details class="pfe-zone-comparison">
+      <summary>Ativar classificação automática por zona</summary>
+      <p>Informe somente se você já conhece o <strong>melhor PFE pessoal</strong> estabelecido com orientação profissional e, de preferência, no mesmo tipo de medidor. Não use a maior tentativa de hoje como referência.</p>
+      <form id="pfe-zone-form" novalidate>
+        <label for="pfe-zone-input">Melhor PFE pessoal conhecido (L/min)</label>
+        <div class="pfe-zone-form-row">
+          <input id="pfe-zone-input" type="text" inputmode="numeric" autocomplete="off" placeholder="Ex.: 600" aria-describedby="pfe-zone-form-hint">
+          <button type="submit">Comparar</button>
+        </div>
+        <small id="pfe-zone-form-hint">Opcional; apenas para o acompanhamento individual. Nada é salvo.</small>
+      </form>
+      <p class="pfe-zone-error" id="pfe-zone-error" role="alert" hidden></p>
+    </details>
+    <p class="pfe-zone-caution">As cores não determinam saúde respiratória ou urgência isoladamente. Sintomas graves precisam de avaliação imediata, mesmo se a zona aparecer verde.</p>
+  </section>`;
+}
+$('pfe-result').addEventListener('submit',e=>{
+  if(e.target?.id!=='pfe-zone-form')return;
+  e.preventDefault();
+  const field=$('pfe-zone-input'),error=$('pfe-zone-error');
+  error.hidden=true;
+  error.textContent='';
+  if(latestPfeBest===null)return;
+  const personal=parseDecimal(field.value);
+  if(!Number.isInteger(personal)||!inRange(personal,60,900)){
+    error.textContent='Informe um melhor PFE pessoal válido entre 60 e 900 L/min.';
+    error.hidden=false;
+    return;
+  }
+  const pct=pefRatio(latestPfeBest,personal);
+  const zone=personalBestZone(pct);
+  const status=$('pfe-zone-status'),pointer=$('pfe-zone-marker');
+  const shortZone=zone.level==='danger'?'Vermelho · ruim / alerta importante'
+    :zone.level==='warning'?'Amarelo · alerta':'Verde · bom para acompanhamento';
+  status.textContent=shortZone+' — '+fmt(pct)+'% do melhor PFE pessoal ('+fmt0(personal)+' L/min).';
+  status.className='pfe-zone-status pfe-zone-status-'+zone.level;
+  pointer.hidden=false;
+  pointer.style.left=Math.min(99,Math.max(1,pct))+'%';
+  if(pct>100){
+    status.textContent+=' O valor atual supera a referência; confirme se ela permanece atual.';
+  }
+});
 $('pfe-form').addEventListener('submit',e=>{
   e.preventDefault();
+  latestPfeBest=null;
   showError('pfe-error','');
   // O maior PFE não depende de dados demográficos ou referência normativa.
   const readings=[num('effort1'),num('effort2'),num('effort3')];
   try {
     const best=bestPef(readings);
+    latestPfeBest=best;
     const rows=detail('1ª tentativa',fmt0(readings[0])+' L/min')
       +detail('2ª tentativa',fmt0(readings[1])+' L/min')
       +detail('3ª tentativa',fmt0(readings[2])+' L/min')
       +detail('Aparelho','Medicate · escala ATS · 60–900 L/min');
     const note='Este é o maior PFE válido das três manobras, não a média. Sem uma referência compatível verificada, este resultado não classifica normalidade nem determina diagnóstico. Considere os sintomas e a avaliação profissional.';
-    $('pfe-result').innerHTML=result('MAIOR PFE VÁLIDO',fmt0(best),'L/min','Maior das três tentativas','normal',rows,note);
+    $('pfe-result').innerHTML=result('MAIOR PFE VÁLIDO',fmt0(best),'L/min','Maior das três tentativas','normal',rows,note)+pefZonesMarkup();
     $('pfe-result').scrollIntoView?.({behavior:'smooth',block:'nearest'});
   }catch(error){
     showError('pfe-error',error instanceof RangeError
@@ -81,6 +144,7 @@ $('pfe-form').addEventListener('submit',e=>{
   }
 });
 $('pfe-form').addEventListener('reset',()=>queueMicrotask(()=>{
+  latestPfeBest=null;
   showError('pfe-error','');
   $('pfe-result').innerHTML=INITIAL_PFE;
 }));

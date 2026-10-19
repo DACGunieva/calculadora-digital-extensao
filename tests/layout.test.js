@@ -27,5 +27,5 @@ test('PFE usa Medicate ATS sem campos extras',()=>{
  assert.ok(!html.includes('id="table-reference"'));
  assert.ok(!html.includes('id="personal-best"'));
  for(const id of ['effort1','effort2','effort3'])assert.ok(html.includes('id="'+id+'"'));
- assert.ok(html.includes('src="./app.js?v=2.3.0"'));
+ assert.ok(html.includes('src="./app.js?v=2.4.0"'));
 });

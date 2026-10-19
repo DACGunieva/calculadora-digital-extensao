@@ -194,3 +194,34 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
 /* PFE: simplificado para três medições (v2.3.0). */
 #panel-pfe .effort-fieldset{margin-bottom:20px}
 #pfe-result{scroll-margin-top:25px}
+
+/* PFE: faixa de acompanhamento baseada exclusivamente no melhor pessoal. */
+.pfe-zones{margin-top:22px;padding-top:18px;border-top:1px solid #ceddcd;max-width:100%;min-width:0}
+.pfe-zones h4{font-size:14px;margin:0 0 10px;letter-spacing:-.01em;color:#214532}
+.pfe-zone-status{font-size:11px;color:#667a6a;background:#fffefa;border:1px solid #e0e8da;border-radius:8px;padding:10px 11px;line-height:1.5;min-height:39px;font-weight:650}
+.pfe-zone-status-normal{color:#205c37;background:#e3f3e6;border-color:#b4d4ba}
+.pfe-zone-status-warning{color:#765319;background:#fff5d8;border-color:#e8d29c}
+.pfe-zone-status-danger{color:#8e2929;background:#fbe5e5;border-color:#e5b3b3}
+.pfe-zone-bar{display:flex;position:relative;overflow:visible;height:19px;border-radius:7px;margin:18px 0 0;box-shadow:inset 0 0 0 1px rgba(27,50,35,.2)}
+.pfe-zone-segment{height:100%;min-width:0}
+.pfe-zone-segment-red{width:50%;background:#bf3d44;border-radius:7px 0 0 7px}
+.pfe-zone-segment-yellow{width:30%;background:#e3bb3c}
+.pfe-zone-segment-green{width:20%;background:#2f955b;border-radius:0 7px 7px 0}
+.pfe-zone-marker{position:absolute;top:-6px;width:3px;height:30px;background:#112e27;box-shadow:0 0 0 2px white;border-radius:2px;transform:translateX(-50%);z-index:1}
+.pfe-zone-marker[hidden]{display:none!important}
+.pfe-zone-labels{display:flex;justify-content:space-between;font-size:10px;line-height:1.6;font-weight:650;color:#56735b;margin-top:5px}
+.pfe-zone-legend{display:flex;flex-direction:column;gap:6px;margin:13px 0 0;font-size:11px;font-weight:650;color:#45634d;line-height:1.4}
+.pfe-zone-legend span{display:flex;align-items:center;gap:7px}
+.pfe-key{display:inline-block;flex:0 0 10px;width:10px;height:10px;border-radius:3px}
+.pfe-key-red{background:#bf3d44}.pfe-key-yellow{background:#e3bb3c}.pfe-key-green{background:#2f955b}
+.pfe-zone-comparison{border-top:1px solid #d7e4d7;margin-top:15px;padding-top:11px}
+.pfe-zone-comparison summary{font-size:12px;line-height:1.5;font-weight:800;color:#21553e;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.pfe-zone-comparison p{font-size:11px;line-height:1.6;color:#596e60;margin:12px 0 13px}
+.pfe-zone-comparison form label{display:block;font-size:11px;color:#274b36;font-weight:700;margin-bottom:6px}
+.pfe-zone-form-row{display:flex;gap:8px;align-items:stretch}
+.pfe-zone-form-row input{font:inherit;font-size:13px;background:#fff;border:1px solid #aabfad;border-radius:8px;padding:10px;min-width:0;flex:1;width:100%}
+.pfe-zone-form-row button{border:0;background:#1b533d;color:#fff;border-radius:8px;padding:9px 13px;font-size:11px;font-weight:800}
+.pfe-zone-comparison small{display:block;color:#698071;font-size:10px;margin-top:7px;line-height:1.5}
+.pfe-zone-comparison .pfe-zone-error{color:#8e262b;background:#fff0ef;border:1px solid #eac0c0;border-radius:8px;padding:8px 9px}
+.pfe-zone-caution{font-size:10px;line-height:1.55;color:#728271;margin:12px 0 0}
+@media(max-width:380px){.pfe-zone-form-row{flex-wrap:wrap}.pfe-zone-form-row button{width:100%}}

@@ -1,6 +1,6 @@
 # Calculadora Digital — Extensão em Saúde
 
-Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.3.0**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.4.0**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
 
 ## Funcionalidades
 
@@ -23,7 +23,9 @@ Cálculo `massa(kg)/(altura(m)^2)` com classificação por limiares usuais para 
 - **Somente as três leituras são obrigatórias**; retorna o maior valor válido, não a média.
 - Os campos de valor previsto da tabela e melhor valor pessoal foram removidos.
 - Idade, altura e sexo permanecem opcionais e não bloqueiam o cálculo. Ainda não são usados para comparação normativa porque falta a tabela específica validada do Medicate.
-- Sem tabela ou melhor valor pessoal confirmado, não classifica o resultado como bom/ruim e não exibe zonas de asma.
+- Após o cálculo, mostra legenda colorida das zonas: **vermelho <50%**, **amarelo 50% a <80%**, **verde ≥80%**, referidas exclusivamente ao melhor PFE pessoal previamente estabelecido.
+- Uma opção discreta, recolhida, permite informar esse melhor PFE pessoal somente após o cálculo. Quando informado, a zona passa a ser atribuída automaticamente com uma marca na barra e um percentual. Sem melhor pessoal, a legenda é neutra (sem zona atribuída). Não confundir percentual do previsto com zona pessoal. A referência não é guardada, nem o resultado.
+- As zonas são para acompanhamento de asma no contexto de plano individual; não são diagnóstico nem avaliação isolada de urgência.
 - A tabela azul do manual é um diário de medições, não uma tabela populacional de normalidade.
 - Arquivos JS/CSS usam URLs versionadas; o service worker busca primeiro na rede quando online para evitar versões conflitantes.
 - Modelo: Medicate Peak Flow Meter, ATS 60–900 L/min.

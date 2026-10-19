@@ -42,3 +42,16 @@ test('clicar em calcular usa somente as três manobras',async()=>{
   assert.match(element('pfe-error').textContent,/60 a 900/);
   assert.equal(element('pfe-error').hidden,false);
 });
+
+test('faixa de três cores depende de melhor PFE pessoal estabelecido',async()=>{
+  const {pefRatio,personalBestZone}=await import('../calculations.js');
+  assert.equal(personalBestZone(pefRatio(490,700)).level,'warning');
+  assert.equal(personalBestZone(pefRatio(490,1000)).level,'danger');
+  assert.equal(personalBestZone(pefRatio(560,700)).level,'normal');
+  assert.match(app,/latestPfeBest=null/);
+  assert.match(app,/pfe-zone-status/);
+  assert.match(app,/pfe-zone-marker/);
+  assert.match(app,/pfe-zone-form/);
+  assert.match(app,/Vermelho · ruim/);
+  assert.match(app,/Verde · bom/);
+});
