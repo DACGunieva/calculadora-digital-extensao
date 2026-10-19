@@ -1,6 +1,5 @@
-import {parseDecimal,inRange,calcBmi,bmiClass,gestationalAssessment,childBmiAssessment,bestPef,pefRatio,personalBestZone} from './calculations.js';
+import {parseDecimal,inRange,calcBmi,bmiClass,gestationalAssessment,childBmiAssessment,bestPef,pefRatio,personalBestZone,cffPredictedPfe,cffPreviewBand} from './calculations.js';
 import {BMI_WHO_LMS} from './bmi-who-data.js';
-import {cffPredictedPfe,cffPreviewBand} from './pfe-cff-data.js';
 const $ = id=>document.getElementById(id);
 const fmt=(x,d=1)=>new Intl.NumberFormat('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}).format(x);
 const fmt0=x=>fmt(x,0);

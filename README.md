@@ -22,7 +22,7 @@ Cálculo `massa(kg)/(altura(m)^2)` com classificação por limiares usuais para 
 ### PFE — medidor Medicate ATS, tabela educativa CFF (versão 2.5)
 - Três manobras válidas na escala Medicate 60–900 L/min; o maior resultado é exibido mesmo sem os dados de referência.
 - Idade, estatura e sexo são opcionais para medir, porém necessários para classificação DIDÁTICA automática por tabela (crianças e adolescentes 5–19 anos: apenas estatura 110–170 cm; adultos 20–70 anos: masculino 155–180 cm, feminino 145–170 cm).
-- Valores previstos das tabelas de PFE do Conselho Federal de Farmácia (2020), Tabelas 1 (Polgar e Promadhat 1971), 2 e 3 (Leiner et al. 1963), em `pfe-cff-data.js`. Seleção do valor MAIS PRÓXIMO conforme instrução da publicação; sem extrapolação. Célula masculina 40 anos/180 cm omitida por anomalia numérica na fonte impressa.
+- Valores previstos das tabelas de PFE do Conselho Federal de Farmácia (2020), Tabelas 1 (Polgar e Promadhat 1971), 2 e 3 (Leiner et al. 1963), em `calculations.js`. Seleção do valor MAIS PRÓXIMO conforme instrução da publicação; sem extrapolação. Célula masculina 40 anos/180 cm omitida por anomalia numérica na fonte impressa.
 - Apresenta **PFE medido / PFE previsto ×100**. Barra didática de 0–100%: vermelho <50%, amarelo 50% a <80%, verde ≥80%. Percentuais acima de 100% são exibidos literalmente, com marcador no limite 100%.
 - **CRÍTICO:** as tabelas CFF NÃO têm equivalência/calibração confirmada com a escala ATS do Medicate. As cores são apenas comparativas, NÃO classificam risco de crise, normalidade clínica ou estado de saúde.
 - O campo recolhido 'Comparar com meu melhor PFE pessoal' permite, separadamente, calcular zonas clássicas de plano de asma usando o melhor valor pessoal definido com profissional.

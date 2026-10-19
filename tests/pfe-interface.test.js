@@ -57,7 +57,7 @@ test('faixa de três cores depende de melhor PFE pessoal estabelecido',async()=>
 });
 
 test('módulo CFF suporta tabela da infância e adultos e zona didática',async()=>{
-  const {cffPredictedPfe,cffPreviewBand}=await import('../pfe-cff-data.js');
+  const {cffPredictedPfe,cffPreviewBand}=await import('../calculations.js');
   assert.equal(cffPredictedPfe(30,160,'female').predicted,434);
   assert.equal(cffPredictedPfe(20,170,'male').predicted,620);
   assert.equal(cffPredictedPfe(12,140,'female').predicted,307);
