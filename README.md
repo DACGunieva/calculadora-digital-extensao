@@ -1,6 +1,6 @@
 # Calculadora Digital — Extensão em Saúde
 
-Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.4.0**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.5.0**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
 
 ## Funcionalidades
 
@@ -19,16 +19,14 @@ Cálculo `massa(kg)/(altura(m)^2)` com classificação por limiares usuais para 
 - Exibe ganho atual de peso e **intervalo de referência do ganho total** ao final de uma gestação única em adultas: baixo peso 9,7–12,2 kg; eutrofia 8,0–12,0; sobrepeso 7,0–9,0; obesidade 5,0–7,2 (Ministério da Saúde, material de 2024).
 - A semana gestacional é exibida para registro e não participa do cálculo do intervalo TOTAL. Não compara ganho atual ao intervalo total nem atribui adequação em uma semana. Para isso, consultar a curva gestacional da Caderneta da Gestante. Gestação múltipla, adolescência e condições clínicas específicas precisam de avaliação própria.
 
-### PFE — Medicate (escala ATS, 60–900 L/min)
-- **Somente as três leituras são obrigatórias**; retorna o maior valor válido, não a média.
-- Os campos de valor previsto da tabela e melhor valor pessoal foram removidos.
-- Idade, altura e sexo permanecem opcionais e não bloqueiam o cálculo. Ainda não são usados para comparação normativa porque falta a tabela específica validada do Medicate.
-- Após o cálculo, mostra legenda colorida das zonas: **vermelho <50%**, **amarelo 50% a <80%**, **verde ≥80%**, referidas exclusivamente ao melhor PFE pessoal previamente estabelecido.
-- Uma opção discreta, recolhida, permite informar esse melhor PFE pessoal somente após o cálculo. Quando informado, a zona passa a ser atribuída automaticamente com uma marca na barra e um percentual. Sem melhor pessoal, a legenda é neutra (sem zona atribuída). Não confundir percentual do previsto com zona pessoal. A referência não é guardada, nem o resultado.
-- As zonas são para acompanhamento de asma no contexto de plano individual; não são diagnóstico nem avaliação isolada de urgência.
-- A tabela azul do manual é um diário de medições, não uma tabela populacional de normalidade.
-- Arquivos JS/CSS usam URLs versionadas; o service worker busca primeiro na rede quando online para evitar versões conflitantes.
-- Modelo: Medicate Peak Flow Meter, ATS 60–900 L/min.
+### PFE — medidor Medicate ATS, tabela educativa CFF (versão 2.5)
+- Três manobras válidas na escala Medicate 60–900 L/min; o maior resultado é exibido mesmo sem os dados de referência.
+- Idade, estatura e sexo são opcionais para medir, porém necessários para classificação DIDÁTICA automática por tabela (crianças e adolescentes 5–19 anos: apenas estatura 110–170 cm; adultos 20–70 anos: masculino 155–180 cm, feminino 145–170 cm).
+- Valores previstos das tabelas de PFE do Conselho Federal de Farmácia (2020), Tabelas 1 (Polgar e Promadhat 1971), 2 e 3 (Leiner et al. 1963), em `pfe-cff-data.js`. Seleção do valor MAIS PRÓXIMO conforme instrução da publicação; sem extrapolação. Célula masculina 40 anos/180 cm omitida por anomalia numérica na fonte impressa.
+- Apresenta **PFE medido / PFE previsto ×100**. Barra didática de 0–100%: vermelho <50%, amarelo 50% a <80%, verde ≥80%. Percentuais acima de 100% são exibidos literalmente, com marcador no limite 100%.
+- **CRÍTICO:** as tabelas CFF NÃO têm equivalência/calibração confirmada com a escala ATS do Medicate. As cores são apenas comparativas, NÃO classificam risco de crise, normalidade clínica ou estado de saúde.
+- O campo recolhido 'Comparar com meu melhor PFE pessoal' permite, separadamente, calcular zonas clássicas de plano de asma usando o melhor valor pessoal definido com profissional.
+- A página não armazena dados de pacientes. A tabela azul do manual da Medicate é diário temporal, não tabela normativa.
 
 ## Tecnologias
 HTML, CSS, JavaScript ES modules, Node.js para os testes. Sem dependências externas ou chamadas de API.

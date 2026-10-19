@@ -1,5 +1,6 @@
 import {parseDecimal,inRange,calcBmi,bmiClass,gestationalAssessment,childBmiAssessment,bestPef,pefRatio,personalBestZone} from './calculations.js';
 import {BMI_WHO_LMS} from './bmi-who-data.js';
+import {cffPredictedPfe,cffPreviewBand} from './pfe-cff-data.js';
 const $ = id=>document.getElementById(id);
 const fmt=(x,d=1)=>new Intl.NumberFormat('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}).format(x);
 const fmt0=x=>fmt(x,0);
@@ -63,36 +64,43 @@ $('imc-form').addEventListener('reset',()=>queueMicrotask(()=>{profileToggle();$
 // As zonas baseiam-se exclusivamente no MELHOR PFE PESSOAL previamente estabelecido.
 // Sem essa referência, a faixa é uma legenda, sem atribuição clínica.
 let latestPfeBest=null;
-function pefZonesMarkup(){
-  return `<section class="pfe-zones" aria-label="Faixas de acompanhamento do PFE">
-    <h4>Faixas de acompanhamento</h4>
-    <div class="pfe-zone-status" id="pfe-zone-status" role="status">Sem referência pessoal: nenhuma zona atribuída.</div>
-    <div class="pfe-zone-bar" role="img" aria-label="Vermelho: abaixo de 50% do melhor pessoal; amarelo: 50% a menos de 80%; verde: 80% ou mais.">
+function pefZonesMarkup(best,reference){
+  const pct=reference?pefRatio(best,reference.predicted):null;
+  const band=reference?cffPreviewBand(pct):null;
+  const label=reference
+    ?band.label+' — '+fmt(pct)+'% do previsto CFF ('+fmt0(reference.predicted)+' L/min).'
+    :'Referência indisponível: faixa sem classificação automática.';
+  const marker=reference?'style="left:'+Math.max(0,Math.min(100,pct))+'%"':'hidden';
+  return `<section class="pfe-zones" aria-label="Faixa comparativa do PFE entre 0 e 100%">
+    <h4 id="pfe-zone-heading">Comparação com a tabela de referência (0–100%)</h4>
+    <div class="pfe-zone-status ${band?'pfe-zone-status-'+band.level:''}" id="pfe-zone-status" role="status">${label}</div>
+    <div class="pfe-zone-bar" role="img" aria-label="Escala educativa de 0 a 100% do previsto. Vermelho abaixo de 50%; amarelo 50% a menos de 80%; verde a partir de 80%.">
       <span class="pfe-zone-segment pfe-zone-segment-red"></span>
       <span class="pfe-zone-segment pfe-zone-segment-yellow"></span>
       <span class="pfe-zone-segment pfe-zone-segment-green"></span>
-      <span class="pfe-zone-marker" id="pfe-zone-marker" hidden aria-hidden="true"></span>
+      <span class="pfe-zone-marker" id="pfe-zone-marker" ${marker} aria-hidden="true"></span>
     </div>
-    <div class="pfe-zone-labels" aria-hidden="true"><span>0%</span><span>50%</span><span>80%</span><span>100%+</span></div>
+    <div class="pfe-zone-labels" aria-hidden="true"><span>0%</span><span>50%</span><span>80%</span><span>100%</span></div>
     <div class="pfe-zone-legend">
-      <span><i class="pfe-key pfe-key-red" aria-hidden="true"></i>Vermelho · ruim (&lt;50%)</span>
+      <span><i class="pfe-key pfe-key-red" aria-hidden="true"></i>Vermelho · abaixo de 50%</span>
       <span><i class="pfe-key pfe-key-yellow" aria-hidden="true"></i>Amarelo · alerta (50–&lt;80%)</span>
-      <span><i class="pfe-key pfe-key-green" aria-hidden="true"></i>Verde · bom (≥80%)</span>
+      <span><i class="pfe-key pfe-key-green" aria-hidden="true"></i>Verde · a partir de 80%</span>
     </div>
+    <p class="pfe-zone-caution"><strong>Atenção:</strong> as tabelas do CFF não têm equivalência confirmada com a calibração ATS do Medicate. As cores mostram faixas DIDÁTICAS do percentual previsto, não diagnóstico, nem risco de crise. ${pct>100?'O percentual pode ultrapassar 100%, mas a barra termina em 100%.':''}</p>
     <details class="pfe-zone-comparison">
-      <summary>Ativar classificação automática por zona</summary>
-      <p>Informe somente se você já conhece o <strong>melhor PFE pessoal</strong> estabelecido com orientação profissional e, de preferência, no mesmo tipo de medidor. Não use a maior tentativa de hoje como referência.</p>
+      <summary>Comparar com meu melhor PFE pessoal (plano de asma)</summary>
+      <p>As zonas clínicas de asma usam o melhor PFE pessoal estabelecido com acompanhamento profissional — <strong>não</strong> o valor previsto da tabela. Informe o seu melhor PFE pessoal, se conhecido.</p>
       <form id="pfe-zone-form" novalidate>
         <label for="pfe-zone-input">Melhor PFE pessoal conhecido (L/min)</label>
         <div class="pfe-zone-form-row">
           <input id="pfe-zone-input" type="text" inputmode="numeric" autocomplete="off" placeholder="Ex.: 600" aria-describedby="pfe-zone-form-hint">
           <button type="submit">Comparar</button>
         </div>
-        <small id="pfe-zone-form-hint">Opcional; apenas para o acompanhamento individual. Nada é salvo.</small>
+        <small id="pfe-zone-form-hint">Opcional, dentro do plano individual. Os dados não são armazenados.</small>
       </form>
       <p class="pfe-zone-error" id="pfe-zone-error" role="alert" hidden></p>
     </details>
-    <p class="pfe-zone-caution">As cores não determinam saúde respiratória ou urgência isoladamente. Sintomas graves precisam de avaliação imediata, mesmo se a zona aparecer verde.</p>
+    <p class="pfe-zone-caution">Sintomas respiratórios intensos exigem avaliação imediata independentemente de faixa verde, amarela ou vermelha.</p>
   </section>`;
 }
 $('pfe-result').addEventListener('submit',e=>{
@@ -111,10 +119,11 @@ $('pfe-result').addEventListener('submit',e=>{
   const pct=pefRatio(latestPfeBest,personal);
   const zone=personalBestZone(pct);
   const status=$('pfe-zone-status'),pointer=$('pfe-zone-marker');
-  const shortZone=zone.level==='danger'?'Vermelho · ruim / alerta importante'
-    :zone.level==='warning'?'Amarelo · alerta':'Verde · bom para acompanhamento';
+  const shortZone=zone.level==='danger'?'ZONA PESSOAL VERMELHA · perigo no plano de asma'
+    :zone.level==='warning'?'ZONA PESSOAL AMARELA · atenção':'ZONA PESSOAL VERDE · acompanhamento';
   status.textContent=shortZone+' — '+fmt(pct)+'% do melhor PFE pessoal ('+fmt0(personal)+' L/min).';
   status.className='pfe-zone-status pfe-zone-status-'+zone.level;
+  $('pfe-zone-heading').textContent='Zona de acompanhamento pessoal (plano de asma)';
   pointer.hidden=false;
   pointer.style.left=Math.min(99,Math.max(1,pct))+'%';
   if(pct>100){
@@ -130,12 +139,21 @@ $('pfe-form').addEventListener('submit',e=>{
   try {
     const best=bestPef(readings);
     latestPfeBest=best;
-    const rows=detail('1ª tentativa',fmt0(readings[0])+' L/min')
+    const age=num('age'),heightCm=num('height-pfe'),sex=$('ref-sex').value;
+    const reference=cffPredictedPfe(age,heightCm,sex);
+    let rows=detail('1ª tentativa',fmt0(readings[0])+' L/min')
       +detail('2ª tentativa',fmt0(readings[1])+' L/min')
       +detail('3ª tentativa',fmt0(readings[2])+' L/min')
-      +detail('Aparelho','Medicate · escala ATS · 60–900 L/min');
-    const note='Este é o maior PFE válido das três manobras, não a média. Sem uma referência compatível verificada, este resultado não classifica normalidade nem determina diagnóstico. Considere os sintomas e a avaliação profissional.';
-    $('pfe-result').innerHTML=result('MAIOR PFE VÁLIDO',fmt0(best),'L/min','Maior das três tentativas','normal',rows,note)+pefZonesMarkup();
+      +detail('Aparelho','Medicate · ATS · 60–900 L/min');
+    if(reference){
+      rows+=detail('Valor previsto · tabela CFF',fmt0(reference.predicted)+' L/min')
+        +detail('Percentual do previsto',fmt(pefRatio(best,reference.predicted))+'%')
+        +detail('Entrada usada da tabela',reference.group+' · '+(reference.ageUsed===null?'':'idade '+reference.ageUsed+' anos · ')+'altura '+reference.heightUsed+' cm');
+    }else{
+      rows+=detail('Referência da tabela','Indisponível ou fora da faixa coberta. O maior PFE continua válido.');
+    }
+    const note='Comparação educativa segundo CFF (2020). A equivalência dessas tabelas com a calibração do aparelho Medicate ATS não foi estabelecida. Percentual previsto não representa zonas clínicas da asma. Considere sintomas e acompanhamento profissional.';
+    $('pfe-result').innerHTML=result('MAIOR PFE VÁLIDO',fmt0(best),'L/min','Maior das três tentativas','normal',rows,note)+pefZonesMarkup(best,reference);
     $('pfe-result').scrollIntoView?.({behavior:'smooth',block:'nearest'});
   }catch(error){
     showError('pfe-error',error instanceof RangeError

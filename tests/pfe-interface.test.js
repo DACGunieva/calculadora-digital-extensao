@@ -52,6 +52,24 @@ test('faixa de três cores depende de melhor PFE pessoal estabelecido',async()=>
   assert.match(app,/pfe-zone-status/);
   assert.match(app,/pfe-zone-marker/);
   assert.match(app,/pfe-zone-form/);
-  assert.match(app,/Vermelho · ruim/);
-  assert.match(app,/Verde · bom/);
+  assert.match(app,/Vermelho · abaixo de 50%/);
+  assert.match(app,/Verde · a partir de 80%/);
+});
+
+test('módulo CFF suporta tabela da infância e adultos e zona didática',async()=>{
+  const {cffPredictedPfe,cffPreviewBand}=await import('../pfe-cff-data.js');
+  assert.equal(cffPredictedPfe(30,160,'female').predicted,434);
+  assert.equal(cffPredictedPfe(20,170,'male').predicted,620);
+  assert.equal(cffPredictedPfe(12,140,'female').predicted,307);
+  assert.equal(cffPredictedPfe(30,140,'male'),null);
+  assert.equal(cffPredictedPfe(70,190,'male'),null);
+  assert.equal(cffPredictedPfe(40,180,'male'),null); // dado anômalo na publicação
+  assert.equal(cffPreviewBand(49.9).level,'danger');
+  assert.equal(cffPreviewBand(50).level,'warning');
+  assert.equal(cffPreviewBand(79.99).level,'warning');
+  assert.equal(cffPreviewBand(80).level,'normal');
+  assert.equal(cffPreviewBand(112).level,'normal');
+  assert.match(app,/cffPredictedPfe\(/);
+  assert.match(app,/pefZonesMarkup\(best,reference\)/);
+  assert.match(html,/Conselho Federal de Farmácia/);
 });
