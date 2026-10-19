@@ -29,3 +29,12 @@ test('PFE usa Medicate ATS sem campos extras',()=>{
  for(const id of ['effort1','effort2','effort3'])assert.ok(html.includes('id="'+id+'"'));
  assert.ok(html.includes('src="./app.js?v=2.5.0"'));
 });
+
+test('etapas 2 e 3: idoso, ganho gestacional e interface de atendimento',()=>{
+ assert.ok(html.includes('<option value="older">Idoso (60+)'));
+ assert.ok(html.includes('tabela semanal oficial'));
+ assert.equal((html.match(/class="measurement-help"/g)||[]).length,2);
+ assert.ok(styles.includes('.result-actions button'));
+ assert.ok(styles.includes(':focus-visible'));
+ assert.ok(styles.includes('prefers-reduced-motion'));
+});

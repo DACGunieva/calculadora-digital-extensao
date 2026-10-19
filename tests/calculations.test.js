@@ -69,3 +69,32 @@ test('limites físicos e formais',()=>{
  assert.throws(()=>bmiClass(NaN),RangeError);
  assert.throws(()=>predictedPefBrazil(4,150,'female','wright'),RangeError);
 });
+test('IMC da pessoa idosa utiliza pontos de corte do SISVAN (<=22, <27, >=27)',async()=>{
+ const {olderAdultBmiClass}=await import('../calculations.js');
+ assert.equal(olderAdultBmiClass(21.99).label,'Baixo peso');
+ assert.equal(olderAdultBmiClass(22).label,'Baixo peso');
+ assert.equal(olderAdultBmiClass(22.001).label,'Eutrofia');
+ assert.equal(olderAdultBmiClass(26.999).label,'Eutrofia');
+ assert.equal(olderAdultBmiClass(27).label,'Sobrepeso');
+ assert.throws(()=>olderAdultBmiClass(NaN),RangeError);
+});
+test('ganho gestacional semanal: 31 semanas e limites oficiais 10, 13, 27 e 40',async()=>{
+ const {GESTATIONAL_WEEKLY_GAIN,gestationalWeeklyAssessment}=await import('../calculations.js');
+ assert.equal(GESTATIONAL_WEEKLY_GAIN.length,31);
+ assert.ok(GESTATIONAL_WEEKLY_GAIN.every((row,i)=>row.length===9&&row[0]===i+10));
+ for(const [week,bounds] of [
+  [10,[-0.7,0.3,-2.4,0,-2.3,-1.3,-1.8,-0.8]],
+  [13,[0.2,1.2,-1.8,0.7,-1.6,-0.5,-1.7,-0.5]],
+  [27,[5.6,7.2,3.1,6.3,2.3,3.7,1.1,2.7]],
+  [40,[9.7,12.2,8,12,7,9,5,7.2]]
+ ])assert.deepEqual(GESTATIONAL_WEEKLY_GAIN[week-10].slice(1),bounds);
+ assert.deepEqual([gestationalWeeklyAssessment(17,40,10).lower,gestationalWeeklyAssessment(17,40,10).upper],[9.7,12.2]);
+ assert.equal(gestationalWeeklyAssessment(22,20,2).level,'within');
+ assert.equal(gestationalWeeklyAssessment(22,20,-1).level,'below');
+ assert.equal(gestationalWeeklyAssessment(22,20,4).level,'above');
+ assert.equal(gestationalWeeklyAssessment(22,10,-2.4).level,'within');
+ assert.equal(gestationalWeeklyAssessment(22,10,0).level,'within');
+ assert.equal(gestationalWeeklyAssessment(22,9,0).available,false);
+ assert.equal(gestationalWeeklyAssessment(22,41,11).available,false);
+ assert.throws(()=>gestationalWeeklyAssessment(23,43,0),RangeError);
+});

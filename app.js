@@ -1,26 +1,74 @@
-import {parseDecimal,inRange,calcBmi,bmiClass,gestationalAssessment,childBmiAssessment,bestPef,pefRatio,personalBestZone,cffPredictedPfe,cffPreviewBand} from './calculations.js';
+import {parseDecimal,inRange,calcBmi,bmiClass,gestationalAssessment,childBmiAssessment,olderAdultBmiClass,gestationalWeeklyAssessment,bestPef,pefRatio,personalBestZone,cffPredictedPfe,cffPreviewBand} from './calculations.js';
 import {BMI_WHO_LMS} from './bmi-who-data.js';
 const $ = id=>document.getElementById(id);
 const fmt=(x,d=1)=>new Intl.NumberFormat('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}).format(x);
 const fmt0=x=>fmt(x,0);
 const INITIAL_IMC=$('imc-result').innerHTML;
 const INITIAL_PFE=$('pfe-result').innerHTML;
+const LATEST_SUMMARY={imc:null,pfe:null};
 const num=id=>parseDecimal($(id).value);
 const showError=(id,t)=>{const e=$(id);e.textContent=t;e.hidden=!t;};
 function detail(k,v){return `<div class="result-detail"><span>${k}</span><strong>${v}</strong></div>`;}
 function result(heading,value,unit,pill,level,rows,notice){
   return `<div class="calculated-result"><span class="result-overline">${heading}</span><div class="result-figure"><strong>${value}</strong><span>${unit}</span></div><span class="result-pill pill-${level}">${pill}</span><div class="result-divider"></div><div class="result-details">${rows}</div><p class="result-caveat">${notice}</p></div>`;
 }
+
+function summaryFromResult(kind,title,main,rows,note){
+  // Guarda apenas memória temporária; nunca usa localStorage, banco ou cookies.
+  const lineRows=rows.replaceAll('</div>','\n').replace(/<[^>]+>/g,' ').replace(/[ \t]+/g,' ').trim();
+  LATEST_SUMMARY[kind]=['DACG · Calculadora Digital de Extensão',title,main,lineRows,note,'Registro educativo: não é diagnóstico nem prontuário.'].join('\n');
+}
+function resultTools(kind){
+  return '<div class="result-actions"><button type="button" data-copy-result="'+kind+'">Copiar resumo</button><button type="button" data-new-result="'+kind+'">Novo atendimento</button><p class="result-action-feedback" id="'+kind+'-action-feedback" role="status" aria-live="polite"></p></div>';
+}
+for(const kind of ['imc','pfe']){
+  $(kind+'-result').addEventListener('click',async event=>{
+    const button=event.target.closest?.('button[data-copy-result], button[data-new-result]');
+    if(!button)return;
+    const newMode=button.dataset.newResult;
+    if(newMode===kind){
+      $(kind+'-form').reset();
+      LATEST_SUMMARY[kind]=null;
+      queueMicrotask(()=>(kind==='imc' ? $('weight') : $('effort1')).focus?.());
+      return;
+    }
+    if(button.dataset.copyResult!==kind||!LATEST_SUMMARY[kind])return;
+    const feedback=$(kind+'-action-feedback');
+    try{
+      if(!navigator.clipboard?.writeText)throw new Error('Área de transferência indisponível.');
+      await navigator.clipboard.writeText(LATEST_SUMMARY[kind]);
+      feedback.textContent='Resumo copiado. Confira antes de compartilhar.';
+    }catch(err){
+      feedback.textContent='Não foi possível copiar automaticamente neste navegador. O resumo permanece visível na tela.';
+    }
+  });
+}
+// Atalho de digitação: Enter avança entre campos de texto visíveis; no último envia.
+for(const kind of ['imc','pfe']){
+  const form=$(kind+'-form');
+  form.addEventListener('keydown',event=>{
+    if(event.key!=='Enter'||event.isComposing||event.target?.tagName!=='INPUT'||event.target.type!=='text')return;
+    const fields=[...form.querySelectorAll('input,select')].filter(el=>!el.disabled&&!el.closest('[hidden]')&&el.getClientRects().length>0);
+    const at=fields.indexOf(event.target);
+    if(at===-1)return;
+    event.preventDefault();
+    if(at<fields.length-1)fields[at+1].focus();
+    else form.requestSubmit();
+  });
+}
+
 function profileToggle(){
   const profile=$('imc-profile').value;
   $('child-fields').hidden=profile!=='child';
   $('pregnant-fields').hidden=profile!=='pregnant';
-  $('imc-profile-note').innerHTML=profile==='adult' ? '<strong>Adultos (18+).</strong> O IMC é um indicador de triagem e não substitui avaliação clínica.'
+  $('imc-profile-note').innerHTML=profile==='adult' ? '<strong>Adultos.</strong> O IMC é um indicador de triagem e não substitui avaliação clínica.'
+    : profile==='older' ? '<strong>Pessoa idosa (60+).</strong> O SISVAN adota cortes específicos: ≤22 baixo peso, >22 e <27 eutrofia, ≥27 sobrepeso. O IMC não avalia massa muscular nem fragilidade.'
     : profile==='child' ? '<strong>0–19 anos completos.</strong> Classificação por idade e sexo. Não compare com limites de adultos; menores de 2 anos exigem comprimento deitado.'
-    : '<strong>Gestação única em adultas.</strong> Faixas de ganho TOTAL não indicam se o ganho na semana atual está adequado: utilize as curvas de acompanhamento do Ministério da Saúde.';
+    : '<strong>Gestação única em adultas.</strong> O ganho acumulado é comparado com a tabela oficial da 10ª à 40ª semana; valores fora desse período exigem avaliação pela equipe do pré-natal.';
   $('weight-label').innerHTML=profile==='pregnant'?'Peso atual <span>kg</span>':'Peso <span>kg</span>';
   showError('imc-error','');
   $('imc-result').innerHTML=INITIAL_IMC;
+  LATEST_SUMMARY.imc=null;
 }
 $('imc-profile').addEventListener('change',profileToggle);
 $('imc-form').addEventListener('submit',e=>{
@@ -37,6 +85,13 @@ $('imc-form').addEventListener('submit',e=>{
       bmi=calcBmi(weight,height);category=bmiClass(bmi);
       rows=detail('Peso',`${fmt(weight)} kg`)+detail('Estatura',`${fmt(height)} cm`);
       note='Classificação de rastreamento para adultos. Não aplicar na infância ou durante a gestação.';
+    }else if(profile==='older'){
+      bmi=calcBmi(weight,height);category=olderAdultBmiClass(bmi);
+      rows=detail('Perfil','Pessoa idosa (60 anos ou mais)')
+        +detail('Peso',fmt(weight)+' kg')
+        +detail('Estatura',fmt(height)+' cm')
+        +detail('Referência','SISVAN / Ministério da Saúde: IMC ≤22, >22 e <27, ≥27');
+      note='Critério do SISVAN para pessoas idosas. O IMC não distingue gordura de massa muscular e não substitui avaliação nutricional, funcional e clínica.';
     }else if(profile==='child'){
       const years=num('child-years'),months=num('child-months'),sex=$('child-sex').value;
       bmi=calcBmi(weight,height);
@@ -49,16 +104,28 @@ $('imc-form').addEventListener('submit',e=>{
     }else{
       const assessment=gestationalAssessment(num('pre-weight'),weight,height,num('gest-weeks'));
       bmi=assessment.preBmi;category=assessment.preClass;heading='IMC PRÉ-GESTACIONAL';
+      const weekly=gestationalWeeklyAssessment(assessment.preBmi,assessment.weeks,assessment.gainKg);
       rows=detail('Peso anterior à gestação',`${fmt(num('pre-weight'))} kg`)
-        +detail('Ganho registrado até agora',`${fmt(assessment.gainKg)} kg`)
-        +detail('Semana gestacional',`${assessment.weeks}ª semana`)
-        +detail('Faixa de ganho TOTAL de referência',`${fmt(assessment.totalGainKg[0])} a ${fmt(assessment.totalGainKg[1])} kg`);
-      note='Ministério da Saúde (2024), para gestação única em adultas. A faixa informada é para o ganho TOTAL gestacional, NÃO para a semana atual. Verifique as curvas semanais da Caderneta da Gestante no pré-natal.';
+        +detail('Ganho acumulado até agora',`${fmt(assessment.gainKg)} kg`)
+        +detail('Semana gestacional',`${assessment.weeks}ª semana`);
+      if(weekly.available){
+        const weeklyLabel=weekly.level==='below'?'Abaixo da faixa de referência':weekly.level==='above'?'Acima da faixa de referência':'Dentro da faixa de referência';
+        rows+=detail('Referência de ganho acumulado na semana',`${fmt(weekly.lower)} a ${fmt(weekly.upper)} kg`)
+          +detail('Situação na semana',weeklyLabel);
+        note='Comparação conforme tabela semanal oficial do Ministério da Saúde (10–40 semanas, Kac et al. 2021), para gestação única em adultas. Valores fora da faixa demandam avaliação individual, não dieta ou intervenção automática.';
+      }else{
+        rows+=detail('Comparação semanal',weekly.reason);
+        note='A tabela semanal do Ministério da Saúde cobre apenas de 10 a 40 semanas; sem classificação fora desse intervalo. O ganho de peso deve ser avaliado pela equipe do pré-natal.';
+      }
+      rows+=detail('Ganho total de referência até 40 semanas',`${fmt(assessment.totalGainKg[0])} a ${fmt(assessment.totalGainKg[1])} kg`);
     }
-    $('imc-result').innerHTML=result(heading,fmt(bmi),'kg/m²',category.label,category.level,rows,note);
+    $('imc-result').innerHTML=result(heading,fmt(bmi),'kg/m²',category.label,category.level,rows,note)+resultTools('imc');
+    summaryFromResult('imc','Perfil: '+profile+' · '+heading,'IMC: '+fmt(bmi)+' kg/m² · '+category.label,rows,note);
   } catch(err){showError('imc-error',err instanceof RangeError?err.message:'Não foi possível obter a referência. Confira as informações.');}
 });
-$('imc-form').addEventListener('reset',()=>queueMicrotask(()=>{profileToggle();$('imc-result').innerHTML=INITIAL_IMC;}));
+$('imc-form').addEventListener('reset',()=>queueMicrotask(()=>{
+  profileToggle();$('imc-result').innerHTML=INITIAL_IMC;LATEST_SUMMARY.imc=null;
+}));
 
 // As zonas baseiam-se exclusivamente no MELHOR PFE PESSOAL previamente estabelecido.
 // Sem essa referência, a faixa é uma legenda, sem atribuição clínica.
@@ -152,7 +219,8 @@ $('pfe-form').addEventListener('submit',e=>{
       rows+=detail('Referência da tabela','Indisponível ou fora da faixa coberta. O maior PFE continua válido.');
     }
     const note='Comparação educativa segundo CFF (2020). A equivalência dessas tabelas com a calibração do aparelho Medicate ATS não foi estabelecida. Percentual previsto não representa zonas clínicas da asma. Considere sintomas e acompanhamento profissional.';
-    $('pfe-result').innerHTML=result('MAIOR PFE VÁLIDO',fmt0(best),'L/min','Maior das três tentativas','normal',rows,note)+pefZonesMarkup(best,reference);
+    $('pfe-result').innerHTML=result('MAIOR PFE VÁLIDO',fmt0(best),'L/min','Maior das três tentativas','normal',rows,note)+pefZonesMarkup(best,reference)+resultTools('pfe');
+    summaryFromResult('pfe','Pico de fluxo expiratório','Maior PFE: '+fmt0(best)+' L/min',rows,note);
     $('pfe-result').scrollIntoView?.({behavior:'smooth',block:'nearest'});
   }catch(error){
     showError('pfe-error',error instanceof RangeError
@@ -162,6 +230,7 @@ $('pfe-form').addEventListener('submit',e=>{
 });
 $('pfe-form').addEventListener('reset',()=>queueMicrotask(()=>{
   latestPfeBest=null;
+  LATEST_SUMMARY.pfe=null;
   showError('pfe-error','');
   $('pfe-result').innerHTML=INITIAL_PFE;
 }));

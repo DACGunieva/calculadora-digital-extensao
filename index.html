@@ -11,9 +11,9 @@
   <meta property="og:type" content="website">
   <link rel="icon" type="image/svg+xml" href="./assets/icon.svg">
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css?v=2.5.0">
+  <link rel="stylesheet" href="./styles.css?v=2.6.0">
   <title>Calculadora Digital | Extensão em Saúde</title>
-  <script type="module" defer src="./app.js?v=2.5.0"></script>
+  <script type="module" defer src="./app.js?v=2.6.0"></script>
 </head>
 <body>
   <a class="skip-link" href="#principal">Pular para o conteúdo</a>
@@ -41,9 +41,9 @@
           <section class="tool-panel" id="panel-imc" role="tabpanel" aria-labelledby="tab-imc">
             <div class="work-grid">
               <div class="form-side">
-                <div class="panel-heading"><span class="panel-icon" aria-hidden="true">↗</span><div><h3>Calculadora de IMC</h3><p>Adultos, crianças/adolescentes e gestantes — selecione o perfil.</p></div></div>
+                <div class="panel-heading"><span class="panel-icon" aria-hidden="true">↗</span><div><h3>Calculadora de IMC</h3><p>Adultos, idosos, crianças/adolescentes e gestantes — selecione o perfil.</p></div></div>
                 <form id="imc-form" novalidate>
-                  <div class="field profile-field"><label for="imc-profile">Perfil da pessoa atendida</label><div class="input-wrap select-wrap"><select id="imc-profile" required><option value="adult">Adulto · IMC padrão</option><option value="child">Criança / adolescente · curvas OMS</option><option value="pregnant">Gestante · pré-gestacional e ganho de peso</option></select></div></div>
+                  <div class="field profile-field"><label for="imc-profile">Perfil da pessoa atendida</label><div class="input-wrap select-wrap"><select id="imc-profile" required><option value="adult">Adulto · IMC padrão</option><option value="older">Idoso (60+) · SISVAN</option><option value="child">Criança / adolescente · curvas OMS</option><option value="pregnant">Gestante · pré-gestacional e ganho de peso</option></select></div></div>
                   <div class="field-row">
                     <div class="field"><label for="weight" id="weight-label">Peso <span>kg</span></label><div class="input-wrap"><input id="weight" name="weight" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 68,5" required><span class="input-unit">kg</span></div><small id="weight-tip">Informe o peso atual</small></div>
                     <div class="field"><label for="height-imc">Altura <span>cm</span></label><div class="input-wrap"><input id="height-imc" name="height" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 170"><span class="input-unit">cm</span></div><small id="height-tip">Sem calçados, em centímetros</small></div>
@@ -63,11 +63,12 @@
                       <div class="field"><label for="pre-weight">Peso anterior à gestação</label><div class="input-wrap"><input id="pre-weight" type="text" inputmode="decimal" placeholder="Ex.: 62" autocomplete="off"><span class="input-unit">kg</span></div></div>
                       <div class="field"><label for="gest-weeks">Semana gestacional</label><div class="input-wrap"><input id="gest-weeks" type="text" inputmode="numeric" placeholder="Ex.: 24" autocomplete="off"><span class="input-unit">sem.</span></div></div>
                     </div>
-                    <p class="field-explainer">Voltado a gestação única em adultas. O IMC é classificado usando o <strong>peso anterior à gestação</strong>; o ganho atual é comparado às curvas por semana no pré-natal, não à meta total.</p>
+                    <p class="field-explainer">Voltado à gestação única em adultas. Usamos o <strong>peso anterior à gestação</strong> para classificar o IMC e comparamos o ganho acumulado com a tabela semanal oficial do Ministério da Saúde (10ª a 40ª semana). Fora desse período, informamos os limites da referência.</p>
                   </div>
+                  <details class="measurement-help"><summary>Como medir peso e altura corretamente?</summary><p>Use balança estável e calibrada, retire calçados e roupas pesadas e meça a altura em posição ereta. Em menores de 2 anos, use comprimento deitado e avaliação profissional. Registre apenas os dados necessários.</p></details>
                   <div class="soft-note"><span class="note-symbol" aria-hidden="true">i</span><p id="imc-profile-note"><strong>Adultos (18+).</strong> O IMC é uma medida de rastreamento, não um diagnóstico. Em outros perfis, aplicam-se referências próprias.</p></div>
                   <p class="form-error" id="imc-error" role="alert" hidden></p>
-                  <div class="form-actions"><button type="submit" class="primary-button">Calcular IMC <span aria-hidden="true">↗</span></button><button type="reset" class="text-button">Limpar campos</button></div>
+                  <div class="form-actions"><button type="submit" class="primary-button">Calcular IMC <span aria-hidden="true">↗</span></button><button type="reset" class="text-button" aria-label="Limpar e iniciar novo atendimento de IMC">Novo atendimento</button></div>
                 </form>
               </div>
               <div class="result-side" aria-live="polite" aria-atomic="true" id="imc-result">
@@ -88,10 +89,11 @@
                     <div class="field"><label for="ref-sex">Sexo da referência <span>(adultos)</span></label><div class="input-wrap select-wrap"><select id="ref-sex"><option value="">Selecione</option><option value="female">Feminina</option><option value="male">Masculina</option></select></div></div>
                   </div>
                   <p class="field-explainer">As três tentativas bastam para medir o maior PFE. Preencha idade, estatura e, para adultos, sexo, para comparar automaticamente com a tabela educativa do CFF. A compatibilidade dessa tabela com o Medicate ATS não foi validada.</p>
+                  <details class="measurement-help"><summary>Como fazer a medida de pico de fluxo?</summary><p>Em pé ou sentado com postura ereta, mova o indicador ao início da escala, inspire profundamente e sopre uma única vez, tão forte e rápido quanto possível, vedando os lábios ao redor do bocal. Repita três vezes com bocal higienizado conforme o protocolo; registre o maior valor válido. Em caso de mal-estar, interrompa e procure avaliação profissional.</p></details>
                   <fieldset class="effort-fieldset"><legend>Três medições válidas <span>(L/min)</span></legend><div class="field-row field-row-thirds"><div class="field"><label for="effort1">1ª tentativa</label><div class="input-wrap"><input id="effort1" type="text" inputmode="numeric" autocomplete="off" placeholder="Ex.: 420" required></div></div><div class="field"><label for="effort2">2ª tentativa</label><div class="input-wrap"><input id="effort2" type="text" inputmode="numeric" autocomplete="off" placeholder="Ex.: 450" required></div></div><div class="field"><label for="effort3">3ª tentativa</label><div class="input-wrap"><input id="effort3" type="text" inputmode="numeric" autocomplete="off" placeholder="Ex.: 440" required></div></div></div></fieldset>
                   <div class="soft-note"><span class="note-symbol" aria-hidden="true">i</span><p><strong>O resultado é o maior valor válido das três tentativas.</strong> Nunca a média. A leitura isolada não indica, por si só, se está normal ou alterada.</p></div>
                   <p class="form-error" id="pfe-error" role="alert" hidden></p>
-                  <div class="form-actions"><button type="submit" class="primary-button">Calcular PFE <span aria-hidden="true">↗</span></button><button type="reset" class="text-button">Limpar campos</button></div>
+                  <div class="form-actions"><button type="submit" class="primary-button">Calcular PFE <span aria-hidden="true">↗</span></button><button type="reset" class="text-button" aria-label="Limpar e iniciar novo atendimento de PFE">Novo atendimento</button></div>
                 </form>
               </div>
               <div class="result-side" aria-live="polite" aria-atomic="true" id="pfe-result"><div class="empty-result"><span class="result-overline">RESULTADO</span><div class="placeholder-glyph" aria-hidden="true">—</div><h4>Vamos avaliar as medições</h4><p>Informe as três tentativas e toque em Calcular PFE para visualizar o maior valor.</p></div></div>
@@ -115,7 +117,7 @@
       <div class="footer-identity">
         <strong>DACG · Calculadora Digital</strong>
         <span>Curso de Farmácia · UniEVANGÉLICA</span>
-        <span class="footer-caption">© 2026 · v2.5.0 · <a href="https://certificados-dacg.onrender.com/" target="_blank" rel="noopener noreferrer">Portal DACG ↗</a></span>
+        <span class="footer-caption">© 2026 · v2.6.0 · <a href="https://certificados-dacg.onrender.com/" target="_blank" rel="noopener noreferrer">Portal DACG ↗</a></span>
       </div>
       <div class="footer-partners" aria-label="Realização: DACG, UniEVANGÉLICA e Farmácia UniEVANGÉLICA">
         <img src="https://certificados-dacg.onrender.com/assets/dacg-49899de.png" alt="Diretório Acadêmico Claudius Galenus" loading="lazy" decoding="async">

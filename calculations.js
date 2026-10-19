@@ -189,3 +189,35 @@ export function cffPreviewBand(pct){
   if(pct<80)return {level:'warning',label:'Amarelo · alerta'};
   return {level:'normal',label:'Verde · a partir de 80% do previsto'};
 }
+
+
+/** SISVAN, Guia para a Organização da Vigilância Alimentar e Nutricional,
+ * pessoa idosa (60 anos ou mais), quadro de IMC. Limites: <=22; >22 e <27; >=27.
+ * Não identifica sarcopenia nem determina estado nutricional isoladamente.
+ */
+export function olderAdultBmiClass(bmi){
+  if(!Number.isFinite(bmi)||bmi<=0)throw new RangeError('IMC inválido.');
+  if(bmi<=22)return {label:'Baixo peso',level:'under'};
+  if(bmi<27)return {label:'Eutrofia',level:'normal'};
+  return {label:'Sobrepeso',level:'over'};
+}
+/** Fonte: Ministério da Saúde, Guia para a Organização da VAN na APS (2023),
+ * anexo p.50 (Kac et al., 2021): ganho cumulativo por SEMANA de 10 a 40,
+ * respectivamente [semana, BP inf/sup, eutrofia inf/sup, sobrepeso inf/sup, obesidade inf/sup].
+ * Dados transcritos integralmente dos 31 registros do anexo oficial.
+ */
+export const GESTATIONAL_WEEKLY_GAIN = [[10,-0.7,0.3,-2.4,0,-2.3,-1.3,-1.8,-0.8],[11,-0.4,0.6,-2.2,0.2,-2.1,-1,-1.7,-0.7],[12,-0.1,0.9,-2,0.4,-1.8,-0.8,-1.7,-0.6],[13,0.2,1.2,-1.8,0.7,-1.6,-0.5,-1.7,-0.5],[14,0.5,1.6,-1.6,0.9,-1.4,-0.2,-1.6,-0.4],[15,0.8,1.9,-1.3,1.2,-1.1,0,-1.5,-0.2],[16,1.2,2.3,-1.1,1.5,-0.9,0.3,-1.4,-0.1],[17,1.5,2.7,-0.8,1.8,-0.6,0.6,-1.3,0.1],[18,1.9,3.1,-0.4,2.2,-0.3,0.9,-1.2,0.3],[19,2.3,3.6,0,2.7,-0.1,1.2,-1,0.5],[20,2.7,4,0.4,3.1,0.2,1.5,-0.8,0.7],[21,3.1,4.5,0.8,3.6,0.5,1.8,-0.6,0.9],[22,3.5,4.9,1.2,4.1,0.8,2.1,-0.4,1.2],[23,4,5.4,1.6,4.5,1.1,2.4,-0.1,1.4],[24,4.4,5.9,2,5,1.4,2.7,0.2,1.7],[25,4.8,6.3,2.4,5.4,1.7,3.1,0.5,2],[26,5.2,6.8,2.7,5.9,2,3.4,0.8,2.4],[27,5.6,7.2,3.1,6.3,2.3,3.7,1.1,2.7],[28,6,7.7,3.4,6.7,2.6,4.1,1.4,3],[29,6.3,8.1,3.8,7.1,3,4.4,1.7,3.4],[30,6.7,8.5,4.1,7.5,3.3,4.8,2,3.7],[31,7.1,8.9,4.5,7.9,3.7,5.2,2.3,4],[32,7.4,9.3,4.8,8.3,4,5.6,2.7,4.4],[33,7.7,9.7,5.2,8.8,4.4,6,3,4.7],[34,8.1,10.1,5.5,9.2,4.8,6.4,3.3,5.1],[35,8.4,10.4,5.9,9.7,5.2,6.8,3.6,5.4],[36,8.6,10.8,6.3,10.1,5.5,7.2,4,5.7],[37,8.9,11.1,6.7,10.6,5.9,7.6,4.3,6.1],[38,9.2,11.5,7,11,6.4,8,4.6,6.4],[39,9.5,11.8,7.4,11.5,6.8,8.5,4.9,6.8],[40,9.7,12.2,8,12,7,9,5,7.2]];
+export const GESTATIONAL_GAIN_SOURCE='Ministério da Saúde, Guia VAN na APS (2023), Anexo: Ganho de Peso Gestacional Cumulativo, p. 50; Kac et al. (2021).';
+export function gestationalWeeklyAssessment(preBmi,gestWeeks,gainKg){
+  if(!Number.isFinite(preBmi)||preBmi<=0||!Number.isInteger(gestWeeks)||gestWeeks<1||gestWeeks>42||!Number.isFinite(gainKg)){
+    throw new RangeError('Dados gestacionais inválidos.');
+  }
+  const type=preBmi<18.5?'under':preBmi<25?'normal':preBmi<30?'over':'obese';
+  if(gestWeeks<10||gestWeeks>40)return {available:false,week:gestWeeks,profile:type,reason:'Tabela oficial disponível somente da 10ª à 40ª semana.'};
+  const row=GESTATIONAL_WEEKLY_GAIN[gestWeeks-10];
+  if(!row||row[0]!==gestWeeks)throw new Error('Referência semanal não encontrada.');
+  const index={under:1,normal:3,over:5,obese:7}[type];
+  const lower=row[index],upper=row[index+1];
+  const level=gainKg<lower?'below':gainKg>upper?'above':'within';
+  return {available:true,week:gestWeeks,profile:type,lower,upper,level,source:GESTATIONAL_GAIN_SOURCE};
+}

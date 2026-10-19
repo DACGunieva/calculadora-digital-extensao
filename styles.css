@@ -231,3 +231,28 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
 .pfe-zone-status{overflow-wrap:anywhere}
 .pfe-zone-marker{z-index:3}
 #panel-pfe #height-pfe:not([required]){border-color:#dce4db}
+
+/* v2.6 — controle de atendimento, acessibilidade e instruções concisas */
+.measurement-help{margin:14px 0 18px;background:#f5f8f1;border:1px solid #d8e5d7;border-radius:10px;padding:10px 13px}
+.measurement-help summary{cursor:pointer;color:#214d39;font-weight:750;font-size:12px;line-height:1.65;min-height:30px}
+.measurement-help p{font-size:11px;color:#456954;line-height:1.75;margin:8px 0 3px}
+.result-actions{border-top:1px solid #d4e2d4;margin-top:20px;padding-top:16px;display:flex;gap:9px;flex-wrap:wrap}
+.result-actions button{cursor:pointer;border:1px solid #b5cdb7;border-radius:9px;padding:11px 14px;min-height:44px;font-weight:750;font-size:12px;color:#254f39;background:#fff;flex:1 1 125px}
+.result-actions button[data-copy-result]{background:#255b40;color:#fff;border-color:#255b40}
+.result-actions button:hover{filter:brightness(.96)}
+.result-action-feedback{font-size:11px;line-height:1.4;width:100%;min-height:1em;color:#416a50;margin:4px 0 0}
+:where(button,input,select,a,summary,[role="tab"]):focus-visible{outline:3px solid #cc9c2e!important;outline-offset:3px}
+.form-actions button,.pfe-zone-form-row button,.result-actions button{min-height:44px}
+.result-detail,.result-caveat,.pfe-zone-status,.pfe-zone-legend,.pfe-zone-caution{overflow-wrap:anywhere}
+.pfe-zone-segment-red{background:#b1363d}
+.pfe-zone-segment-yellow{background:#e0ad30}
+.pfe-zone-segment-green{background:#217e4a}
+@media(max-width:640px){
+ .result-actions{flex-direction:column}
+ .result-actions button{flex:none;width:100%}
+ .form-actions{gap:12px}
+ .form-actions .primary-button{min-height:48px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
