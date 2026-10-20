@@ -1,6 +1,6 @@
 // Cache apenas dos arquivos públicos; não armazena dados preenchidos.
-const CACHE_NAME='calculadora-extensao-static-v2.6.2';
-const ASSETS=['./','./index.html','./styles.css?v=2.6.2','./app.js?v=2.6.2','./calculations.js','./bmi-who-data.js','./assets/icon.svg','./manifest.webmanifest'];
+const CACHE_NAME='calculadora-extensao-static-v2.6.3';
+const ASSETS=['./','./index.html','./styles.css?v=2.6.3','./app.js?v=2.6.3','./calculations.js','./bmi-who-data.js','./assets/icon.svg','./manifest.webmanifest'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));
 });

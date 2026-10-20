@@ -1,10 +1,10 @@
 # Calculadora Digital — Extensão em Saúde
 
-Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.6.2**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.6.3**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
 
 ## Contatos institucionais
 
-O rodapé permanece aberto e apresenta três colunas: contatos institucionais com Instagram e WhatsApp (Curso de Farmácia e UniEVANGÉLICA) à esquerda, identificação/versionamento e link para o Portal DACG ao centro e logotipos institucionais à direita. Em dispositivos pequenos, as áreas são empilhadas sem esconder informações. Os contatos permanecem clicáveis e com nomes acessíveis.
+O rodapé permanece aberto, com títulos laterais centralizados e na mesma hierarquia visual do título principal, e apresenta três colunas: contatos institucionais com Instagram e WhatsApp (Curso de Farmácia e UniEVANGÉLICA) à esquerda, identificação/versionamento e link para o Portal DACG ao centro e logotipos institucionais à direita. Em dispositivos pequenos, as áreas são empilhadas sem esconder informações. Os contatos permanecem clicáveis e com nomes acessíveis.
 
 ## Funcionalidades
 
