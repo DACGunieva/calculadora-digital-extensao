@@ -1,6 +1,10 @@
 # Calculadora Digital — Extensão em Saúde
 
-Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.6.0**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.6.1**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+
+## Contatos institucionais
+
+O rodapé exibe ícones acessíveis com links de Instagram para Curso de Farmácia, UniEVANGÉLICA e DACG. O número institucional (62) 3310-6684, oficialmente divulgado como WhatsApp pela UniEVANGÉLICA, dispõe de atalho direto ao WhatsApp e mantém a ligação telefônica. O número (62) 3310-6705 do Curso de Farmácia permanece como telefone, sem ser apresentado como WhatsApp não confirmado; o contato do DACG permanece como e-mail.
 
 ## Funcionalidades
 
