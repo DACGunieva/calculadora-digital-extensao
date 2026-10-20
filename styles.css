@@ -147,50 +147,53 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
 .field-group-detail .field-explainer{margin:10px 0 0}
 @media(max-width:650px){.field-group-detail{padding:12px}.field-group-detail .field-row-thirds{grid-template-columns:1fr 1fr}.field-group-detail .field-row-thirds .field:last-child{grid-column:1/-1}}
 
-/* Rodapé compacto: logos visíveis e contatos em seção expansível. */
-.institutional-footer{background:#f9f9f3;color:#24453a;border-top:1px solid #d9e3d9;padding:14px 24px 10px}
-.institutional-footer .footer-inner{display:block;width:100%;max-width:1060px;margin:auto;padding:0}
-.institutional-footer .footer-compact-row{display:flex;justify-content:space-between;align-items:center;gap:24px;min-height:62px}
-.institutional-footer .footer-identity{display:flex;flex-direction:column;gap:3px;min-width:0}
-.institutional-footer .footer-identity strong{font-size:13px;font-weight:800;color:#20483a;line-height:1.3}
-.institutional-footer .footer-identity>span{font-size:11px;line-height:1.3;color:#627368}
-.institutional-footer .footer-caption a{color:#416c55;text-decoration:none}
-.institutional-footer .footer-caption a:hover{text-decoration:underline}
-.institutional-footer .footer-partners{display:flex;gap:20px;align-items:center;justify-content:flex-end;flex-shrink:0}
-.institutional-footer .footer-partners img{width:auto;height:48px;max-width:110px;object-fit:contain;display:block}
-.institutional-footer .footer-partners img:nth-child(2){width:89px;height:auto}
-.institutional-footer .footer-contacts{border-top:1px solid #e3e8df;margin-top:10px}
-.institutional-footer .footer-contacts summary{cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 8px 1px;list-style:none;color:#426752;font-size:11px;line-height:1.5;font-weight:650}
-.institutional-footer .footer-contacts summary::-webkit-details-marker{display:none}
-.institutional-footer .footer-contacts summary:hover{color:#1b4834}
-.institutional-footer .footer-contacts summary span{font-size:17px;line-height:1}
-.institutional-footer .footer-contacts[open] summary span{transform:rotate(180deg)}
-.institutional-footer .footer-contact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding:16px 4px 12px}
-.institutional-footer .footer-contact-group{display:flex;flex-direction:column;gap:5px;min-width:0}
-.institutional-footer .footer-contact-group strong{font-size:11px;color:#314e3b}
-.institutional-footer .footer-contact-group a{color:#496452;font-size:11px;line-height:1.4;max-width:100%;width:fit-content;text-decoration:none;overflow-wrap:anywhere}
-.institutional-footer .footer-contact-group a:hover{color:#164b36;text-decoration:underline}
-.institutional-footer .footer-contact-link,
-.institutional-footer .footer-contact-line{display:flex;align-items:center;gap:8px;min-width:0}
-.institutional-footer .footer-contact-icon-link{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
-.institutional-footer .contact-svg{width:16px;height:16px;flex:none;color:#27664b}
+/* Rodapé institucional: contatos sempre visíveis, versão central, logotipos à direita. */
+.institutional-footer{background:#f9f9f3;color:#24453a;border-top:1px solid #d9e3d9;padding:23px 24px 22px}
+.institutional-footer .footer-inner{width:100%;max-width:1190px;margin:auto;padding:0}
+.institutional-footer .footer-three-columns{display:grid;grid-template-columns:minmax(0,1.28fr) minmax(0,.85fr) minmax(0,1.05fr);align-items:center;gap:32px}
+.institutional-footer .footer-section{min-width:0}
+.institutional-footer .footer-heading{margin:0 0 11px;font-size:11px;font-weight:750;line-height:1.4;color:#315341}
+.institutional-footer .footer-contact-grid{display:grid;grid-template-columns:1fr;gap:11px}
+.institutional-footer .footer-contact-group{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0}
+.institutional-footer .footer-contact-group strong{font-size:11px;color:#314e3b;line-height:1.35}
+.institutional-footer .footer-contact-link{display:inline-flex;align-items:center;gap:7px;color:#496452;font-size:11px;line-height:1.4;max-width:100%;min-width:0;text-decoration:none;overflow-wrap:anywhere}
 .institutional-footer .footer-contact-link span{min-width:0;overflow-wrap:anywhere}
-.institutional-footer .footer-contact-link:hover .contact-svg,
-.institutional-footer .footer-contact-icon-link:hover .contact-svg{color:#164b36}
+.institutional-footer .contact-svg{width:16px;height:16px;flex:none;color:#27664b}
+.institutional-footer .footer-contact-link:hover{color:#164b36;text-decoration:underline}
+.institutional-footer .footer-contact-link:hover .contact-svg{color:#164b36}
+.institutional-footer .footer-section-center{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.institutional-footer .footer-section-center strong{font-size:13px;font-weight:800;line-height:1.4;color:#20483a}
+.institutional-footer .footer-section-center>span{color:#627368;font-size:11px;line-height:1.45}
+.institutional-footer .footer-caption{font-size:11px}
+.institutional-footer .footer-portal-link{font-size:11px;color:#416c55;text-decoration:none}
+.institutional-footer .footer-portal-link:hover{color:#164b36;text-decoration:underline}
+.institutional-footer .footer-section-partners{text-align:right}
+.institutional-footer .footer-partners{display:flex;align-items:center;justify-content:flex-end;gap:14px;flex-wrap:wrap}
+.institutional-footer .footer-partners img{width:auto;height:48px;max-width:98px;object-fit:contain;display:block}
+.institutional-footer .footer-partners img:nth-child(2){height:auto;width:85px;max-width:34%}
 .institutional-footer a:focus-visible{outline:2px solid #1b6c50;outline-offset:3px;border-radius:3px}
-
-@media(max-width:720px){
-  .institutional-footer{padding:13px 14px 9px}
-  .institutional-footer .footer-compact-row{flex-direction:column;justify-content:center;gap:10px;text-align:center}
-  .institutional-footer .footer-identity{align-items:center}
-  .institutional-footer .footer-identity strong{font-size:12px}
-  .institutional-footer .footer-identity>span{font-size:10px}
-  .institutional-footer .footer-partners{gap:13px;justify-content:center;width:100%}
-  .institutional-footer .footer-partners img{height:36px;max-width:85px}
-  .institutional-footer .footer-partners img:nth-child(2){width:72px}
-  .institutional-footer .footer-contacts{margin-top:9px}
-  .institutional-footer .footer-contact-grid{grid-template-columns:1fr;gap:12px}
+@media(max-width:980px){
+  .institutional-footer .footer-three-columns{gap:18px;grid-template-columns:minmax(0,1.2fr) minmax(0,.85fr) minmax(0,.9fr)}
+  .institutional-footer .footer-partners{gap:8px}
+  .institutional-footer .footer-partners img{height:40px;max-width:78px}
+  .institutional-footer .footer-partners img:nth-child(2){width:70px}
+}
+@media(max-width:760px){
+  .institutional-footer{padding:22px 17px}
+  .institutional-footer .footer-three-columns{grid-template-columns:1fr;gap:22px}
+  .institutional-footer .footer-section-contacts{text-align:center}
+  .institutional-footer .footer-contact-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
   .institutional-footer .footer-contact-group{align-items:center}
+  .institutional-footer .footer-section-partners{text-align:center}
+  .institutional-footer .footer-partners{justify-content:center;gap:16px}
+  .institutional-footer .footer-partners img{height:44px;max-width:94px}
+  .institutional-footer .footer-partners img:nth-child(2){width:80px}
+}
+@media(max-width:540px){
+  .institutional-footer .footer-contact-grid{grid-template-columns:1fr;gap:15px}
+  .institutional-footer .footer-three-columns{gap:20px}
+  .institutional-footer .footer-partners img{height:39px;max-width:82px}
+  .institutional-footer .footer-partners img:nth-child(2){width:73px}
 }
 
 /* Identificação do Medicate em PFE */
