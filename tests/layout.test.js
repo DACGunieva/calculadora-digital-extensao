@@ -27,7 +27,7 @@ test('PFE usa Medicate ATS sem campos extras',()=>{
  assert.ok(!html.includes('id="table-reference"'));
  assert.ok(!html.includes('id="personal-best"'));
  for(const id of ['effort1','effort2','effort3'])assert.ok(html.includes('id="'+id+'"'));
- assert.ok(html.includes('src="./app.js?v=2.6.1"'));
+ assert.ok(html.includes('src="./app.js?v=2.6.2"'));
 });
 
 test('etapas 2 e 3: idoso, ganho gestacional e interface de atendimento',()=>{
@@ -39,16 +39,29 @@ test('etapas 2 e 3: idoso, ganho gestacional e interface de atendimento',()=>{
  assert.ok(styles.includes('prefers-reduced-motion'));
 });
 
-test('rodapé usa ícones correspondentes aos canais oficiais e mantém links úteis',()=>{
-  assert.match(html,/class="footer-contact-link" href="tel:\+556233106705"/);
-  assert.match(html,/class="footer-contact-icon-link" href="https:\/\/wa\.me\/556233106684"/);
-  assert.match(html,/href="tel:\+556233106684"/);
+test('rodapé institucional sempre aberto em três áreas, como o portal DACG',()=>{
+  assert.match(html,/class="footer-inner footer-three-columns"/);
+  assert.doesNotMatch(html,/<details class="footer-contacts"|<summary>Contatos institucionais/);
+  const left=html.indexOf('class="footer-section footer-section-contacts"');
+  const center=html.indexOf('class="footer-section footer-section-center"');
+  const right=html.indexOf('class="footer-section footer-section-partners"');
+  assert.ok(left>0 && left<center && center<right);
+  assert.match(html,/class="footer-heading" id="footer-contacts-heading">Contatos institucionais/);
+  assert.match(html,/class="footer-caption">© 2026 · v2.6.2/);
+  assert.match(html,/class="footer-heading" id="footer-partners-heading">Realização/);
+  assert.match(styles,/\.institutional-footer \.footer-three-columns\{display:grid;grid-template-columns:/);
+  assert.match(styles,/@media\(max-width:760px\)/);
+  assert.match(styles,/@media\(max-width:540px\)/);
+});
+
+test('rodapé exibe os ícones e dois WhatsApps institucionais',()=>{
+  for(const telefone of ['556233106705','556233106684']){
+    assert.ok(html.includes('href="https://wa.me/'+telefone+'"'));
+  }
   assert.equal((html.match(/class="contact-svg"/g)||[]).length,6);
   for(const perfil of ['farmaciaunievangelica','unievangelica','daf.farmaciaunieva']){
     assert.ok(html.includes('href="https://www.instagram.com/'+perfil+'/"'));
   }
-  assert.match(html,/href="mailto:daf\.farmaciauni@gmail\.com"/);
-  assert.doesNotMatch(html,/wa\.me\/556233106705/);
-  assert.ok(styles.includes('.institutional-footer .footer-contact-link'));
+  assert.ok(html.includes('href="mailto:daf.farmaciauni@gmail.com"'));
   assert.ok(styles.includes('.institutional-footer a:focus-visible'));
 });
