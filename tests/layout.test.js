@@ -27,7 +27,7 @@ test('PFE usa Medicate ATS sem campos extras',()=>{
  assert.ok(!html.includes('id="table-reference"'));
  assert.ok(!html.includes('id="personal-best"'));
  for(const id of ['effort1','effort2','effort3'])assert.ok(html.includes('id="'+id+'"'));
- assert.ok(html.includes('src="./app.js?v=2.5.0"'));
+ assert.ok(html.includes('src="./app.js?v=2.6.1"'));
 });
 
 test('etapas 2 e 3: idoso, ganho gestacional e interface de atendimento',()=>{
@@ -37,4 +37,18 @@ test('etapas 2 e 3: idoso, ganho gestacional e interface de atendimento',()=>{
  assert.ok(styles.includes('.result-actions button'));
  assert.ok(styles.includes(':focus-visible'));
  assert.ok(styles.includes('prefers-reduced-motion'));
+});
+
+test('rodapé usa ícones correspondentes aos canais oficiais e mantém links úteis',()=>{
+  assert.match(html,/class="footer-contact-link" href="tel:\+556233106705"/);
+  assert.match(html,/class="footer-contact-icon-link" href="https:\/\/wa\.me\/556233106684"/);
+  assert.match(html,/href="tel:\+556233106684"/);
+  assert.equal((html.match(/class="contact-svg"/g)||[]).length,6);
+  for(const perfil of ['farmaciaunievangelica','unievangelica','daf.farmaciaunieva']){
+    assert.ok(html.includes('href="https://www.instagram.com/'+perfil+'/"'));
+  }
+  assert.match(html,/href="mailto:daf\.farmaciauni@gmail\.com"/);
+  assert.doesNotMatch(html,/wa\.me\/556233106705/);
+  assert.ok(styles.includes('.institutional-footer .footer-contact-link'));
+  assert.ok(styles.includes('.institutional-footer a:focus-visible'));
 });
