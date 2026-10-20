@@ -152,8 +152,8 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
 .institutional-footer .footer-inner{width:100%;max-width:1190px;margin:auto;padding:0}
 .institutional-footer .footer-three-columns{display:grid;grid-template-columns:minmax(0,1.28fr) minmax(0,.85fr) minmax(0,1.05fr);align-items:center;gap:32px}
 .institutional-footer .footer-section{min-width:0}
-.institutional-footer .footer-heading{margin:0 0 11px;font-size:11px;font-weight:750;line-height:1.4;color:#315341}
-.institutional-footer .footer-contact-grid{display:grid;grid-template-columns:1fr;gap:11px}
+.institutional-footer .footer-heading{margin:0 0 14px;font-size:13px;font-weight:800;line-height:1.4;color:#20483a;text-align:center}
+.institutional-footer .footer-contact-grid{display:grid;grid-template-columns:1fr;gap:11px;max-width:320px;margin-inline:auto}
 .institutional-footer .footer-contact-group{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0}
 .institutional-footer .footer-contact-group strong{font-size:11px;color:#314e3b;line-height:1.35}
 .institutional-footer .footer-contact-link{display:inline-flex;align-items:center;gap:7px;color:#496452;font-size:11px;line-height:1.4;max-width:100%;min-width:0;text-decoration:none;overflow-wrap:anywhere}
@@ -167,8 +167,9 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
 .institutional-footer .footer-caption{font-size:11px}
 .institutional-footer .footer-portal-link{font-size:11px;color:#416c55;text-decoration:none}
 .institutional-footer .footer-portal-link:hover{color:#164b36;text-decoration:underline}
-.institutional-footer .footer-section-partners{text-align:right}
-.institutional-footer .footer-partners{display:flex;align-items:center;justify-content:flex-end;gap:14px;flex-wrap:wrap}
+.institutional-footer .footer-section-contacts .footer-heading{max-width:320px;margin-inline:auto}
+.institutional-footer .footer-section-partners{text-align:center}
+.institutional-footer .footer-partners{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
 .institutional-footer .footer-partners img{width:auto;height:48px;max-width:98px;object-fit:contain;display:block}
 .institutional-footer .footer-partners img:nth-child(2){height:auto;width:85px;max-width:34%}
 .institutional-footer a:focus-visible{outline:2px solid #1b6c50;outline-offset:3px;border-radius:3px}
@@ -182,7 +183,8 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
   .institutional-footer{padding:22px 17px}
   .institutional-footer .footer-three-columns{grid-template-columns:1fr;gap:22px}
   .institutional-footer .footer-section-contacts{text-align:center}
-  .institutional-footer .footer-contact-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .institutional-footer .footer-contact-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:none}
+  .institutional-footer .footer-section-contacts .footer-heading{max-width:none}
   .institutional-footer .footer-contact-group{align-items:center}
   .institutional-footer .footer-section-partners{text-align:center}
   .institutional-footer .footer-partners{justify-content:center;gap:16px}
