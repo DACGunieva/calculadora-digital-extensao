@@ -170,6 +170,15 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
 .institutional-footer .footer-contact-group strong{font-size:11px;color:#314e3b}
 .institutional-footer .footer-contact-group a{color:#496452;font-size:11px;line-height:1.4;max-width:100%;width:fit-content;text-decoration:none;overflow-wrap:anywhere}
 .institutional-footer .footer-contact-group a:hover{color:#164b36;text-decoration:underline}
+.institutional-footer .footer-contact-link,
+.institutional-footer .footer-contact-line{display:flex;align-items:center;gap:8px;min-width:0}
+.institutional-footer .footer-contact-icon-link{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.institutional-footer .contact-svg{width:16px;height:16px;flex:none;color:#27664b}
+.institutional-footer .footer-contact-link span{min-width:0;overflow-wrap:anywhere}
+.institutional-footer .footer-contact-link:hover .contact-svg,
+.institutional-footer .footer-contact-icon-link:hover .contact-svg{color:#164b36}
+.institutional-footer a:focus-visible{outline:2px solid #1b6c50;outline-offset:3px;border-radius:3px}
+
 @media(max-width:720px){
   .institutional-footer{padding:13px 14px 9px}
   .institutional-footer .footer-compact-row{flex-direction:column;justify-content:center;gap:10px;text-align:center}
