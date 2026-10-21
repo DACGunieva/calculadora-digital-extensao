@@ -270,3 +270,17 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
+
+/* v2.7.0: navegação com três calculadoras e formulário de cintura. */
+.tool-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tool-tab{min-width:0;padding:22px 17px;gap:10px}
+.tool-tab .tab-copy{min-width:0}
+.waist-pregnant-label{display:flex;gap:10px;align-items:center;margin-top:18px;font-size:12px;font-weight:700;line-height:1.5;cursor:pointer}
+.waist-pregnant-label input{width:18px;height:18px;accent-color:var(--forest);flex-shrink:0}
+.method-waist-card{border:1px solid var(--line);background:var(--white);border-radius:14px;margin-top:16px;padding:24px 26px}
+.method-waist-card h3{font-size:18px;margin:8px 0}
+.method-waist-card p{line-height:1.7;color:var(--muted);font-size:13px}
+.method-waist-card a{font-size:12px;color:var(--forest-2);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:760px){.tool-tab{padding:17px 10px;gap:7px}.tool-tab .tab-arrow{display:none}.tool-tab .tab-copy strong{font-size:12px}.tool-tab .tab-copy small{font-size:10px}}
+@media(max-width:480px){.tool-tab{padding:14px 7px;gap:4px;align-items:flex-start}.tool-tab .tab-number{font-size:13px}.tool-tab .tab-copy strong{font-size:11px;line-height:1.2}.tool-tab .tab-copy small{font-size:9px;line-height:1.25}}
+@media print{.method-waist-card{display:none}}
