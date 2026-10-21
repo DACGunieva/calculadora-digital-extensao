@@ -1,11 +1,12 @@
-import {parseDecimal,inRange,calcBmi,bmiClass,gestationalAssessment,childBmiAssessment,olderAdultBmiClass,gestationalWeeklyAssessment,bestPef,pefRatio,personalBestZone,cffPredictedPfe,cffPreviewBand} from './calculations.js';
+import {parseDecimal,inRange,calcBmi,bmiClass,gestationalAssessment,childBmiAssessment,olderAdultBmiClass,gestationalWeeklyAssessment,bestPef,pefRatio,personalBestZone,cffPredictedPfe,cffPreviewBand,waistAssessment} from './calculations.js';
 import {BMI_WHO_LMS} from './bmi-who-data.js';
 const $ = id=>document.getElementById(id);
 const fmt=(x,d=1)=>new Intl.NumberFormat('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}).format(x);
 const fmt0=x=>fmt(x,0);
 const INITIAL_IMC=$('imc-result').innerHTML;
 const INITIAL_PFE=$('pfe-result').innerHTML;
-const LATEST_SUMMARY={imc:null,pfe:null};
+const INITIAL_WAIST=$('waist-result').innerHTML;
+const LATEST_SUMMARY={imc:null,pfe:null,waist:null};
 const num=id=>parseDecimal($(id).value);
 const showError=(id,t)=>{const e=$(id);e.textContent=t;e.hidden=!t;};
 function detail(k,v){return `<div class="result-detail"><span>${k}</span><strong>${v}</strong></div>`;}
@@ -21,7 +22,7 @@ function summaryFromResult(kind,title,main,rows,note){
 function resultTools(kind){
   return '<div class="result-actions"><button type="button" data-copy-result="'+kind+'">Copiar resumo</button><button type="button" data-new-result="'+kind+'">Novo atendimento</button><p class="result-action-feedback" id="'+kind+'-action-feedback" role="status" aria-live="polite"></p></div>';
 }
-for(const kind of ['imc','pfe']){
+for(const kind of ['imc','pfe','waist']){
   $(kind+'-result').addEventListener('click',async event=>{
     const button=event.target.closest?.('button[data-copy-result], button[data-new-result]');
     if(!button)return;
@@ -29,7 +30,7 @@ for(const kind of ['imc','pfe']){
     if(newMode===kind){
       $(kind+'-form').reset();
       LATEST_SUMMARY[kind]=null;
-      queueMicrotask(()=>(kind==='imc' ? $('weight') : $('effort1')).focus?.());
+      queueMicrotask(()=>(kind==='imc' ? $('weight') :kind==='pfe' ? $('effort1') : $('waist-cm')).focus?.());
       return;
     }
     if(button.dataset.copyResult!==kind||!LATEST_SUMMARY[kind])return;
@@ -44,7 +45,7 @@ for(const kind of ['imc','pfe']){
   });
 }
 // Atalho de digitação: Enter avança entre campos de texto visíveis; no último envia.
-for(const kind of ['imc','pfe']){
+for(const kind of ['imc','pfe','waist']){
   const form=$(kind+'-form');
   form.addEventListener('keydown',event=>{
     if(event.key!=='Enter'||event.isComposing||event.target?.tagName!=='INPUT'||event.target.type!=='text')return;
@@ -126,6 +127,28 @@ $('imc-form').addEventListener('submit',e=>{
 $('imc-form').addEventListener('reset',()=>queueMicrotask(()=>{
   profileToggle();$('imc-result').innerHTML=INITIAL_IMC;LATEST_SUMMARY.imc=null;
 }));
+
+// Cintura: avaliação local, sem compartilhamento ou armazenamento.
+const WAIST_LEVEL={below:['Abaixo do ponto de corte de risco aumentado','normal'],increased:['Risco aumentado · cintura','over'],high:['Risco substancialmente aumentado · cintura','obese']};
+const RATIO_LEVEL={belowRange:'Abaixo de 0,40 · fora do intervalo inferior descrito pela NICE',below:'0,40 a <0,50 · sem adiposidade central aumentada pela RCE',increased:'0,50 a <0,60 · adiposidade central aumentada',high:'≥0,60 · adiposidade central elevada'};
+$('waist-form').addEventListener('submit',e=>{
+ e.preventDefault();showError('waist-error','');
+ try{
+  const a=waistAssessment(num('waist-cm'),num('waist-height'),num('waist-age'),$('waist-sex').value,$('waist-pregnant').checked);
+  const [classification,level]=WAIST_LEVEL[a.waistLevel];
+  const rows=detail('Estatura',fmt(a.heightCm)+' cm')
+    +detail('Idade',a.age+' anos')
+    +detail('Referência populacional',a.sex==='female'?'Feminina':'Masculina')
+    +detail('Risco aumentado a partir de',fmt0(a.increasedCutoff)+' cm')
+    +detail('Risco substancialmente aumentado a partir de',fmt0(a.highCutoff)+' cm')
+    +detail('Relação cintura/estatura (RCE)',fmt(a.ratio,2))
+    +detail('Interpretação da RCE',RATIO_LEVEL[a.ratioLevel]);
+  const note='Triagem em adultos não gestantes: Ministério da Saúde (cintura) e NICE NG246 (RCE). Pontos de corte por sexo variam com a população; classificação de RCE particularmente recomendada quando IMC <35 kg/m². Medidas isoladas não são diagnósticas nem excluem outros riscos cardiometabólicos.';
+  $('waist-result').innerHTML=result('CIRCUNFERÊNCIA DA CINTURA',fmt(a.waistCm),'cm',classification,level,rows,note)+resultTools('waist');
+  summaryFromResult('waist','Circunferência da cintura · avaliação de adulto','Cintura: '+fmt(a.waistCm)+' cm · '+classification,rows,note);
+ }catch(err){showError('waist-error',err instanceof RangeError?err.message:'Não foi possível avaliar a cintura. Confira os dados.');}
+});
+$('waist-form').addEventListener('reset',()=>queueMicrotask(()=>{showError('waist-error','');LATEST_SUMMARY.waist=null;$('waist-result').innerHTML=INITIAL_WAIST;}));
 
 // As zonas baseiam-se exclusivamente no MELHOR PFE PESSOAL previamente estabelecido.
 // Sem essa referência, a faixa é uma legenda, sem atribuição clínica.
@@ -237,8 +260,11 @@ $('pfe-form').addEventListener('reset',()=>queueMicrotask(()=>{
 const tabs=[...document.querySelectorAll('[role="tab"]')];
 function activateTab(name,focus=false){
   tabs.forEach(tab=>{const active=tab.dataset.tab===name;tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;tab.classList.toggle('active',active);if(active&&focus)tab.focus();});
-  $('panel-imc').hidden=name!=='imc';$('panel-pfe').hidden=name!=='pfe';
+  $('panel-imc').hidden=name!=='imc';$('panel-pfe').hidden=name!=='pfe';$('panel-waist').hidden=name!=='waist';
+  if(name==='waist'&&!$('waist-height').value&&['adult','older'].includes($('imc-profile').value)){
+    const fromImc=num('height-imc');if(inRange(fromImc,100,230))$('waist-height').value=String(fromImc).replace('.',',');
+  }
 }
 tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>activateTab(tab.dataset.tab));tab.addEventListener('keydown',e=>{const step=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(step){e.preventDefault();activateTab(tabs[(index+step+tabs.length)%tabs.length].dataset.tab,true);}if(e.key==='Home'){e.preventDefault();activateTab(tabs[0].dataset.tab,true);}if(e.key==='End'){e.preventDefault();activateTab(tabs[tabs.length-1].dataset.tab,true);}});});
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-window.addEventListener('pageshow',()=>{ $('imc-form').reset();$('pfe-form').reset();profileToggle();$('imc-result').innerHTML=INITIAL_IMC;$('pfe-result').innerHTML=INITIAL_PFE;showError('imc-error','');showError('pfe-error','');});
+window.addEventListener('pageshow',()=>{ $('imc-form').reset();$('pfe-form').reset();$('waist-form').reset();profileToggle();$('imc-result').innerHTML=INITIAL_IMC;$('pfe-result').innerHTML=INITIAL_PFE;$('waist-result').innerHTML=INITIAL_WAIST;LATEST_SUMMARY.waist=null;showError('imc-error','');showError('pfe-error','');showError('waist-error','');});
