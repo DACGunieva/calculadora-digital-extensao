@@ -1,6 +1,13 @@
 # Calculadora Digital — Extensão em Saúde
 
-Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.8.0**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.8.1**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+
+## Ajustes de apresentação v2.8.1
+
+- Retirada da frase introdutória redundante à direita de **Metodologia e limites**; mantém íntegra a seção, fontes e aviso clínico.
+- Crédito de criação discreto no cabeçalho, com texto igual ao do portal DACG: **Criador: Erick de Oliveira Martins · Coordenador de Extensões (DACG)**, sem replicar o atalho administrativo oculto.
+- Botão claro/escuro explicitamente rotulado como **Tema escuro** / **Tema claro**, com alvos de toque de no mínimo 44px e linha de ações que quebra no celular. Resolver possível dificuldade de encontrar controle icônico e contornar conteúdo em telas estreitas.
+- Cache PWA invalidado em v2.8.1; preserva todas as fórmulas e a privacidade dos atendimentos.
 
 ## Tema claro/escuro v2.8.0
 
