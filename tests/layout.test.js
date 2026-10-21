@@ -6,7 +6,7 @@ const styles=readFileSync(new URL('../styles.css',import.meta.url),'utf8');
 
 test('remove blocos destacados preservando calculadoras',()=>{
   for(const t of ['Cálculos simples.','Cuidados precisos.','Vamos calcular?'])assert.equal(html.includes(t),false,t);
-  for(const id of ['panel-imc','panel-pfe'])assert.ok(html.includes('id="'+id+'"'),id);
+  for(const id of ['panel-imc','panel-pfe','panel-waist'])assert.ok(html.includes('id="'+id+'"'),id);
   assert.ok(html.includes('aria-label="Calculadoras digitais"'));
 });
 
@@ -27,13 +27,13 @@ test('PFE usa Medicate ATS sem campos extras',()=>{
  assert.ok(!html.includes('id="table-reference"'));
  assert.ok(!html.includes('id="personal-best"'));
  for(const id of ['effort1','effort2','effort3'])assert.ok(html.includes('id="'+id+'"'));
- assert.ok(html.includes('src="./app.js?v=2.6.4"'));
+ assert.ok(html.includes('src="./app.js?v=2.7.0"'));
 });
 
 test('etapas 2 e 3: idoso, ganho gestacional e interface de atendimento',()=>{
  assert.ok(html.includes('<option value="older">Idoso (60+)'));
  assert.ok(html.includes('tabela semanal oficial'));
- assert.equal((html.match(/class="measurement-help"/g)||[]).length,2);
+ assert.equal((html.match(/class="measurement-help"/g)||[]).length,3);
  assert.ok(styles.includes('.result-actions button'));
  assert.ok(styles.includes(':focus-visible'));
  assert.ok(styles.includes('prefers-reduced-motion'));
@@ -47,7 +47,7 @@ test('rodapé institucional sempre aberto em três áreas, como o portal DACG',(
   const right=html.indexOf('class="footer-section footer-section-partners"');
   assert.ok(left>0 && left<center && center<right);
   assert.match(html,/class="footer-heading" id="footer-contacts-heading">Contatos institucionais/);
-  assert.match(html,/class="footer-caption">© 2026 · v2.6.4/);
+  assert.match(html,/class="footer-caption">© 2026 · v2.7.0/);
   assert.match(html,/class="footer-heading" id="footer-partners-heading">Realização/);
   assert.match(styles,/\.institutional-footer \.footer-three-columns\{display:grid;grid-template-columns:/);
   assert.match(styles,/@media\(max-width:760px\)/);
@@ -74,7 +74,7 @@ test('títulos laterais do rodapé seguem tipografia e centralização do títul
   assert.match(styles,/\.institutional-footer \.footer-partners\{[^}]*justify-content:center/);
   assert.match(styles,/\.institutional-footer \.footer-contact-grid\{[^}]*max-width:320px;margin-inline:auto/);
   assert.match(styles,/@media\(max-width:760px\)\{[\s\S]*?\.institutional-footer \.footer-contact-grid\{[^}]*max-width:none/);
-  assert.match(html,/<span class="footer-caption">© 2026 · v2\.6\.4<\/span>/);
+  assert.match(html,/<span class="footer-caption">© 2026 · v2\.7\.0<\/span>/);
 });
 
 
@@ -82,4 +82,14 @@ test('o resumo da aba IMC corresponde aos quatro perfis disponíveis',()=>{
   assert.match(html,/Índice de Massa Corporal<\/strong><small>IMC · 4 perfis<\/small>/);
   for(const p of ['adult','older','child','pregnant'])assert.match(html,new RegExp('<option value="'+p+'"'));
   assert.doesNotMatch(html,/IMC · 3 perfis/);
+});
+
+test('circunferência: terceira aba, formulário acessível e metodologia com fontes',()=>{
+ for(const id of ['tab-waist','panel-waist','waist-form','waist-cm','waist-height','waist-age','waist-sex','waist-pregnant','waist-result','waist-error'])
+  assert.ok(html.includes('id="'+id+'"'),id);
+ assert.match(html,/aria-controls="panel-waist"/);
+ assert.match(html,/id="panel-waist" role="tabpanel" aria-labelledby="tab-waist" hidden/);
+ assert.match(html,/NICE/);
+ assert.match(styles,/\.tool-tabs\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)\}/);
+ assert.match(html,/src="\.\/app\.js\?v=2\.7\.0"/);
 });

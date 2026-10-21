@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import {parseDecimal,calcBmi,bmiClass,gestationalAssessment,childBmiAssessment,bestPef,pefRatio,personalBestZone,predictedPefBrazil} from '../calculations.js';
+import {parseDecimal,calcBmi,bmiClass,gestationalAssessment,childBmiAssessment,bestPef,pefRatio,personalBestZone,predictedPefBrazil,waistAssessment} from '../calculations.js';
 const WHO_EXAMPLE = Array.from({length:229},(_,month)=>[month,-0.5,15,0.09,-0.5,15,0.09]);
 test('decimais pt-BR e validação',()=>{
  assert.equal(parseDecimal(' 68,5 '),68.5);
@@ -97,4 +97,28 @@ test('ganho gestacional semanal: 31 semanas e limites oficiais 10, 13, 27 e 40',
  assert.equal(gestationalWeeklyAssessment(22,9,0).available,false);
  assert.equal(gestationalWeeklyAssessment(22,41,11).available,false);
  assert.throws(()=>gestationalWeeklyAssessment(23,43,0),RangeError);
+});
+
+test('cintura feminina: limites 80 / 88 inclusivos e RCE',()=>{
+ assert.equal(waistAssessment(79.9,165,25,'female').waistLevel,'below');
+ assert.equal(waistAssessment(80,165,25,'female').waistLevel,'increased');
+ assert.equal(waistAssessment(87.9,165,25,'female').waistLevel,'increased');
+ const a=waistAssessment(88,165,25,'female');
+ assert.equal(a.waistLevel,'high');assert.ok(Math.abs(a.ratio-88/165)<1e-12);
+});
+test('cintura masculina: limites 94 / 102 inclusivos',()=>{
+ for(const [waist,level] of [[93.9,'below'],[94,'increased'],[101.9,'increased'],[102,'high']])
+  assert.equal(waistAssessment(waist,170,40,'male').waistLevel,level);
+});
+test('RCE: fronteiras 0,40, 0,50, 0,60 e abaixo do intervalo NICE',()=>{
+ for(const [waist,level] of [[60,'belowRange'],[72,'below'],[90,'increased'],[108,'high']])
+  assert.equal(waistAssessment(waist,180,18,'male').ratioLevel,level);
+});
+test('cintura rejeita pediatria, gestação e dados inválidos',()=>{
+ assert.throws(()=>waistAssessment(80,160,17,'female'),RangeError);
+ assert.throws(()=>waistAssessment(80,160,27,'female',true),RangeError);
+ assert.throws(()=>waistAssessment(80,160,27,'other'),RangeError);
+ assert.throws(()=>waistAssessment(NaN,160,27,'female'),RangeError);
+ assert.throws(()=>waistAssessment(80,0,27,'female'),RangeError);
+ assert.throws(()=>waistAssessment(80,160,27.5,'female'),RangeError);
 });

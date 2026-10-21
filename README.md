@@ -1,6 +1,14 @@
 # Calculadora Digital — Extensão em Saúde
 
-Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.6.4**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.7.0**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+
+## Nova avaliação de cintura v2.7.0
+
+- Terceira aba, autônoma em relação ao IMC, para adultos de 18 a 120 anos não gestantes: cintura em centímetros, estatura, idade e referência populacional feminina/masculina. Funciona localmente, sem backend nem armazenamento dos dados.
+- Cortes da circunferência: feminino ≥80 cm (risco aumentado), ≥88 cm (substancialmente aumentado); masculino ≥94 e ≥102 cm. Fonte: Ministério da Saúde, *Boas práticas para atuação nos territórios*, quadro 12: https://bvsms.saude.gov.br/bvs/publicacoes/boas_praticas_atuacao_territorios.pdf . São pontos de corte para triagem com ressalvas clínicas/populacionais.
+- Relação cintura/estatura: <0,40 é informada como fora da faixa inferior publicada pela NICE; 0,40 a <0,50 sem adiposidade central aumentada pelo índice; 0,50 a <0,60 aumentada; ≥0,60 elevada. NICE NG246: https://www.nice.org.uk/guidance/ng246/chapter/Identifying-and-assessing-overweight-obesity-and-central-adiposity (principalmente para IMC <35 kg/m²).
+- Não classifica gestação nem menores de 18 anos com os cortes adultos; texto educativo ensina ponto médio entre última costela e crista ilíaca. Quando o usuário vem da aba IMC adulto/idoso, copia apenas em memória de sessão a estatura informada, se o campo da cintura estiver vazio.
+- Testes automatizados de limites, RCE, validação, acessibilidade do painel e versão da PWA. Cálculos de IMC/PFE preservados.
 
 ## Correção visual v2.6.4
 

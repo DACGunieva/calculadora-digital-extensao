@@ -65,6 +65,18 @@ export function childBmiAssessment(bmi, years, extraMonths, sex, whoLms) {
   return {months,reference:young?'OMS 2006':'OMS 2007',z,median:M,category,limits:[-3,-2,1,2,3].map(cutoff)};
 }
 
+/** Cintura em adultos não gestantes — Ministério da Saúde (quadro 12); RCE NICE NG246 §1.9.14. */
+export function waistAssessment(waistCm,heightCm,age,sex,isPregnant=false){
+ if(!inRange(waistCm,30,250)||!inRange(heightCm,100,230)||!Number.isInteger(age)||!inRange(age,18,120)||!['female','male'].includes(sex)||typeof isPregnant!=='boolean')
+   throw new RangeError('Informe cintura (30–250 cm), estatura (100–230 cm), idade adulta e referência de pontos de corte válidas.');
+ if(isPregnant)throw new RangeError('Os pontos de corte para adultos não gestantes não se aplicam durante a gravidez. Consulte a equipe do pré-natal.');
+ const [increasedCutoff,highCutoff]=sex==='female'?[80,88]:[94,102];
+ const waistLevel=waistCm>=highCutoff?'high':waistCm>=increasedCutoff?'increased':'below';
+ const ratio=waistCm/heightCm;
+ const ratioLevel=ratio<0.4?'belowRange':ratio<0.5?'below':ratio<0.6?'increased':'high';
+ return {waistCm,heightCm,age,sex,ratio,increasedCutoff,highCutoff,waistLevel,ratioLevel};
+}
+
 export function bestPef(readings) {
   if (!Array.isArray(readings) || readings.length!==3 || !readings.every(v=>Number.isInteger(v)&&inRange(v,60,900))) {
     throw new RangeError('Informe três leituras Medicate ATS válidas entre 60 e 900 L/min.');
