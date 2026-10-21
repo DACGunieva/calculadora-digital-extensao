@@ -275,6 +275,8 @@ window.addEventListener('pageshow',()=>{ $('imc-form').reset();$('pfe-form').res
 
   const KEY = 'dacg-tema';
   const root = document.documentElement;
+  // O app pode ser testado em Node sem API visual do navegador.
+  if (!root || typeof window.matchMedia !== 'function') return;
   const systemPreference = window.matchMedia('(prefers-color-scheme: dark)');
   let preference = null;
   try {
