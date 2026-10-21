@@ -1,6 +1,10 @@
 # Calculadora Digital — Extensão em Saúde
 
-Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.6.3**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.6.4**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+
+## Correção visual v2.6.4
+
+O indicador da aba IMC passa a anunciar corretamente **4 perfis** (adulto, idoso, criança/adolescente e gestante). Alteração somente de texto, sem modificar fórmulas, referências científicas, armazenamento ou compartilhamento de dados. Regression check em `tests/layout.test.js`.
 
 ## Contatos institucionais
 
