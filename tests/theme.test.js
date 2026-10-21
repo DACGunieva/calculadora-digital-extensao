@@ -17,7 +17,8 @@ function fixture({saved=null,osDark=false,blocked=false}={}){
   if(saved!==null)data.set('dacg-tema',saved);
   const events={},buttonEvents={},systemEvents={},attributes={},buttonAttrs={};
   const icon={textContent:'☾'};
-  const button={title:'',setAttribute:(k,v)=>{buttonAttrs[k]=v;},addEventListener:(type,fn)=>{buttonEvents[type]=fn;},querySelector:(selector)=>selector==='.theme-symbol'?icon:null};
+  const label={textContent:'Tema escuro'};
+  const button={title:'',setAttribute:(k,v)=>{buttonAttrs[k]=v;},addEventListener:(type,fn)=>{buttonEvents[type]=fn;},querySelector:(selector)=>selector==='.theme-symbol'?icon:selector==='.theme-toggle-label'?label:null};
   const root={style:{},setAttribute:(k,v)=>{attributes[k]=v;}};
   const themeMeta={setAttribute:(k,v)=>{themeMeta[k]=v;}};
   const document={
@@ -34,7 +35,7 @@ function fixture({saved=null,osDark=false,blocked=false}={}){
   const window={matchMedia:()=>media,localStorage:storage,addEventListener:(type,fn)=>{events[type]=fn;}};
   runInNewContext(themeCode,{window,document});
   events.DOMContentLoaded?.();
-  return {data,events,button,buttonAttrs,buttonEvents,icon,root,attributes,themeMeta,media,systemEvents};
+  return {data,events,button,buttonAttrs,buttonEvents,icon,label,root,attributes,themeMeta,media,systemEvents};
 }
 
 test('tema claro padrão e preferência escura do sistema',()=>{
@@ -65,6 +66,7 @@ test('botão alterna, persiste apenas preferência visual e atualiza acessibilid
  assert.equal(x.buttonAttrs['aria-pressed'],'true');
  assert.equal(x.buttonAttrs['aria-label'],'Ativar tema claro');
  assert.equal(x.icon.textContent,'☀');
+ assert.equal(x.label.textContent,'Tema claro');
  assert.deepEqual([...x.data.keys()],['dacg-tema']);
  x.buttonEvents.click();
  assert.equal(x.data.get('dacg-tema'),'light');
@@ -90,17 +92,21 @@ test('outras abas da calculadora sincronizam preferência por storage',()=>{
  assert.equal(x.attributes['data-theme'],'dark');
 });
 
-test('tema está integrado aos assets servidos e cache PWA v2.8.0',()=>{
+test('tema está integrado aos assets servidos e cache PWA v2.8.1',()=>{
  assert.match(html,/id="btnTemaCalculadora"/);
+ assert.match(html,/class="theme-toggle-label">Tema escuro/);
+ assert.match(html,/Criador: Erick de Oliveira Martins · Coordenador de Extensões \(DACG\)/);
+ assert.doesNotMatch(html,/Transparência sobre o que a calculadora faz/);
+ assert.match(css,/@media\(max-width:660px\)/);
  assert.match(html,/class="header-actions"/);
  assert.match(html,/aria-pressed="false"/);
  assert.match(html,/content="light dark"/);
- assert.match(html,/styles\.css\?v=2\.8\.0/);
- assert.match(html,/app\.js\?v=2\.8\.0/);
- assert.match(html,/footer-caption">© 2026 · v2\.8\.0/);
- assert.match(sw,/calculadora-extensao-static-v2\.8\.0/);
- assert.match(sw,/styles\.css\?v=2\.8\.0/);
- assert.match(sw,/app\.js\?v=2\.8\.0/);
+ assert.match(html,/styles\.css\?v=2\.8\.1/);
+ assert.match(html,/app\.js\?v=2\.8\.1/);
+ assert.match(html,/footer-caption">© 2026 · v2\.8\.1/);
+ assert.match(sw,/calculadora-extensao-static-v2\.8\.1/);
+ assert.match(sw,/styles\.css\?v=2\.8\.1/);
+ assert.match(sw,/app\.js\?v=2\.8\.1/);
  for(const selector of [
   ':root[data-theme="dark"]','.tool-tab.active','.result-side',
   '.institutional-footer','.pfe-zone-status-danger','.pfe-zone-status-warning',
