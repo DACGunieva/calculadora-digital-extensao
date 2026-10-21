@@ -92,7 +92,7 @@ test('outras abas da calculadora sincronizam preferência por storage',()=>{
  assert.equal(x.attributes['data-theme'],'dark');
 });
 
-test('tema está integrado aos assets servidos e cache PWA v2.8.1',()=>{
+test('tema está integrado aos assets servidos e cache PWA v2.8.2',()=>{
  assert.match(html,/id="btnTemaCalculadora"/);
  assert.match(html,/class="theme-toggle-label">Tema escuro/);
  assert.match(html,/Criador: Erick de Oliveira Martins · Coordenador de Extensões \(DACG\)/);
@@ -101,12 +101,12 @@ test('tema está integrado aos assets servidos e cache PWA v2.8.1',()=>{
  assert.match(html,/class="header-actions"/);
  assert.match(html,/aria-pressed="false"/);
  assert.match(html,/content="light dark"/);
- assert.match(html,/styles\.css\?v=2\.8\.1/);
- assert.match(html,/app\.js\?v=2\.8\.1/);
- assert.match(html,/footer-caption">© 2026 · v2\.8\.1/);
- assert.match(sw,/calculadora-extensao-static-v2\.8\.1/);
- assert.match(sw,/styles\.css\?v=2\.8\.1/);
- assert.match(sw,/app\.js\?v=2\.8\.1/);
+ assert.match(html,/styles\.css\?v=2\.8\.2/);
+ assert.match(html,/app\.js\?v=2\.8\.2/);
+ assert.match(html,/footer-caption">© 2026 · v2\.8\.2/);
+ assert.match(sw,/calculadora-extensao-static-v2\.8\.2/);
+ assert.match(sw,/styles\.css\?v=2\.8\.2/);
+ assert.match(sw,/app\.js\?v=2\.8\.2/);
  for(const selector of [
   ':root[data-theme="dark"]','.tool-tab.active','.result-side',
   '.institutional-footer','.pfe-zone-status-danger','.pfe-zone-status-warning',
@@ -115,4 +115,11 @@ test('tema está integrado aos assets servidos e cache PWA v2.8.1',()=>{
  ]) assert.ok(css.includes(selector),selector);
  assert.ok(!html.includes('theme.css')&&!html.includes('theme.js'),'Render só distribui assets preexistentes');
  assert.match(css,/@media print/);
+});
+
+test('crédito do criador é sempre uma linha e nunca é omitido ou cortado',()=>{
+ assert.match(html,/Criador: Erick de Oliveira Martins · Coordenador de Extensões \(DACG\)/);
+ assert.match(css,/\.brand-creator\{[^}]*max-width:none;[^}]*white-space:nowrap;[^}]*overflow:visible;/);
+ assert.match(css,/@media\(max-width:660px\)[\s\S]*?\.brand-creator\{[^}]*white-space:nowrap;/);
+ assert.doesNotMatch(css,/\.brand-creator\{[^}]*text-overflow:ellipsis;/);
 });
