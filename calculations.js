@@ -67,7 +67,7 @@ export function childBmiAssessment(bmi, years, extraMonths, sex, whoLms) {
 
 /** Cintura em adultos não gestantes — Ministério da Saúde (quadro 12); RCE NICE NG246 §1.9.14. */
 export function waistAssessment(waistCm,heightCm,age,sex,isPregnant=false){
- if(!inRange(waistCm,30,250)||!inRange(heightCm,100,230)||!Number.isInteger(age)||!inRange(age,18,120)||!['female','male'].includes(sex)||typeof isPregnant!=='boolean)
+ if(!inRange(waistCm,30,250)||!inRange(heightCm,100,230)||!Number.isInteger(age)||!inRange(age,18,120)||!['female','male'].includes(sex)||typeof isPregnant!=='boolean')
    throw new RangeError('Informe cintura (30–250 cm), estatura (100–230 cm), idade adulta e referência de pontos de corte válidas.');
  if(isPregnant)throw new RangeError('Os pontos de corte para adultos não gestantes não se aplicam durante a gravidez. Consulte a equipe do pré-natal.');
  const [increasedCutoff,highCutoff]=sex==='female'?[80,88]:[94,102];
