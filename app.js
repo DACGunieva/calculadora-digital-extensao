@@ -130,7 +130,7 @@ $('imc-form').addEventListener('reset',()=>queueMicrotask(()=>{
 
 // Cintura: avaliação local, sem compartilhamento ou armazenamento.
 const WAIST_LEVEL={below:['Abaixo do ponto de corte de risco aumentado','normal'],increased:['Risco aumentado · cintura','over'],high:['Risco substancialmente aumentado · cintura','obese']};
-const RATIO_LEVEL={belowRange:'Abaixo de 0,40 · fora do intervalo inferior descrito pela NICE',below:'0,40 a <0,50 · sem adiposidade central aumentada pela RCE',increased:'0,50 a <0,60 · adiposidade central aumentada',high:'≥0,60 · adiposidade central elevada'};
+const RATIO_LEVEL={belowRange:'Abaixo de 0,40 · fora do intervalo inferior descrito pela NICE',below:'0,40 a menos de 0,50 · sem adiposidade central aumentada pela RCE',increased:'0,50 a menos de 0,60 · adiposidade central aumentada',high:'≥0,60 · adiposidade central elevada'};
 $('waist-form').addEventListener('submit',e=>{
  e.preventDefault();showError('waist-error','');
  try{
@@ -143,7 +143,7 @@ $('waist-form').addEventListener('submit',e=>{
     +detail('Risco substancialmente aumentado a partir de',fmt0(a.highCutoff)+' cm')
     +detail('Relação cintura/estatura (RCE)',fmt(a.ratio,2))
     +detail('Interpretação da RCE',RATIO_LEVEL[a.ratioLevel]);
-  const note='Triagem em adultos não gestantes: Ministério da Saúde (cintura) e NICE NG246 (RCE). Pontos de corte por sexo variam com a população; classificação de RCE particularmente recomendada quando IMC <35 kg/m². Medidas isoladas não são diagnósticas nem excluem outros riscos cardiometabólicos.';
+  const note='Triagem em adultos não gestantes: Ministério da Saúde (cintura) e NICE NG246 (RCE). Pontos de corte por sexo variam com a população; classificação de RCE particularmente recomendada quando IMC inferior a 35 kg/m². Medidas isoladas não são diagnósticas nem excluem outros riscos cardiometabólicos.';
   $('waist-result').innerHTML=result('CIRCUNFERÊNCIA DA CINTURA',fmt(a.waistCm),'cm',classification,level,rows,note)+resultTools('waist');
   summaryFromResult('waist','Circunferência da cintura · avaliação de adulto','Cintura: '+fmt(a.waistCm)+' cm · '+classification,rows,note);
  }catch(err){showError('waist-error',err instanceof RangeError?err.message:'Não foi possível avaliar a cintura. Confira os dados.');}
