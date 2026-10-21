@@ -474,3 +474,20 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
 }
 @media(max-width:380px){.header-actions{gap:6px}.header-help{font-size:11px}.theme-toggle{padding:8px 10px;min-width:121px}}
 @media print{.brand-creator,.theme-toggle{display:none!important}}
+
+/* v2.8.2 — crédito do criador íntegro numa única linha, sem elipse ou corte. */
+.brand-creator{
+  max-width:none;
+  white-space:nowrap;
+  overflow:visible;
+  text-overflow:clip;
+  font-size:10px;
+  letter-spacing:-.01em;
+}
+@media(max-width:660px){
+  .brand-creator{max-width:none;white-space:nowrap;font-size:clamp(6.2px,1.65vw,9.5px);letter-spacing:-.02em}
+  .brand-copy{min-width:0}
+}
+@media(max-width:380px){
+  .brand-creator{font-size:clamp(5.9px,1.74vw,6.6px);letter-spacing:-.025em}
+}
