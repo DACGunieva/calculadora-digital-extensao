@@ -74,7 +74,7 @@ test('títulos laterais do rodapé seguem tipografia e centralização do títul
   assert.match(styles,/\.institutional-footer \.footer-partners\{[^}]*justify-content:center/);
   assert.match(styles,/\.institutional-footer \.footer-contact-grid\{[^}]*max-width:320px;margin-inline:auto/);
   assert.match(styles,/@media\(max-width:760px\)\{[\s\S]*?\.institutional-footer \.footer-contact-grid\{[^}]*max-width:none/);
-  assert.match(html,/<span class="footer-caption">© 2026 · v2\.6\.3<\/span>/);
+  assert.match(html,/<span class="footer-caption">© 2026 · v2\.6\.4<\/span>/);
 });
 
 
