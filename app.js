@@ -295,6 +295,8 @@ window.addEventListener('pageshow',()=>{ $('imc-form').reset();$('pfe-form').res
     button.setAttribute('aria-pressed', String(isDark));
     const icon = button.querySelector('.theme-symbol');
     if (icon) icon.textContent = isDark ? '☀' : '☾';
+    const label = button.querySelector('.theme-toggle-label');
+    if (label) label.textContent = isDark ? 'Tema claro' : 'Tema escuro';
   };
   const apply = () => {
     const value = effectiveTheme();
