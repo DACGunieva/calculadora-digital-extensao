@@ -1,0 +1,169 @@
+/* Tema da Calculadora Digital DACG — estética verde/dourada do portal.
+ * CSS adicional: mantém o tema original intacto e não altera algoritmos. */
+.theme-toggle{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:40px;height:40px;min-width:40px;min-height:40px;padding:0;
+  border:1px solid #bdd0bf;border-radius:999px;
+  background:transparent;color:var(--ink);cursor:pointer;
+  transition:background-color .18s,border-color .18s,color .18s;
+}
+.theme-toggle:hover{background:#eaf1e7;border-color:#568b69}
+.theme-toggle .theme-symbol{font-size:22px;line-height:1;display:block}
+.header-actions{display:flex;gap:12px;align-items:center;justify-content:flex-end}
+.theme-toggle:focus-visible{outline:3px solid #cc9c2e;outline-offset:3px}
+
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --forest:#163f30;
+  --forest-2:#abd6b5;
+  --ink:#eef0ea;
+  --muted:#afbeb2;
+  --paper:#0f1512;
+  --white:#16201b;
+  --line:#304039;
+  --mint:#1e3529;
+  --gold:#d9b94a;
+  --red:#e48a8d;
+  --shadow:0 18px 52px rgba(0,0,0,.22);
+}
+:root[data-theme="dark"] .site-header{border-bottom-color:var(--line)}
+:root[data-theme="dark"] .brand-logo{background:#285842;color:#f1f9ef}
+:root[data-theme="dark"] .brand-top{color:#b8cdbd}
+:root[data-theme="dark"] .header-help{color:#d9b94a}
+:root[data-theme="dark"] .header-help:hover{color:#f0e0a8}
+:root[data-theme="dark"] .header-help-icon{border-color:#536958}
+:root[data-theme="dark"] .theme-toggle{color:#f0e0a8;border-color:#4d6757;background:#223329}
+:root[data-theme="dark"] .theme-toggle:hover{background:#2a4534;border-color:#d9b94a}
+:root[data-theme="dark"] .skip-link{background:var(--white);color:var(--ink);border:1px solid #d9b94a}
+:root[data-theme="dark"] .hero h1 em{color:#d9b94a}
+:root[data-theme="dark"] .eyebrow{color:#c1e4c9}
+:root[data-theme="dark"] .hero-highlights{color:#b4d8bd}
+:root[data-theme="dark"] .graphic-mini{border-color:#405747;background:#23372a;color:#e6eeda;box-shadow:0 8px 24px #0005}
+:root[data-theme="dark"] .graphic-rings{border-color:#547e5b6b}
+:root[data-theme="dark"] .section-kicker,
+:root[data-theme="dark"] .small-feature{color:#b4cdb8}
+:root[data-theme="dark"] .tool-tabs{background:#19271f}
+:root[data-theme="dark"] .tool-tab{color:#adbcaf}
+:root[data-theme="dark"] .tool-tab:hover{background:#24372b}
+:root[data-theme="dark"] .tool-tab.active{background:#26402e;color:#f1f1e7;border-bottom-color:#d9b94a}
+:root[data-theme="dark"] .tool-tab.active .tab-number{color:#d9b94a}
+:root[data-theme="dark"] .tab-copy small{color:#b2c5b7}
+:root[data-theme="dark"] .panel-icon{background:#264331;border-color:#45604b;color:#f0e0a8}
+:root[data-theme="dark"] .field label span,
+:root[data-theme="dark"] .field small,
+:root[data-theme="dark"] .input-unit{color:#b2beb4}
+:root[data-theme="dark"] .input-wrap input,
+:root[data-theme="dark"] .input-wrap select,
+:root[data-theme="dark"] .pfe-zone-form-row input{
+  color:#eef0ea;background:#223127;border-color:#5b715f;
+}
+:root[data-theme="dark"] .input-wrap input::placeholder,
+:root[data-theme="dark"] .pfe-zone-form-row input::placeholder{color:#aab7ab}
+:root[data-theme="dark"] .input-wrap input:focus,
+:root[data-theme="dark"] .input-wrap select:focus{border-color:#d9b94a;box-shadow:0 0 0 3px #d9b94a33}
+:root[data-theme="dark"] .soft-note,
+:root[data-theme="dark"] .measurement-help,
+:root[data-theme="dark"] .field-group-detail,
+:root[data-theme="dark"] .pfe-device{
+  background:#202f25;border-color:#405747;
+}
+:root[data-theme="dark"] .soft-note p,
+:root[data-theme="dark"] .measurement-help p,
+:root[data-theme="dark"] .pfe-device span,
+:root[data-theme="dark"] .field-explainer{color:#b8c9ba}
+:root[data-theme="dark"] .soft-note strong,
+:root[data-theme="dark"] .measurement-help summary,
+:root[data-theme="dark"] .group-label,
+:root[data-theme="dark"] .pfe-device strong{color:#f0e0a8}
+:root[data-theme="dark"] .pfe-device a{color:#d9b94a}
+:root[data-theme="dark"] .note-symbol{background:#d9b94a;color:#17241b}
+:root[data-theme="dark"] .primary-button{background:#2b6947;color:#f7fff6}
+:root[data-theme="dark"] .primary-button:hover{background:#377c55}
+:root[data-theme="dark"] .text-button{color:#dfc77d}
+:root[data-theme="dark"] .text-button:hover{color:#fff0b8}
+:root[data-theme="dark"] .result-side{background:#1b2920}
+:root[data-theme="dark"] .result-overline{color:#a9c5b1}
+:root[data-theme="dark"] .placeholder-glyph{border-color:#617765;color:#9bbda0}
+:root[data-theme="dark"] .empty-result p{color:#b5c4b6}
+:root[data-theme="dark"] .result-figure strong,
+:root[data-theme="dark"] .result-detail strong{color:#e4f1de}
+:root[data-theme="dark"] .result-figure span,
+:root[data-theme="dark"] .result-detail span,
+:root[data-theme="dark"] .result-detail .muted-value,
+:root[data-theme="dark"] .result-caveat,
+:root[data-theme="dark"] .zone-explainer{color:#b4c5b9}
+:root[data-theme="dark"] .result-divider,
+:root[data-theme="dark"] .result-detail{border-color:#405243}
+:root[data-theme="dark"] .result-pill{background:#264d35;color:#d3f0d9}
+:root[data-theme="dark"] .pill-under,
+:root[data-theme="dark"] .pill-warning,
+:root[data-theme="dark"] .pill-over{background:#514024;color:#ffe5ac}
+:root[data-theme="dark"] .pill-obese,
+:root[data-theme="dark"] .pill-danger{background:#4c282c;color:#ffc3c4}
+:root[data-theme="dark"] .form-error,
+:root[data-theme="dark"] .pfe-zone-comparison .pfe-zone-error{color:#ffd5d5;background:#452529;border-color:#96595a}
+:root[data-theme="dark"] .privacy-strip{background:#1b2a20;border-color:#38513b;color:#bdd6c0}
+:root[data-theme="dark"] .privacy-strip strong{color:#e5f4e0}
+:root[data-theme="dark"] .privacy-badge{border-color:#67876b}
+:root[data-theme="dark"] .method-head p,
+:root[data-theme="dark"] .method-card p,
+:root[data-theme="dark"] .clinical-disclaimer,
+:root[data-theme="dark"] .method-waist-card p{color:#b9c6b9}
+:root[data-theme="dark"] .method-num{color:#dfc471}
+:root[data-theme="dark"] .method-card,
+:root[data-theme="dark"] .method-waist-card{background:#16201b;border-color:#304039}
+:root[data-theme="dark"] .method-card a,
+:root[data-theme="dark"] .method-waist-card a{color:#e4ca7f}
+:root[data-theme="dark"] .clinical-disclaimer strong{color:#eef0ea}
+:root[data-theme="dark"] .clinical-disclaimer{border-left-color:#d9b94a}
+:root[data-theme="dark"] .institutional-footer{background:#121b16;color:#e6eee3;border-top-color:#304039}
+:root[data-theme="dark"] .institutional-footer .footer-heading,
+:root[data-theme="dark"] .institutional-footer .footer-contact-group strong,
+:root[data-theme="dark"] .institutional-footer .footer-section-center strong{color:#f1e2ab}
+:root[data-theme="dark"] .institutional-footer .footer-contact-link,
+:root[data-theme="dark"] .institutional-footer .footer-section-center>span{color:#b7c8b9}
+:root[data-theme="dark"] .institutional-footer .contact-svg,
+:root[data-theme="dark"] .institutional-footer .footer-portal-link{color:#e2c66f}
+:root[data-theme="dark"] .institutional-footer a:hover,
+:root[data-theme="dark"] .institutional-footer .footer-contact-link:hover{color:#fff1b7}
+:root[data-theme="dark"] .institutional-footer .footer-partners img{
+  background:#fffefa;border-radius:8px;padding:4px;box-sizing:border-box;
+}
+:root[data-theme="dark"] .pfe-zones,
+:root[data-theme="dark"] .pfe-zone-comparison,
+:root[data-theme="dark"] .result-actions{border-color:#405243}
+:root[data-theme="dark"] .pfe-zones h4,
+:root[data-theme="dark"] .pfe-zone-comparison summary,
+:root[data-theme="dark"] .pfe-zone-comparison form label{color:#e3eddf}
+:root[data-theme="dark"] .pfe-zone-status{background:#26362a;border-color:#46604b;color:#e1ece0}
+:root[data-theme="dark"] .pfe-zone-status-normal{background:#1d4230;border-color:#477a58;color:#d0f2d8}
+:root[data-theme="dark"] .pfe-zone-status-warning{background:#4e3a20;border-color:#97713b;color:#ffe0a0}
+:root[data-theme="dark"] .pfe-zone-status-danger{background:#48292a;border-color:#966069;color:#ffc7ca}
+:root[data-theme="dark"] .pfe-zone-marker{background:#f8fff5;box-shadow:0 0 0 2px #152a1d}
+:root[data-theme="dark"] .pfe-zone-legend,
+:root[data-theme="dark"] .pfe-zone-labels,
+:root[data-theme="dark"] .pfe-zone-comparison p,
+:root[data-theme="dark"] .pfe-zone-comparison small,
+:root[data-theme="dark"] .pfe-zone-caution,
+:root[data-theme="dark"] .pfe-zone-caution strong{color:#b9cbb8}
+:root[data-theme="dark"] .pfe-zone-form-row button{background:#2a6948;color:#fff}
+:root[data-theme="dark"] .result-actions button{background:#23392a;color:#eff5e9;border-color:#547157}
+:root[data-theme="dark"] .result-actions button[data-copy-result]{background:#326c4d;color:#fff}
+:root[data-theme="dark"] .result-action-feedback{color:#c5e5cb}
+:root[data-theme="dark"] .waist-pregnant-label input{accent-color:#d9b94a}
+@media(max-width:640px){
+  .header-actions{gap:8px}
+  .theme-toggle{width:38px;height:38px;min-width:38px;min-height:38px}
+}
+@media print {
+  .theme-toggle{display:none!important}
+  :root[data-theme="dark"] {
+    color-scheme:light;
+    --paper:#ffffff;--white:#ffffff;--ink:#14251a;--muted:#526459;--line:#ddd;
+  }
+  :root[data-theme="dark"] .result-side{background:#fff}
+  :root[data-theme="dark"] .result-figure strong,
+  :root[data-theme="dark"] .result-detail strong{color:#14251a}
+  :root[data-theme="dark"] .result-detail span,
+  :root[data-theme="dark"] .result-caveat{color:#444}
+}
