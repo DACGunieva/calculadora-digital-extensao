@@ -1,6 +1,11 @@
 # Calculadora Digital — Extensão em Saúde
 
-Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.8.2**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+### Segurança do cache PWA — v2.8.3 (25/10/2026)
+
+O Service Worker mantém o comportamento *network-first* e o fallback de navegação offline, mas grava no cache **exclusivamente** a lista exata de recursos públicos oficiais. Requisições com parâmetros de URL, rotas não previstas ou dados de formulários não são armazenadas. Os testes simulam interceptação e indisponibilidade da rede, sem enviar dados médicos para nenhum serviço. A conferência clínica E5 e a inspeção manual com leitor de tela permanecem pendentes.
+
+
+Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.8.3**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
 
 ## Refinamento do crédito v2.8.2
 
