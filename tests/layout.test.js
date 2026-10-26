@@ -15,9 +15,9 @@ test('replica os três contatos oficiais no rodapé',()=>{
     assert.ok(html.includes(t),t);
 });
 
-test('inclui logos institucionais idênticos ao portal de certificados',()=>{
-  for(const p of ['dacg-49899de.png','unievangelica-7fc02040.png','farmacia-9941e843.png'])
-    assert.ok(html.includes('https://certificados-dacg.onrender.com/assets/'+p),p);
+test('logotipos preservados estão incorporados para uso offline',()=>{
+  assert.equal(html.split('src="data:image/png;base64,').length-1,3);
+  assert.equal(html.includes('src="https://certificados-dacg.onrender.com/assets/'),false);
   assert.ok(styles.includes('.institutional-footer .footer-inner'));
 });
 
@@ -27,7 +27,7 @@ test('PFE usa Medicate ATS sem campos extras',()=>{
  assert.ok(!html.includes('id="table-reference"'));
  assert.ok(!html.includes('id="personal-best"'));
  for(const id of ['effort1','effort2','effort3'])assert.ok(html.includes('id="'+id+'"'));
- assert.ok(html.includes('src="./app.js?v=2.8.5"'));
+ assert.ok(html.includes('src="./app.js?v=2.8.6"'));
 });
 
 test('etapas 2 e 3: idoso, ganho gestacional e interface de atendimento',()=>{
@@ -47,7 +47,7 @@ test('rodapé institucional sempre aberto em três áreas, como o portal DACG',(
   const right=html.indexOf('class="footer-section footer-section-partners"');
   assert.ok(left>0 && left<center && center<right);
   assert.match(html,/class="footer-heading" id="footer-contacts-heading">Contatos institucionais/);
-  assert.match(html,/class="footer-caption">© 2026 · v2.8.5/);
+  assert.match(html,/class="footer-caption">© 2026 · v2.8.6/);
   assert.match(html,/class="footer-heading" id="footer-partners-heading">Realização/);
   assert.match(styles,/\.institutional-footer \.footer-three-columns\{display:grid;grid-template-columns:/);
   assert.match(styles,/@media\(max-width:760px\)/);
@@ -75,7 +75,7 @@ test('rodapé alinha contatos à esquerda, destaca centro e amplia marcas com di
   assert.match(styles,/\.institutional-footer \.footer-partners img\{[^}]*height:75px/);
   assert.match(styles,/\.institutional-footer \.footer-contact-grid\{[^}]*margin:0/);
   assert.match(styles,/@media\(max-width:760px\)\{[\s\S]*?\.institutional-footer \.footer-section-contacts \.footer-heading\{[^}]*text-align:left/);
-  assert.match(html,/<span class="footer-caption">© 2026 · v2\.8\.5<\/span>/);
+  assert.match(html,/<span class="footer-caption">© 2026 · v2\.8\.6<\/span>/);
 });
 
 
@@ -92,7 +92,7 @@ test('circunferência: terceira aba, formulário acessível e metodologia com fo
  assert.match(html,/id="panel-waist" role="tabpanel" aria-labelledby="tab-waist" hidden/);
  assert.match(html,/NICE/);
  assert.match(styles,/\.tool-tabs\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)\}/);
- assert.match(html,/src="\.\/app\.js\?v=2\.8\.5"/);
+ assert.match(html,/src="\.\/app\.js\?v=2\.8\.6"/);
 });
 
 
