@@ -27,7 +27,7 @@ test('PFE usa Medicate ATS sem campos extras',()=>{
  assert.ok(!html.includes('id="table-reference"'));
  assert.ok(!html.includes('id="personal-best"'));
  for(const id of ['effort1','effort2','effort3'])assert.ok(html.includes('id="'+id+'"'));
- assert.ok(html.includes('src="./app.js?v=2.8.4"'));
+ assert.ok(html.includes('src="./app.js?v=2.8.5"'));
 });
 
 test('etapas 2 e 3: idoso, ganho gestacional e interface de atendimento',()=>{
@@ -47,7 +47,7 @@ test('rodapé institucional sempre aberto em três áreas, como o portal DACG',(
   const right=html.indexOf('class="footer-section footer-section-partners"');
   assert.ok(left>0 && left<center && center<right);
   assert.match(html,/class="footer-heading" id="footer-contacts-heading">Contatos institucionais/);
-  assert.match(html,/class="footer-caption">© 2026 · v2.8.4/);
+  assert.match(html,/class="footer-caption">© 2026 · v2.8.5/);
   assert.match(html,/class="footer-heading" id="footer-partners-heading">Realização/);
   assert.match(styles,/\.institutional-footer \.footer-three-columns\{display:grid;grid-template-columns:/);
   assert.match(styles,/@media\(max-width:760px\)/);
@@ -66,15 +66,16 @@ test('rodapé exibe os ícones e dois WhatsApps institucionais',()=>{
   assert.ok(styles.includes('.institutional-footer a:focus-visible'));
 });
 
-test('títulos laterais do rodapé seguem tipografia e centralização do título principal',()=>{
+test('rodapé alinha contatos à esquerda, destaca centro e amplia marcas com divisórias',()=>{
   assert.match(html,/<h2 class="footer-heading" id="footer-contacts-heading">Contatos institucionais<\/h2>/);
   assert.match(html,/<h2 class="footer-heading" id="footer-partners-heading">Realização<\/h2>/);
-  assert.match(styles,/\.institutional-footer \.footer-heading\{[^}]*font-size:13px;[^}]*font-weight:800;[^}]*text-align:center/);
-  assert.match(styles,/\.institutional-footer \.footer-section-center strong\{[^}]*font-size:13px;[^}]*font-weight:800/);
-  assert.match(styles,/\.institutional-footer \.footer-partners\{[^}]*justify-content:center/);
-  assert.match(styles,/\.institutional-footer \.footer-contact-grid\{[^}]*max-width:320px;margin-inline:auto/);
-  assert.match(styles,/@media\(max-width:760px\)\{[\s\S]*?\.institutional-footer \.footer-contact-grid\{[^}]*max-width:none/);
-  assert.match(html,/<span class="footer-caption">© 2026 · v2\.8\.4<\/span>/);
+  assert.match(styles,/\.institutional-footer \.footer-heading\{[^}]*font-size:16px;[^}]*text-align:left/);
+  assert.match(styles,/\.institutional-footer \.footer-section-center strong\{[^}]*font-size:19px;[^}]*font-weight:800/);
+  assert.match(styles,/\.institutional-footer \.footer-section:not\(:first-child\)::before\{[^}]*background:linear-gradient/);
+  assert.match(styles,/\.institutional-footer \.footer-partners img\{[^}]*height:75px/);
+  assert.match(styles,/\.institutional-footer \.footer-contact-grid\{[^}]*margin:0/);
+  assert.match(styles,/@media\(max-width:760px\)\{[\s\S]*?\.institutional-footer \.footer-section-contacts \.footer-heading\{[^}]*text-align:left/);
+  assert.match(html,/<span class="footer-caption">© 2026 · v2\.8\.5<\/span>/);
 });
 
 
@@ -91,7 +92,7 @@ test('circunferência: terceira aba, formulário acessível e metodologia com fo
  assert.match(html,/id="panel-waist" role="tabpanel" aria-labelledby="tab-waist" hidden/);
  assert.match(html,/NICE/);
  assert.match(styles,/\.tool-tabs\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)\}/);
- assert.match(html,/src="\.\/app\.js\?v=2\.8\.4"/);
+ assert.match(html,/src="\.\/app\.js\?v=2\.8\.5"/);
 });
 
 
