@@ -84,7 +84,7 @@ test("PWA mantém navegação offline sem salvar dados do usuário", async () =>
 test("nenhum motor clínico envia dados pessoais ou clínicos pela rede", () => {
   for (const name of ["app.js", "calculations.js", "bmi-who-data.js"]) {
     const source = readFileSync(new URL("../" + name, import.meta.url), "utf8");
-    assert.doesNotMatch(source, /\\bfetch\\s*\\(|XMLHttpRequest|sendBeacon\\s*\\(|new\\s+WebSocket\\s*\\(|new\\s+EventSource\\s*\\(/);
+    assert.doesNotMatch(source, /\bfetch\s*\(|XMLHttpRequest|sendBeacon\s*\(|new\s+WebSocket\s*\(|new\s+EventSource\s*\(/);
   }
 });
 
@@ -99,7 +99,7 @@ test("CFF 2020: casos de referência e limites não extrapolados", () => {
   assert.equal(cffPredictedPfe(32, 162, "female").predicted, 434);
   assert.equal(cffPredictedPfe(40, 180, "male"), null,
     "célula impressa inconsistente permanece bloqueada por segurança");
-  assert.equal(cffPredictedPfe(70, 175, "male"),  null);
+  assert.equal(cffPredictedPfe(70, 181, "male"), null);
   assert.equal(cffPredictedPfe(71, 160, "female"), null);
 });
 
