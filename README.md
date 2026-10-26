@@ -4,7 +4,7 @@
 
 O fluxo `Verificar publicacao Render - calculadora` roda diariamente ou sob demanda no GitHub Actions. Lê apenas a homepage pública e `/sw.js` e compara três versões com `package.json`; divergência causa falha visível na execução. Não força deploy, não envia notificações externas nem acessa informações pessoais. O projeto usa minutos da franquia existente do GitHub Actions (tempo máximo de 3 minutos por execução); os limites e eventuais custos da conta devem continuar monitorados. A verificação por versão não garante que o commit exato foi publicado se alguém esquecer de atualizar o número da versão. Não substitui homologação manual em celular nem revisão clínica.
 
-## Correção visual v2.8.6
+## Correção visual v2.8.7
 
 No aviso **Seus dados ficam neste dispositivo**, o antigo caractere tipográfico era renderizado de maneira irregular e fora do eixo. Foi substituído por um raio SVG de geometria fixa, alinhado com CSS Grid e centrado no selo de 32 px. Mantém temas claro/escuro, proporções e texto; não modifica dados clínicos nem as fórmulas. A versão invalida o cache estático offline.
 
@@ -14,7 +14,7 @@ No aviso **Seus dados ficam neste dispositivo**, o antigo caractere tipográfico
 O Service Worker mantém o comportamento *network-first* e o fallback de navegação offline, mas grava no cache **exclusivamente** a lista exata de recursos públicos oficiais. Requisições com parâmetros de URL, rotas não previstas ou dados de formulários não são armazenadas. Os testes simulam interceptação e indisponibilidade da rede, sem enviar dados médicos para nenhum serviço. A conferência clínica E5 e a inspeção manual com leitor de tela permanecem pendentes.
 
 
-Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.8.6**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
+Site público e independente para ações educativas de saúde. **Não é o sistema DACG de certificados.** Versão **2.8.7**, totalmente estática, sem cadastro, backend, cookies, analytics ou persistência dos dados digitados. Funciona após primeiro acesso sem conexão, usando cache apenas dos arquivos públicos da aplicação.
 
 ## Refinamento do crédito v2.8.2
 
@@ -120,3 +120,8 @@ O workflow do GitHub Actions executa somente testes, sem solicitar ativação do
 
 ### Logotipos sem conexão
 Os três PNGs originais usados no rodapé estão incorporados como `data:image/png;base64` no HTML: são bytes preservados dos arquivos oficiais versionados no repositório de certificados. A identidade dos PNGs é conferida por Git blob SHA-1 em `tests/logo-offline.test.js`. O Service Worker inclui o HTML no cache estático; não solicita logos a outro domínio em modo offline.
+
+
+### Repetibilidade do PFE (CFF 2020)
+O PFE exibido é o maior valor **registrado**, não uma certificação automática da qualidade da manobra. O guia do Conselho Federal de Farmácia (2020, Técnica 1, p. 8) recomenda três leituras com variação menor que 20 L/min entre si. A interface adverte, sem bloqueio ou diagnóstico, quando as três leituras diferem 20 L/min ou mais; isso não comprova equivalência metrológica com o Medicate ATS.
+Fonte: https://www.cff.org.br/userfiles/pico_de_fluxo.pdf
