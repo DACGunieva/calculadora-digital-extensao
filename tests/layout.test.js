@@ -16,7 +16,7 @@ test('replica os três contatos oficiais no rodapé',()=>{
 });
 
 test('logotipos preservados estão incorporados para uso offline',()=>{
-  assert.equal((html.match(/src="data:image\\/png;base64,/g)||[]).length,3);
+  assert.equal(html.split('src="data:image/png;base64,').length-1,3);
   assert.equal(html.includes('src="https://certificados-dacg.onrender.com/assets/'),false);
   assert.ok(styles.includes('.institutional-footer .footer-inner'));
 });
