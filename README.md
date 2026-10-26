@@ -1,5 +1,9 @@
 # Calculadora Digital — Extensão em Saúde
 
+## Monitoramento de deploy — sem credenciais
+
+O fluxo `Verificar publicacao Render - calculadora` roda diariamente ou sob demanda no GitHub Actions. Lê apenas a homepage pública e `/sw.js` e compara três versões com `package.json`; divergência causa falha visível na execução. Não força deploy, não envia notificações externas nem acessa informações pessoais. O projeto usa minutos da franquia existente do GitHub Actions (tempo máximo de 3 minutos por execução); os limites e eventuais custos da conta devem continuar monitorados. A verificação por versão não garante que o commit exato foi publicado se alguém esquecer de atualizar o número da versão. Não substitui homologação manual em celular nem revisão clínica.
+
 ## Correção visual v2.8.4
 
 No aviso **Seus dados ficam neste dispositivo**, o antigo caractere tipográfico era renderizado de maneira irregular e fora do eixo. Foi substituído por um raio SVG de geometria fixa, alinhado com CSS Grid e centrado no selo de 32 px. Mantém temas claro/escuro, proporções e texto; não modifica dados clínicos nem as fórmulas. A versão invalida o cache estático offline.
