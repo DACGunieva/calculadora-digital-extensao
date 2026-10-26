@@ -34,7 +34,9 @@ test('clicar em calcular usa somente as três manobras',async()=>{
   element('effort3').value='490';
   await import('../app.js');
   element('pfe-form').dispatch('submit');
-  assert.match(element('pfe-result').innerHTML,/MAIOR PFE VÁLIDO/);
+  assert.match(element('pfe-result').innerHTML,/MAIOR PFE REGISTRADO/);
+  assert.match(element('pfe-result').innerHTML,/Rever repetibilidade das leituras/);
+  assert.match(element('pfe-result').innerHTML,/provisório/);
   assert.match(element('pfe-result').innerHTML,/530/);
   assert.equal(element('pfe-error').hidden,true);
   element('effort2').value='59';
@@ -72,4 +74,13 @@ test('módulo CFF suporta tabela da infância e adultos e zona didática',async(
   assert.match(app,/cffPredictedPfe\(/);
   assert.match(app,/pefZonesMarkup\(best,reference\)/);
   assert.match(html,/Conselho Federal de Farmácia/);
+});
+
+
+test('orientação de PFE informa repetibilidade CFF sem autodiagnóstico',()=>{
+ assert.match(html,/variação menor que 20 L\/min/);
+ assert.match(html,/Três medições registradas/);
+ assert.match(app,/const repeativel=deltaPfe<20/);
+ assert.match(app,/repeativel\?'normal':'warning'/);
+ assert.match(app,/Atenção: leituras discrepantes/);
 });

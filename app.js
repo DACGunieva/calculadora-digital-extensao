@@ -227,12 +227,17 @@ $('pfe-form').addEventListener('submit',e=>{
   const readings=[num('effort1'),num('effort2'),num('effort3')];
   try {
     const best=bestPef(readings);
+    // CFF (2020), Técnica 1: as três leituras devem variar menos de 20 L/min.
+    // Aviso de qualidade, nunca bloqueio clínico automático nem diagnóstico.
+    const deltaPfe=Math.max(...readings)-Math.min(...readings);
+    const repeativel=deltaPfe<20;
     latestPfeBest=best;
     const age=num('age'),heightCm=num('height-pfe'),sex=$('ref-sex').value;
     const reference=cffPredictedPfe(age,heightCm,sex);
     let rows=detail('1ª tentativa',fmt0(readings[0])+' L/min')
       +detail('2ª tentativa',fmt0(readings[1])+' L/min')
       +detail('3ª tentativa',fmt0(readings[2])+' L/min')
+      +detail('Variação entre as três leituras',fmt0(deltaPfe)+' L/min · '+(repeativel?'abaixo de 20 L/min':'20 L/min ou mais; revisar técnica'))
       +detail('Aparelho','Medicate · ATS · 60–900 L/min');
     if(reference){
       rows+=detail('Valor previsto · tabela CFF',fmt0(reference.predicted)+' L/min')
@@ -241,8 +246,11 @@ $('pfe-form').addEventListener('submit',e=>{
     }else{
       rows+=detail('Referência da tabela','Indisponível ou fora da faixa coberta. O maior PFE continua válido.');
     }
-    const note='Comparação educativa segundo CFF (2020). A equivalência dessas tabelas com a calibração do aparelho Medicate ATS não foi estabelecida. Percentual previsto não representa zonas clínicas da asma. Considere sintomas e acompanhamento profissional.';
-    $('pfe-result').innerHTML=result('MAIOR PFE VÁLIDO',fmt0(best),'L/min','Maior das três tentativas','normal',rows,note)+pefZonesMarkup(best,reference)+resultTools('pfe');
+    const cuidado=repeativel
+      ?'As leituras estão numericamente próximas segundo o critério de repetibilidade do CFF, mas isso não valida remotamente a execução da técnica.'
+      :'Atenção: leituras discrepantes. Conforme orientação do CFF, repita as manobras com boa vedação e sem tosse até obter três leituras próximas. O valor exibido é provisório.';
+    const note=cuidado+' Comparação educativa segundo CFF (2020). A equivalência dessas tabelas com a calibração do aparelho Medicate ATS não foi estabelecida. Percentual previsto não representa zonas clínicas da asma. Considere sintomas e acompanhamento profissional.';
+    $('pfe-result').innerHTML=result('MAIOR PFE REGISTRADO',fmt0(best),'L/min',repeativel?'Maior das três leituras':'Rever repetibilidade das leituras',repeativel?'normal':'warning',rows,note)+pefZonesMarkup(best,reference)+resultTools('pfe');
     summaryFromResult('pfe','Pico de fluxo expiratório','Maior PFE: '+fmt0(best)+' L/min',rows,note);
     $('pfe-result').scrollIntoView?.({behavior:'smooth',block:'nearest'});
   }catch(error){
