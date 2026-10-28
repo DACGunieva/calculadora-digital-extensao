@@ -42,7 +42,7 @@ Site público e independente para ações educativas de saúde. **Não é o sist
 - Botão na área superior, com tema escuro verde/dourado inspirado no portal DACG; alterna o tema sem interferir em IMC, cintura ou PFE.
 - Segue a preferência de cor do sistema até o usuário escolher claro ou escuro. Armazena **somente** a escolha visual `dacg-tema` no armazenamento do próprio navegador; **nunca** dados de atendimento.
 - O endereço da Calculadora Digital é diferente do portal DACG: os navegadores isolam `localStorage` por origem, portanto a preferência **não é sincronizada automaticamente entre os sites**; o padrão de chave e aparência é igual.
-- Inclui cores adaptadas para abas, resultados, cálculos, barras de PFE, alertas, formulários, instruções e rodapé; preserva os logotipos institucionais originais, acessibilidade, contraste e impressão em papel claro. A partir da versão 2.8.9 as três logos ficam com **fundo totalmente transparente também no modo noturno**, sem placas brancas, mantendo os mesmos bytes PNG e os mesmos tamanhos responsivos.
+- Inclui cores adaptadas para abas, resultados, cálculos, barras de PFE, alertas, formulários, instruções e rodapé; preserva os logotipos institucionais originais, acessibilidade, contraste e impressão em papel claro. A partir da versão 2.8.10 as três logos ficam com **fundo totalmente transparente também no modo noturno**, sem placas brancas, mantendo os mesmos bytes PNG e os mesmos tamanhos responsivos.
 - Nenhum asset novo é exigido na lista fixa de publicação do Render: o tema é incorporado aos arquivos `styles.css` e `app.js`, que já são publicados e armazenados no PWA.
 
 ## Nova avaliação de cintura v2.7.0
@@ -135,6 +135,15 @@ Os três PNGs originais usados no rodapé estão incorporados como `data:image/p
 O PFE exibido é o maior valor **registrado**, não uma certificação automática da qualidade da manobra. O guia do Conselho Federal de Farmácia (2020, Técnica 1, p. 8) recomenda três leituras com variação menor que 20 L/min entre si. A interface adverte, sem bloqueio ou diagnóstico, quando as três leituras diferem 20 L/min ou mais; isso não comprova equivalência metrológica com o Medicate ATS.
 Fonte: https://www.cff.org.br/userfiles/pico_de_fluxo.pdf
 
-## Material de estudo (v2.8.9)
+## Material de estudo (v2.8.10)
 
 O cartão **Material de Estudo**, depois da metodologia, abre o PDF oficial de consulta **Parâmetros de Estudo às Atividades de Extensão** (21 páginas) em nova aba. O arquivo original, SHA-256 `49c4537d9f9cbad22a176e1a323d2409dfa338920bdc1281aed14aab73ff496c`, está versionado em `materiais/` e também em `dist/materiais/` porque o comando de build do Render copia somente os assets pré-definidos e publica `dist` sem apagá-lo. **Não remover** o PDF de `dist/materiais` sem atualizar a configuração do build. O SW não pré-carrega o PDF, para não gastar dados móveis involuntariamente. O documento é material educacional; seu conteúdo precisa ser revisado quando diretrizes forem atualizadas. A seção não coleta dados nem altera fórmulas.
+
+
+### Revisão técnica do PDF — outubro de 2026 (v2.8.10)
+
+A edição original permanece versionada e acessível no histórico Git; o link do cartão "Material de Estudo" passou a abrir `materiais/parametros-de-estudo-extensao-revisao-2026.pdf` em outra aba.
+Foram preservados integralmente o **estilo visual, as 21 páginas, cores, ícones, tabelas, molduras e diagramação**; somente os textos e números identificados na auditoria foram corrigidos.
+
+A revisão cobre: pressão arterial (Diretriz Brasileira 2025), limites laboratoriais vs. glicemia capilar (SBD 2026), maior PFE válido vs. média (CFF 2020), precauções de oximetria, natureza didática das compatibilidades de hemácias, pontos de corte de IMC, biossegurança e referências. As tabelas de PFE não homologadas foram identificadas como **faixas ilustrativas, não para diagnóstico**. Sem aprovação clínica independente, o material permanece educativo; não é protocolo de atendimento.
+O novo PDF tem SHA-256 `3bcf91aae675bf89d534fb27bf5a21f07de125d67fc702e27454be24db416a77` e 1.274.259 bytes, presente em `materiais/` e `dist/materiais/`; revisão de conteúdo sem alterações em fórmulas do site, scripts, logos ou dados pessoais. O SW não pré-baixa o PDF.

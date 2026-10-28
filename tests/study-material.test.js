@@ -19,7 +19,7 @@ test('cartão do material de estudo corresponde ao padrão do portal e fica apó
 });
 
 test('o link de material é uma âncora acessível que abre o PDF em outra aba',()=>{
-  assert.match(html,/<a class="study-resource-card" href="\.\/materiais\/parametros-de-estudo-extensao\.pdf"/);
+  assert.match(html,/<a class="study-resource-card" href="\.\/materiais\/parametros-de-estudo-extensao-revisao-2026\.pdf"/);
   assert.match(html,/target="_blank" rel="noopener noreferrer" type="application\/pdf"/);
   assert.match(html,/aria-label="Abrir Parâmetros de Estudo às Atividades de Extensão, PDF de 21 páginas, em nova aba"/);
   assert.match(css,/\.study-resource-card:focus-visible/);
