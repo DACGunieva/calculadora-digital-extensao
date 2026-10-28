@@ -101,12 +101,12 @@ test('tema está integrado aos assets servidos e cache PWA v2.8.8',()=>{
  assert.match(html,/class="header-actions"/);
  assert.match(html,/aria-pressed="false"/);
  assert.match(html,/content="light dark"/);
- assert.match(html,/styles\.css\?v=2\.8\.7/);
- assert.match(html,/app\.js\?v=2\.8\.7/);
- assert.match(html,/footer-caption">© 2026 · v2\.8\.7/);
- assert.match(sw,/calculadora-extensao-static-v2\.8\.7/);
- assert.match(sw,/styles\.css\?v=2\.8\.7/);
- assert.match(sw,/app\.js\?v=2\.8\.7/);
+ assert.match(html,/styles\.css\?v=2\.8\.8/);
+ assert.match(html,/app\.js\?v=2\.8\.8/);
+ assert.match(html,/footer-caption">© 2026 · v2\.8\.8/);
+ assert.match(sw,/calculadora-extensao-static-v2\.8\.8/);
+ assert.match(sw,/styles\.css\?v=2\.8\.8/);
+ assert.match(sw,/app\.js\?v=2\.8\.8/);
  for(const selector of [
   ':root[data-theme="dark"]','.tool-tab.active','.result-side',
   '.institutional-footer','.pfe-zone-status-danger','.pfe-zone-status-warning',
