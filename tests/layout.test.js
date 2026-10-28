@@ -75,7 +75,7 @@ test('rodapé alinha contatos à esquerda, destaca centro e amplia marcas com di
   assert.match(styles,/\.institutional-footer \.footer-partners img\{[^}]*height:75px/);
   assert.match(styles,/\.institutional-footer \.footer-contact-grid\{[^}]*margin:0/);
   assert.match(styles,/@media\(max-width:760px\)\{[\s\S]*?\.institutional-footer \.footer-section-contacts \.footer-heading\{[^}]*text-align:left/);
-  assert.match(html,/<span class="footer-caption">© 2026 · v2\.8\.7<\/span>/);
+  assert.match(html,/<span class="footer-caption">© 2026 · v2\.8\.8<\/span>/);
 });
 
 
@@ -92,7 +92,7 @@ test('circunferência: terceira aba, formulário acessível e metodologia com fo
  assert.match(html,/id="panel-waist" role="tabpanel" aria-labelledby="tab-waist" hidden/);
  assert.match(html,/NICE/);
  assert.match(styles,/\.tool-tabs\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)\}/);
- assert.match(html,/src="\.\/app\.js\?v=2\.8\.7"/);
+ assert.match(html,/src="\.\/app\.js\?v=2\.8\.8"/);
 });
 
 
