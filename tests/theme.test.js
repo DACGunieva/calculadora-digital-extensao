@@ -92,7 +92,7 @@ test('outras abas da calculadora sincronizam preferência por storage',()=>{
  assert.equal(x.attributes['data-theme'],'dark');
 });
 
-test('tema está integrado aos assets servidos e cache PWA v2.8.7',()=>{
+test('tema está integrado aos assets servidos e cache PWA v2.8.8',()=>{
  assert.match(html,/id="btnTemaCalculadora"/);
  assert.match(html,/class="theme-toggle-label">Tema escuro/);
  assert.match(html,/Criador: Erick de Oliveira Martins · Coordenador de Extensões \(DACG\)/);
