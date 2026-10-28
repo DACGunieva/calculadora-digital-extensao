@@ -42,7 +42,7 @@ Site público e independente para ações educativas de saúde. **Não é o sist
 - Botão na área superior, com tema escuro verde/dourado inspirado no portal DACG; alterna o tema sem interferir em IMC, cintura ou PFE.
 - Segue a preferência de cor do sistema até o usuário escolher claro ou escuro. Armazena **somente** a escolha visual `dacg-tema` no armazenamento do próprio navegador; **nunca** dados de atendimento.
 - O endereço da Calculadora Digital é diferente do portal DACG: os navegadores isolam `localStorage` por origem, portanto a preferência **não é sincronizada automaticamente entre os sites**; o padrão de chave e aparência é igual.
-- Inclui cores adaptadas para abas, resultados, cálculos, barras de PFE, alertas, formulários, instruções, rodapé e logos sobre fundo claro protetor; mantém controles de teclado, leitura de tela, contraste e impressão em papel claro.
+- Inclui cores adaptadas para abas, resultados, cálculos, barras de PFE, alertas, formulários, instruções e rodapé; preserva os logotipos institucionais originais, acessibilidade, contraste e impressão em papel claro. A partir da versão 2.8.8 as três logos ficam com **fundo totalmente transparente também no modo noturno**, sem placas brancas, mantendo os mesmos bytes PNG e os mesmos tamanhos responsivos.
 - Nenhum asset novo é exigido na lista fixa de publicação do Render: o tema é incorporado aos arquivos `styles.css` e `app.js`, que já são publicados e armazenados no PWA.
 
 ## Nova avaliação de cintura v2.7.0
