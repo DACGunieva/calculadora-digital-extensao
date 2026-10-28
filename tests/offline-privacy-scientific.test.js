@@ -63,9 +63,9 @@ function fakeWorker({ offline = false } = {}) {
 
 test("PWA cacheia somente URLs EXATAS da lista de assets", async () => {
   const sw = fakeWorker();
-  await sw.request("https://calc.test/app.js?v=2.8.8");
-  assert.deepEqual(sw.cached, ["https://calc.test/app.js?v=2.8.8"]);
-  await sw.request("https://calc.test/app.js?v=2.8.8&peso=65");
+  await sw.request("https://calc.test/app.js?v=2.8.9");
+  assert.deepEqual(sw.cached, ["https://calc.test/app.js?v=2.8.9"]);
+  await sw.request("https://calc.test/app.js?v=2.8.9&peso=65");
   await sw.request("https://calc.test/?pfe=420");
   await sw.request("https://calc.test/resultado?altura=165");
   assert.equal(sw.cached.length, 1, "URL com dados ou parâmetros não pode ser armazenada");
