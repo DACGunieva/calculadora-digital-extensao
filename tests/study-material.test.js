@@ -28,5 +28,5 @@ test('o link de material é uma âncora acessível que abre o PDF em outra aba',
 
 test('o cartão de estudo não acrescenta coleta de dados ou script de terceiros',()=>{
   assert.equal((html.match(/class="study-resource-card"/g)||[]).length,1);
-  assert.doesNotMatch(css,/\.study-resource-card[^\{]*\{[^}]*background:\s*#fffefa[^}]*\}/i);
+  assert.match(css,/:root\[data-theme="dark"\] \.study-resource-card\s*\{[^}]*background:\s*#0f1712/);
 });
