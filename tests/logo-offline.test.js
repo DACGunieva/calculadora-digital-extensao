@@ -29,3 +29,35 @@ test('logotipos ficam offline sem links remotos nem coleta de dados',()=>{
   const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
   assert.match(sw,/'\.\/index\.html'/);
 });
+
+
+test('logos oficiais ficam sem placa branca no tema noturno',()=>{
+  const css=readFileSync(new URL('../styles.css',import.meta.url),'utf8');
+  const regra=css.match(/:root\[data-theme="dark"\] \.institutional-footer \.footer-partners img\s*\{([^}]+)\}/);
+  assert.ok(regra,'regra especifica das logos no tema noturno deve existir');
+  const props=regra[1];
+  assert.match(props,/background:\s*transparent\s*;/);
+  assert.match(props,/padding:\s*0\s*;/);
+  assert.match(props,/border-radius:\s*0\s*;/);
+  assert.doesNotMatch(props,/background:\s*(?:#fff|white|rgb\(255)/i);
+  // Os PNGs continuam intactos e com formato RGBA (canal alfa).
+  assert.equal(tags.length,3);
+  for(const [,b64] of tags){
+    const png=Buffer.from(b64,'base64');
+    assert.equal(png.subarray(12,16).toString('ascii'),'IHDR');
+    assert.equal(png[25],6,'espera PNG RGBA original com canal alfa');
+  }
+});
+
+test('assets do tema e cache offline estão sincronizados na versão 2.8.8',()=>{
+  const pkg=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8'));
+  const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
+  const css=readFileSync(new URL('../styles.css',import.meta.url),'utf8');
+  assert.equal(pkg.version,'2.8.8');
+  assert.match(html,/styles\.css\?v=2\.8\.8/);
+  assert.match(html,/app\.js\?v=2\.8\.8/);
+  assert.match(html,/© 2026 · v2\.8\.8/);
+  assert.match(sw,/calculadora-extensao-static-v2\.8\.8/);
+  assert.match(sw,/\.\/styles\.css\?v=2\.8\.8/);
+  assert.match(css,/\.footer-partners img/);
+});

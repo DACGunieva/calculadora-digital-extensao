@@ -422,8 +422,12 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
 :root[data-theme="dark"] .institutional-footer .footer-portal-link{color:#e2c66f}
 :root[data-theme="dark"] .institutional-footer a:hover,
 :root[data-theme="dark"] .institutional-footer .footer-contact-link:hover{color:#fff1b7}
+/* Preserva o canal alfa dos tres PNGs institucionais no modo noturno. */
 :root[data-theme="dark"] .institutional-footer .footer-partners img{
-  background:#fffefa;border-radius:8px;padding:4px;box-sizing:border-box;
+  background:transparent;
+  padding:0;
+  border-radius:0;
+  box-shadow:none;
 }
 :root[data-theme="dark"] .pfe-zones,
 :root[data-theme="dark"] .pfe-zone-comparison,

@@ -1,7 +1,7 @@
 // Cache apenas dos arquivos públicos; não armazena dados preenchidos.
-const CACHE_NAME='calculadora-extensao-static-v2.8.7';
+const CACHE_NAME='calculadora-extensao-static-v2.8.8';
 // Os três PNGs oficiais estão incorporados ao HTML e disponíveis offline com ele.
-const ASSETS=['./','./index.html','./styles.css?v=2.8.7','./app.js?v=2.8.7','./calculations.js','./bmi-who-data.js','./assets/icon.svg','./manifest.webmanifest'];
+const ASSETS=['./','./index.html','./styles.css?v=2.8.8','./app.js?v=2.8.8','./calculations.js','./bmi-who-data.js','./assets/icon.svg','./manifest.webmanifest'];
 // Somente recursos estáticos da versão oficial podem entrar no cache.
 // URLs de formulário, consulta ou navegação com parâmetros nunca são armazenadas.
 const ALLOWED_URLS=new Set(ASSETS.map(path=>new URL(path,self.registration.scope).href));
