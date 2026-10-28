@@ -135,7 +135,7 @@ Os três PNGs originais usados no rodapé estão incorporados como `data:image/p
 O PFE exibido é o maior valor **registrado**, não uma certificação automática da qualidade da manobra. O guia do Conselho Federal de Farmácia (2020, Técnica 1, p. 8) recomenda três leituras com variação menor que 20 L/min entre si. A interface adverte, sem bloqueio ou diagnóstico, quando as três leituras diferem 20 L/min ou mais; isso não comprova equivalência metrológica com o Medicate ATS.
 Fonte: https://www.cff.org.br/userfiles/pico_de_fluxo.pdf
 
-## Material de estudo (v2.8.10)
+## Material de estudo (v2.8.11)
 
 O cartão **Material de Estudo**, depois da metodologia, abre o PDF oficial de consulta **Parâmetros de Estudo às Atividades de Extensão** (21 páginas) em nova aba. O arquivo original, SHA-256 `49c4537d9f9cbad22a176e1a323d2409dfa338920bdc1281aed14aab73ff496c`, está versionado em `materiais/` e também em `dist/materiais/` porque o comando de build do Render copia somente os assets pré-definidos e publica `dist` sem apagá-lo. **Não remover** o PDF de `dist/materiais` sem atualizar a configuração do build. O SW não pré-carrega o PDF, para não gastar dados móveis involuntariamente. O documento é material educacional; seu conteúdo precisa ser revisado quando diretrizes forem atualizadas. A seção não coleta dados nem altera fórmulas.
 
@@ -147,3 +147,9 @@ Foram preservados integralmente o **estilo visual, as 21 páginas, cores, ícone
 
 A revisão cobre: pressão arterial (Diretriz Brasileira 2025), limites laboratoriais vs. glicemia capilar (SBD 2026), maior PFE válido vs. média (CFF 2020), precauções de oximetria, natureza didática das compatibilidades de hemácias, pontos de corte de IMC, biossegurança e referências. As tabelas de PFE não homologadas foram identificadas como **faixas ilustrativas, não para diagnóstico**. Sem aprovação clínica independente, o material permanece educativo; não é protocolo de atendimento.
 O novo PDF tem SHA-256 `3bcf91aae675bf89d534fb27bf5a21f07de125d67fc702e27454be24db416a77` e 1.274.259 bytes, presente em `materiais/` e `dist/materiais/`; revisão de conteúdo sem alterações em fórmulas do site, scripts, logos ou dados pessoais. O SW não pré-baixa o PDF.
+
+### Revisão de interpretação da SpO₂ e barra didática do PFE — 28/10/2026 (v2.8.11)
+
+PDF preserva as mesmas 21 páginas, ícones, quadros, tabelas e identidade visual. Na página 11, os rótulos `Referência usual`, `Reavaliar medida`, `Atenção prioritária` foram substituídos respectivamente por **Saturação adequada (≥95%)**, **Saturação reduzida (90–94%)** e **Saturação muito baixa (≤89%)**, com instruções de referência geral, repetir/avaliar e avaliação urgente; ressalva sobre sintomas, DPOC e metas individualizadas. Página 8 recebeu escala 0–100% (vermelho <50%, amarelo 50–<80%, verde ≥80%) alinhada com a referência educativa do site e avisando que não representa zonas de asma baseadas no melhor pessoal. Não houve mudanças em fórmulas ou dados da calculadora. O PDF permanece didático, não é protocolo clínico.
+
+**SHA-256 da edição v2.8.11:** `e545d15c4153ae1a315f221bdb3932f7f6893074132a2d17336bbdd87526abab`; **tamanho:** 1.703.099 bytes, versionado de forma idêntica em `materiais/` e `dist/materiais/`. A edição anterior permanece no histórico GitHub para reversão. O PWA não pré-baixa o PDF.
