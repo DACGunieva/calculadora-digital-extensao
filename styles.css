@@ -534,6 +534,7 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
 .study-resource-copy strong{font-size:17px;line-height:1.35;font-weight:750;color:var(--ink)}
 .study-resource-copy span{font-size:13px;line-height:1.5;color:#526f5b}
 .study-resource-arrow{width:23px;height:23px;color:#217a55;flex:0 0 23px}
+.study-resource-note{margin:11px 2px 0;font-size:12px;line-height:1.6;color:#526f5b}
 :root[data-theme="dark"] .study-resources-panel{
   background:#16231b;border-color:#2c4034;
 }
@@ -545,7 +546,8 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
   background:#18271e;border-color:#47765a;box-shadow:0 9px 25px #0004;
 }
 :root[data-theme="dark"] .study-resource-copy strong{color:#f4f5ef}
-:root[data-theme="dark"] .study-resource-copy span{color:#b8c8bb}
+:root[data-theme="dark"] .study-resource-copy span,
+:root[data-theme="dark"] .study-resource-note{color:#b8c8bb}
 :root[data-theme="dark"] .study-resource-icon,
 :root[data-theme="dark"] .study-resource-arrow{color:#368968}
 @media(max-width:640px){
