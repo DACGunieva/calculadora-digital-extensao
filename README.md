@@ -1,5 +1,14 @@
 # Calculadora Digital — Extensão em Saúde
 
+## Operação e ciência — critérios de homologação (28/10/2026)
+
+- **Deploy automático Render:** integração GitHub `main` → Render configurada `autoDeploy=yes, autoDeployTrigger=commit`, mas último deploy observado em 26/10 foi manual (`trigger=api`). Um novo commit documental de baixo risco é uma prova controlada: só encerrar o incidente #5 se Render mostrar o mesmo SHA e `trigger=new_commit`. O GitHub Actions verde ou a igualdade do SHA com deploy manual **não** provam automação.
+- **Repetibilidade PFE:** a versão 2.8.7 já calcula a diferença entre maior/menor das três manobras e orienta revisão não bloqueante quando o delta é ≥20 L/min. A fórmula do maior PFE permanece inalterada. A compatibilidade clínica entre o CFF (2020), o manual Medicate ATS e os limites de validade da técnica precisa de revisão profissional independente (issue #7), incluindo leitores de tela. Não homologar E5 somente com teste automatizado.
+- **Privacidade:** nenhum dado antropométrico ou PFE digitado pode ser transmitido, persistido ou usado como telemetria; o cache PWA guarda apenas assets estáticos previamente definidos.
+- **Regra de custo:** não contratar plataforma, habilitar cobrança automática nem usar robô pago para consertar integrações. Se Render não publicar automaticamente, registrar o bloqueio de permissão GitHub App–Render para correção manual autorizada e manter o serviço já publicado.
+
+
+
 ## Monitoramento de deploy — sem credenciais
 
 O fluxo `Verificar publicacao Render - calculadora` roda diariamente ou sob demanda no GitHub Actions. Lê apenas a homepage pública e `/sw.js` e compara três versões com `package.json`; divergência causa falha visível na execução. Não força deploy, não envia notificações externas nem acessa informações pessoais. O projeto usa minutos da franquia existente do GitHub Actions (tempo máximo de 3 minutos por execução); os limites e eventuais custos da conta devem continuar monitorados. A verificação por versão não garante que o commit exato foi publicado se alguém esquecer de atualizar o número da versão. Não substitui homologação manual em celular nem revisão clínica.
