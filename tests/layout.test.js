@@ -27,7 +27,7 @@ test('PFE usa Medicate ATS sem campos extras',()=>{
  assert.ok(!html.includes('id="table-reference"'));
  assert.ok(!html.includes('id="personal-best"'));
  for(const id of ['effort1','effort2','effort3'])assert.ok(html.includes('id="'+id+'"'));
- assert.ok(html.includes('src="./app.js?v=2.8.7"'));
+ assert.ok(html.includes('src="./app.js?v=2.8.8"'));
 });
 
 test('etapas 2 e 3: idoso, ganho gestacional e interface de atendimento',()=>{
@@ -47,7 +47,7 @@ test('rodapé institucional sempre aberto em três áreas, como o portal DACG',(
   const right=html.indexOf('class="footer-section footer-section-partners"');
   assert.ok(left>0 && left<center && center<right);
   assert.match(html,/class="footer-heading" id="footer-contacts-heading">Contatos institucionais/);
-  assert.match(html,/class="footer-caption">© 2026 · v2.8.7/);
+  assert.match(html,/class="footer-caption">© 2026 · v2.8.8/);
   assert.match(html,/class="footer-heading" id="footer-partners-heading">Realização/);
   assert.match(styles,/\.institutional-footer \.footer-three-columns\{display:grid;grid-template-columns:/);
   assert.match(styles,/@media\(max-width:760px\)/);
