@@ -599,3 +599,11 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
     font-family:system-ui,sans-serif;font-size:10pt;line-height:1.65;
   }
 }
+
+.resumo-copia-manual{
+  display:block;width:100%;min-height:120px;margin-top:10px;padding:12px;
+  border:1px solid #8eaf9b;border-radius:9px;background:#fff;color:#163c2c;
+  font:500 12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;
+  resize:vertical;white-space:pre-wrap;
+}
+.resumo-copia-manual:focus-visible{outline:3px solid #cc9c2e;outline-offset:2px;}
