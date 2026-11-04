@@ -563,3 +563,47 @@ h2 { font-family:Georgia,'Times New Roman',serif; font-size:34px; letter-spacing
 }
 @media print{.study-resources{display:none!important}}
 
+
+/* v2.8.12 — status offline honesto e impressão local de IMC/cintura. */
+.conectividade-status{
+  margin:12px auto 24px;padding:12px 16px;min-height:44px;
+  border:1px solid #b6d3bf;background:#f0f7ef;color:#1c4833;
+  border-radius:12px;font-size:.85rem;font-weight:650;line-height:1.65;
+}
+.conectividade-status[data-offline="true"]{
+  background:#fff5dc;border-color:#cfac6a;color:#634713;
+}
+:root[data-theme="dark"] .conectividade-status{
+  background:#1d3529;border-color:#65836b;color:#e0f3e4;
+}
+:root[data-theme="dark"] .conectividade-status[data-offline="true"]{
+  background:#3b3422;border-color:#a68e53;color:#fff0cd;
+}
+#resumo-para-impressao{display:none;}
+@media print{
+  @page{size:A4 portrait;margin:16mm;}
+  body:has(> #resumo-para-impressao) > :not(#resumo-para-impressao){
+    display:none!important;
+  }
+  body > #resumo-para-impressao{
+    display:block!important;position:static!important;
+    width:100%!important;max-width:none!important;
+    color:#111!important;background:#fff!important;
+  }
+  #resumo-para-impressao h1{
+    color:#153d2b!important;font-family:system-ui,sans-serif;
+    font-size:16pt;margin:0 0 18pt;
+  }
+  #resumo-para-impressao pre{
+    color:#111!important;white-space:pre-wrap;overflow-wrap:anywhere;
+    font-family:system-ui,sans-serif;font-size:10pt;line-height:1.65;
+  }
+}
+
+.resumo-copia-manual{
+  display:block;width:100%;min-height:120px;margin-top:10px;padding:12px;
+  border:1px solid #8eaf9b;border-radius:9px;background:#fff;color:#163c2c;
+  font:500 12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;
+  resize:vertical;white-space:pre-wrap;
+}
+.resumo-copia-manual:focus-visible{outline:3px solid #cc9c2e;outline-offset:2px;}

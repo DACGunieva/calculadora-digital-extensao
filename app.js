@@ -20,17 +20,44 @@ function summaryFromResult(kind,title,main,rows,note){
   LATEST_SUMMARY[kind]=['DACG · Calculadora Digital de Extensão',title,main,lineRows,note,'Registro educativo: não é diagnóstico nem prontuário.'].join('\n');
 }
 function resultTools(kind){
-  return '<div class="result-actions"><button type="button" data-copy-result="'+kind+'">Copiar resumo</button><button type="button" data-new-result="'+kind+'">Novo atendimento</button><p class="result-action-feedback" id="'+kind+'-action-feedback" role="status" aria-live="polite"></p></div>';
+  // A impressao de IMC e cintura usa apenas o resumo ja calculado em memoria.
+  // O PFE fica integralmente inalterado nesta revisao.
+  const imprimir=kind==='imc'||kind==='waist'
+    ? '<button type="button" data-print-result="'+kind+'">Imprimir resumo</button>'
+    : '';
+  return '<div class="result-actions"><button type="button" data-copy-result="'+kind+'">Copiar resumo</button>'+imprimir+'<button type="button" data-new-result="'+kind+'">Novo atendimento</button><p class="result-action-feedback" id="'+kind+'-action-feedback" role="status" aria-live="polite"></p></div>';
+}
+function imprimirResumoLocal(kind){
+  if(!['imc','waist'].includes(kind)||!LATEST_SUMMARY[kind])return;
+  if(document.getElementById('resumo-para-impressao'))return;
+  const pagina=document.createElement('section');
+  pagina.id='resumo-para-impressao';
+  pagina.setAttribute('aria-label','Resumo educativo para impressão');
+  const titulo=document.createElement('h1');
+  titulo.textContent='DACG · Resumo educativo de atendimento';
+  const conteudo=document.createElement('pre');
+  conteudo.textContent=LATEST_SUMMARY[kind];
+  pagina.append(titulo,conteudo);
+  document.body.append(pagina);
+  const limpar=()=>pagina.remove();
+  window.addEventListener('afterprint',limpar,{once:true});
+  try{window.print();}catch(_){limpar();}
+  // O temporizador é só limpeza visual local, nunca retenção/envio de dados.
+  window.setTimeout(limpar,120000);
 }
 for(const kind of ['imc','pfe','waist']){
   $(kind+'-result').addEventListener('click',async event=>{
-    const button=event.target.closest?.('button[data-copy-result], button[data-new-result]');
+    const button=event.target.closest?.('button[data-copy-result], button[data-new-result], button[data-print-result]');
     if(!button)return;
     const newMode=button.dataset.newResult;
     if(newMode===kind){
       $(kind+'-form').reset();
       LATEST_SUMMARY[kind]=null;
       queueMicrotask(()=>(kind==='imc' ? $('weight') :kind==='pfe' ? $('effort1') : $('waist-cm')).focus?.());
+      return;
+    }
+    if(button.dataset.printResult===kind){
+      imprimirResumoLocal(kind);
       return;
     }
     if(button.dataset.copyResult!==kind||!LATEST_SUMMARY[kind])return;
@@ -40,7 +67,16 @@ for(const kind of ['imc','pfe','waist']){
       await navigator.clipboard.writeText(LATEST_SUMMARY[kind]);
       feedback.textContent='Resumo copiado. Confira antes de compartilhar.';
     }catch(err){
-      feedback.textContent='Não foi possível copiar automaticamente neste navegador. O resumo permanece visível na tela.';
+      // Fallback offline/sem permissão: resumo selecionável, só no DOM temporário.
+      feedback.textContent='Cópia automática indisponível. Selecione e copie o texto abaixo:';
+      const campo=document.createElement('textarea');
+      campo.className='resumo-copia-manual';
+      campo.readOnly=true;
+      campo.value=LATEST_SUMMARY[kind];
+      campo.setAttribute('aria-label','Resumo educativo para cópia manual');
+      feedback.append(campo);
+      campo.focus();
+      campo.select();
     }
   });
 }
@@ -274,8 +310,21 @@ function activateTab(name,focus=false){
   }
 }
 tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>activateTab(tab.dataset.tab));tab.addEventListener('keydown',e=>{const step=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(step){e.preventDefault();activateTab(tabs[(index+step+tabs.length)%tabs.length].dataset.tab,true);}if(e.key==='Home'){e.preventDefault();activateTab(tabs[0].dataset.tab,true);}if(e.key==='End'){e.preventDefault();activateTab(tabs[tabs.length-1].dataset.tab,true);}});});
+// O estado de rede é apenas informativo, não é prova de acessibilidade remota.
+function atualizarConectividade(){
+  const indicador=document.getElementById('statusConexao');
+  if(!indicador||!indicador.dataset)return;
+  const offline=navigator.onLine===false;
+  indicador.dataset.offline=offline?'true':'false';
+  indicador.textContent=offline
+    ? 'Sem conexão detectada: os cálculos já carregados continuam locais. O uso offline em novo acesso depende do cache ter sido instalado.'
+    : 'Conexão sinalizada pelo navegador. Os dados dos cálculos não são enviados à rede.';
+}
+window.addEventListener('online',atualizarConectividade);
+window.addEventListener('offline',atualizarConectividade);
+atualizarConectividade();
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-window.addEventListener('pageshow',()=>{ $('imc-form').reset();$('pfe-form').reset();$('waist-form').reset();profileToggle();$('imc-result').innerHTML=INITIAL_IMC;$('pfe-result').innerHTML=INITIAL_PFE;$('waist-result').innerHTML=INITIAL_WAIST;LATEST_SUMMARY.waist=null;showError('imc-error','');showError('pfe-error','');showError('waist-error','');});
+window.addEventListener('pageshow',()=>{ $('imc-form').reset();$('pfe-form').reset();$('waist-form').reset();profileToggle();$('imc-result').innerHTML=INITIAL_IMC;$('pfe-result').innerHTML=INITIAL_PFE;$('waist-result').innerHTML=INITIAL_WAIST;LATEST_SUMMARY.imc=null;LATEST_SUMMARY.pfe=null;LATEST_SUMMARY.waist=null;showError('imc-error','');showError('pfe-error','');showError('waist-error','');});
 
 /* Tema da Calculadora Digital DACG — preferência local, nunca dados de atendimento. */
 (function () {

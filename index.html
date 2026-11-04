@@ -11,9 +11,9 @@
   <meta property="og:type" content="website">
   <link rel="icon" type="image/svg+xml" href="./assets/icon.svg">
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css?v=2.8.11">
+  <link rel="stylesheet" href="./styles.css?v=2.8.12">
   <title>Calculadora Digital | Extensão em Saúde</title>
-  <script type="module" defer src="./app.js?v=2.8.11"></script>
+  <script type="module" defer src="./app.js?v=2.8.12"></script>
 </head>
 <body>
   <a class="skip-link" href="#principal">Pular para o conteúdo</a>
@@ -129,6 +129,8 @@
       <div class="privacy-strip"><span class="privacy-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M13.5 2.5 6.5 12h5l-1 9.5 7-10.5h-5z"/></svg></span><div><strong>Seus dados ficam neste dispositivo.</strong><span> Nenhum resultado é armazenado, enviado a servidores ou usado para rastreamento. Ao atualizar a página, os dados desaparecem.</span></div></div>
     </section>
 
+    <p id="statusConexao" class="conectividade-status container" role="status" aria-live="polite" aria-atomic="true">Os cálculos ocorrem localmente neste dispositivo.</p>
+
     <section class="method-section container" id="metodologia" aria-labelledby="method-title">
       <div class="method-head"><div><span class="section-kicker">PARA USAR COM RESPONSABILIDADE</span><h2 id="method-title">Metodologia e limites</h2></div></div>
       <div class="method-grid"><article class="method-card"><span class="method-num">01 — IMC</span><h3>Referência populacional</h3><p>Para adultos, pontos de corte usuais; na infância e adolescência, z-escore OMS por idade e sexo (SISVAN); em gestantes, IMC pré-gestacional e acompanhamento do ganho.</p><a href="https://www.gov.br/saude/pt-br/composicao/saps/vigilancia-alimentar-e-nutricional/arquivos/orientacoes-para-a-coleta-e-analise-de-dados-antropometricos-em-servicos-de-saude" target="_blank" rel="noopener noreferrer">Fonte: SISVAN, Ministério da Saúde <span aria-hidden="true">↗</span></a></article><article class="method-card"><span class="method-num">02 — PFE</span><h3>Escala ATS · Medicate</h3><p>Utiliza tabelas educativas de referência do Conselho Federal de Farmácia (2020), considerando estatura na infância e estatura, idade e sexo na idade adulta. Os valores do CFF não foram validados especificamente para a escala ATS do Medicate. Não extrapolamos os limites das tabelas.</p><a href="https://www.cff.org.br/userfiles/pico_de_fluxo.pdf" target="_blank" rel="noopener noreferrer">Fonte: Conselho Federal de Farmácia, PFE (2020) <span aria-hidden="true">↗</span></a></article><article class="method-card"><span class="method-num">03 — INTERPRETAÇÃO</span><h3>Contexto clínico primeiro</h3><p>A barra de 0–100% do previsto é uma comparação didática com tabela, não uma classificação clínica. As zonas de manejo da asma devem utilizar o melhor PFE pessoal determinado com acompanhamento profissional; não confunda as duas referências.</p><a href="https://www.lung.org/lung-health-diseases/lung-disease-lookup/asthma/treatment/devices/peak-flow" target="_blank" rel="noopener noreferrer">Fonte: American Lung Association <span aria-hidden="true">↗</span></a></article></div>
@@ -188,7 +190,7 @@
     <section class="footer-section footer-section-center" aria-label="Informações da Calculadora Digital">
       <strong>DACG · Calculadora Digital</strong>
       <span>Curso de Farmácia · UniEVANGÉLICA</span>
-      <span class="footer-caption">© 2026 · v2.8.11</span>
+      <span class="footer-caption">© 2026 · v2.8.12</span>
       <a class="footer-portal-link" href="https://certificados-dacg.onrender.com/" target="_blank" rel="noopener noreferrer">Portal DACG ↗</a>
     </section>
     <section class="footer-section footer-section-partners" aria-labelledby="footer-partners-heading">

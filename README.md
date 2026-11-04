@@ -1,5 +1,16 @@
 # Calculadora Digital — Extensão em Saúde
 
+## Atualização de acessibilidade e privacidade — v2.8.12 (04/11/2026)
+
+- IMC e cintura: opção **Imprimir resumo** em A4, usando apenas o resumo já presente na memória da aba; não envia, armazena nem exporta automaticamente dados do atendimento.
+- Copiar resumo: quando a API de área de transferência falhar (ex.: modo offline/sem permissão), exibe texto selecionável para cópia manual, com rótulo acessível.
+- Indicador de conectividade `role=status` e `aria-live=polite`; reconhece que `navigator.onLine` é informativo e **não prova** acesso remoto ou cache completo.
+- Após navegação/histórico, resumos temporários são limpos junto aos formulários para reduzir retenção acidental.
+- Cache PWA atualizado para 2.8.12. Nenhum dado de atendimento é armazenado no Service Worker.
+- **PFE não alterado:** `calculations.js`, tabelas de referências e as regras clínicas/educativas do PFE permanecem idênticos. A revisão científica independente continua pendente, fora deste escopo.
+- Testes novos `tests/acessibilidade-offline.test.js`, complementando regressão existente. Validação manual em iOS/Android, leitores de tela e impressão física ainda necessária para homologação integral.
+
+
 ## Operação e ciência — critérios de homologação (28/10/2026)
 
 - **Deploy automático Render:** integração GitHub `main` → Render configurada `autoDeploy=yes, autoDeployTrigger=commit`, mas último deploy observado em 26/10 foi manual (`trigger=api`). Um novo commit documental de baixo risco é uma prova controlada: só encerrar o incidente #5 se Render mostrar o mesmo SHA e `trigger=new_commit`. O GitHub Actions verde ou a igualdade do SHA com deploy manual **não** provam automação.
