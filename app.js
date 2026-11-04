@@ -313,7 +313,7 @@ tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>activateTab(tab.data
 // O estado de rede é apenas informativo, não é prova de acessibilidade remota.
 function atualizarConectividade(){
   const indicador=document.getElementById('statusConexao');
-  if(!indicador)return;
+  if(!indicador||!indicador.dataset)return;
   const offline=navigator.onLine===false;
   indicador.dataset.offline=offline?'true':'false';
   indicador.textContent=offline
