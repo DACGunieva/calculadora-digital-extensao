@@ -67,7 +67,16 @@ for(const kind of ['imc','pfe','waist']){
       await navigator.clipboard.writeText(LATEST_SUMMARY[kind]);
       feedback.textContent='Resumo copiado. Confira antes de compartilhar.';
     }catch(err){
-      feedback.textContent='Não foi possível copiar automaticamente neste navegador. O resumo permanece visível na tela.';
+      // Fallback offline/sem permissão: resumo selecionável, só no DOM temporário.
+      feedback.textContent='Cópia automática indisponível. Selecione e copie o texto abaixo:';
+      const campo=document.createElement('textarea');
+      campo.className='resumo-copia-manual';
+      campo.readOnly=true;
+      campo.value=LATEST_SUMMARY[kind];
+      campo.setAttribute('aria-label','Resumo educativo para cópia manual');
+      feedback.append(campo);
+      campo.focus();
+      campo.select();
     }
   });
 }
@@ -315,7 +324,7 @@ window.addEventListener('online',atualizarConectividade);
 window.addEventListener('offline',atualizarConectividade);
 atualizarConectividade();
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-window.addEventListener('pageshow',()=>{ $('imc-form').reset();$('pfe-form').reset();$('waist-form').reset();profileToggle();$('imc-result').innerHTML=INITIAL_IMC;$('pfe-result').innerHTML=INITIAL_PFE;$('waist-result').innerHTML=INITIAL_WAIST;LATEST_SUMMARY.waist=null;showError('imc-error','');showError('pfe-error','');showError('waist-error','');});
+window.addEventListener('pageshow',()=>{ $('imc-form').reset();$('pfe-form').reset();$('waist-form').reset();profileToggle();$('imc-result').innerHTML=INITIAL_IMC;$('pfe-result').innerHTML=INITIAL_PFE;$('waist-result').innerHTML=INITIAL_WAIST;LATEST_SUMMARY.imc=null;LATEST_SUMMARY.pfe=null;LATEST_SUMMARY.waist=null;showError('imc-error','');showError('pfe-error','');showError('waist-error','');});
 
 /* Tema da Calculadora Digital DACG — preferência local, nunca dados de atendimento. */
 (function () {
