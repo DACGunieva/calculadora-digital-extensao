@@ -1,3 +1,13 @@
+## Indicador de cache offline — v2.8.13 (04/11/2026)
+
+A interface passa a informar, com região acessível `role="status"`, se o
+Service Worker concluiu a ativação do cache da versão vigente. Quando
+instalação/ativação não pode ser confirmada, a mensagem avisa que abrir a
+ferramenta sem rede pode falhar. Isso não coleta nem retém dados clínicos.
+Os cálculos permanecem integralmente no navegador; o PFE e suas fontes
+continuam **sem alterações**. Inclui testes de regressão, acessibilidade
+semântica e atualização de cache.
+
 # Calculadora Digital — Extensão em Saúde
 
 ## Atualização de acessibilidade e privacidade — v2.8.13 (04/11/2026)
