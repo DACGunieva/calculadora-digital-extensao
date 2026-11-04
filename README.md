@@ -1,12 +1,22 @@
+## Indicador de cache offline — v2.8.13 (04/11/2026)
+
+A interface passa a informar, com região acessível `role="status"`, se o
+Service Worker concluiu a ativação do cache da versão vigente. Quando
+instalação/ativação não pode ser confirmada, a mensagem avisa que abrir a
+ferramenta sem rede pode falhar. Isso não coleta nem retém dados clínicos.
+Os cálculos permanecem integralmente no navegador; o PFE e suas fontes
+continuam **sem alterações**. Inclui testes de regressão, acessibilidade
+semântica e atualização de cache.
+
 # Calculadora Digital — Extensão em Saúde
 
-## Atualização de acessibilidade e privacidade — v2.8.12 (04/11/2026)
+## Atualização de acessibilidade e privacidade — v2.8.13 (04/11/2026)
 
 - IMC e cintura: opção **Imprimir resumo** em A4, usando apenas o resumo já presente na memória da aba; não envia, armazena nem exporta automaticamente dados do atendimento.
 - Copiar resumo: quando a API de área de transferência falhar (ex.: modo offline/sem permissão), exibe texto selecionável para cópia manual, com rótulo acessível.
 - Indicador de conectividade `role=status` e `aria-live=polite`; reconhece que `navigator.onLine` é informativo e **não prova** acesso remoto ou cache completo.
 - Após navegação/histórico, resumos temporários são limpos junto aos formulários para reduzir retenção acidental.
-- Cache PWA atualizado para 2.8.12. Nenhum dado de atendimento é armazenado no Service Worker.
+- Cache PWA atualizado para 2.8.13. Nenhum dado de atendimento é armazenado no Service Worker.
 - **PFE não alterado:** `calculations.js`, tabelas de referências e as regras clínicas/educativas do PFE permanecem idênticos. A revisão científica independente continua pendente, fora deste escopo.
 - Testes novos `tests/acessibilidade-offline.test.js`, complementando regressão existente. Validação manual em iOS/Android, leitores de tela e impressão física ainda necessária para homologação integral.
 
