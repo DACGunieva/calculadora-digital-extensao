@@ -32,7 +32,7 @@ test('copiar e imprimir IMC e cintura, sem PFE alterado',()=>{
 
 test('PWA preserva cache exclusivamente de assets e versão coerente',()=>{
   const versao=pkg.version;
-  assert.equal(versao,'2.8.12');
+  assert.equal(versao,'2.8.13');
   assert.ok(html.includes('styles.css?v='+versao));
   assert.ok(html.includes('app.js?v='+versao));
   assert.ok(sw.includes('calculadora-extensao-static-v'+versao));
@@ -40,4 +40,13 @@ test('PWA preserva cache exclusivamente de assets e versão coerente',()=>{
   assert.ok(sw.includes("event.request.method!=='GET'"));
   assert.ok(!sw.includes('LATEST_SUMMARY'));
   assert.ok(!sw.includes('localStorage'));
+});
+
+test('status acessível confirma ativação real do cache sem tocar nas fórmulas',()=>{
+  assert.match(html,/id="statusCacheOffline"[^>]*role="status"[^>]*aria-live="polite"/);
+  assert.ok(app.includes("navigator.serviceWorker.ready"));
+  assert.ok(app.includes("Recursos da calculadora preparados para próximas visitas offline"));
+  assert.ok(app.includes("Cache offline não confirmado neste navegador"));
+  assert.ok(app.includes("Este navegador ou contexto não oferece instalação offline"));
+  assert.ok(!sw.includes("statusCacheOffline"));
 });
