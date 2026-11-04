@@ -26,7 +26,7 @@ test('o link do cartão aponta para o arquivo efetivamente distribuído em dist'
 });
 
 test('o PDF não é adicionado compulsoriamente ao cache offline',()=>{
-  assert.match(worker,/calculadora-extensao-static-v2\.8\.11/);
+  assert.match(worker,/calculadora-extensao-static-v2\.8\.12/);
   assert.doesNotMatch(worker,/parametros-de-estudo-extensao\.pdf/);
 });
 
