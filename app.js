@@ -323,7 +323,26 @@ function atualizarConectividade(){
 window.addEventListener('online',atualizarConectividade);
 window.addEventListener('offline',atualizarConectividade);
 atualizarConectividade();
-if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+// Indicador estritamente local do cache: sem chamadas de telemetria ou PII.
+function informarCacheOffline(mensagem){
+  const aviso=document.getElementById('statusCacheOffline');
+  if(aviso)aviso.textContent=mensagem;
+}
+if('serviceWorker' in navigator&&location.protocol==='https:'){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js')
+      .then(()=>navigator.serviceWorker.ready)
+      .then(()=>informarCacheOffline(
+        'Recursos da calculadora preparados para próximas visitas offline. '+
+        'Faça uma primeira visita com internet após cada atualização.'
+      ))
+      .catch(()=>informarCacheOffline(
+        'Cache offline não confirmado neste navegador. Use conexão para reabrir a ferramenta.'
+      ));
+  });
+}else{
+  informarCacheOffline('Este navegador ou contexto não oferece instalação offline confirmada.');
+}
 window.addEventListener('pageshow',()=>{ $('imc-form').reset();$('pfe-form').reset();$('waist-form').reset();profileToggle();$('imc-result').innerHTML=INITIAL_IMC;$('pfe-result').innerHTML=INITIAL_PFE;$('waist-result').innerHTML=INITIAL_WAIST;LATEST_SUMMARY.imc=null;LATEST_SUMMARY.pfe=null;LATEST_SUMMARY.waist=null;showError('imc-error','');showError('pfe-error','');showError('waist-error','');});
 
 /* Tema da Calculadora Digital DACG — preferência local, nunca dados de atendimento. */
