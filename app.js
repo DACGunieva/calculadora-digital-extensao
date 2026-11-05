@@ -323,19 +323,46 @@ function atualizarConectividade(){
 window.addEventListener('online',atualizarConectividade);
 window.addEventListener('offline',atualizarConectividade);
 atualizarConectividade();
-// Indicador estritamente local do cache: sem chamadas de telemetria ou PII.
+// Confirmação local de que a versão atual tem seus assets efetivamente cacheados.
 function informarCacheOffline(mensagem){
   const aviso=document.getElementById('statusCacheOffline');
   if(aviso)aviso.textContent=mensagem;
 }
+async function cacheOfflineCompleto({controller,cachesApi,src,baseUrl}){
+  if(!controller||controller.state!=='activated'||!cachesApi?.keys||!cachesApi?.open||!src)return false;
+  const versao=new URL(src,baseUrl).searchParams.get('v');
+  if(!versao||!/^\d+\.\d+\.\d+$/.test(versao))return false;
+  const nome='calculadora-extensao-static-v'+versao;
+  if(!(await cachesApi.keys()).includes(nome))return false;
+  const cache=await cachesApi.open(nome);
+  const obrigatorios=['./','./index.html','./styles.css?v='+versao,
+    './app.js?v='+versao,'./calculations.js','./bmi-who-data.js',
+    './assets/icon.svg','./manifest.webmanifest'];
+  for(const caminho of obrigatorios){
+    if(!(await cache.match(new URL(caminho,baseUrl).href)))return false;
+  }
+  return true;
+}
 if('serviceWorker' in navigator&&location.protocol==='https:'){
+  const conferir=async()=>{
+    try{
+      const src=document.querySelector('script[src*="app.js?v="]')?.getAttribute('src');
+      const confirmado=await cacheOfflineCompleto({
+        controller:navigator.serviceWorker.controller,
+        cachesApi:window.caches,src,baseUrl:location.href,
+      });
+      informarCacheOffline(confirmado
+        ? 'Recursos da calculadora preparados para próximas visitas offline. Versão atual verificada.'
+        : 'Cache offline da versão atual ainda não confirmado. Abra com internet e recarregue após a atualização.');
+    }catch(_){
+      informarCacheOffline('Cache offline não confirmado neste navegador. Use conexão para reabrir a ferramenta.');
+    }
+  };
+  navigator.serviceWorker.addEventListener('controllerchange',conferir);
   window.addEventListener('load',()=>{
     navigator.serviceWorker.register('./sw.js')
       .then(()=>navigator.serviceWorker.ready)
-      .then(()=>informarCacheOffline(
-        'Recursos da calculadora preparados para próximas visitas offline. '+
-        'Faça uma primeira visita com internet após cada atualização.'
-      ))
+      .then(conferir)
       .catch(()=>informarCacheOffline(
         'Cache offline não confirmado neste navegador. Use conexão para reabrir a ferramenta.'
       ));
