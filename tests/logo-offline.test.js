@@ -49,11 +49,11 @@ test('logos oficiais ficam sem placa branca no tema noturno',()=>{
   }
 });
 
-test('assets do tema e cache offline estão sincronizados na versão 2.8.13',()=>{
+test('assets do tema e cache offline estão sincronizados na versão 2.8.14',()=>{
   const pkg=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8'));
   const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
   const css=readFileSync(new URL('../styles.css',import.meta.url),'utf8');
-  assert.equal(pkg.version,'2.8.13');
+  assert.equal(pkg.version,'2.8.14');
   assert.match(html,/styles\.css\?v=2\.8\.13/);
   assert.match(html,/app\.js\?v=2\.8\.13/);
   assert.match(html,/© 2026 · v2\.8\.13/);
