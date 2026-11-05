@@ -1,3 +1,12 @@
+## Confirmação de cache offline — v2.8.14 (05/11/2026)
+
+A interface agora verifica, localmente, se o Service Worker está ativado e se
+todos os arquivos da versão publicada existem no CacheStorage. O evento
+`serviceWorker.ready` isolado não é mais tratado como prova de offline.
+Enquanto houver atualização pendente ou arquivo ausente, o aviso permanece
+como **não confirmado**. O cálculo de IMC, PFE e cintura, os datasets
+científicos e a política de privacidade não foram modificados.
+
 ## Indicador de cache offline — v2.8.13 (04/11/2026)
 
 A interface passa a informar, com região acessível `role="status"`, se o
