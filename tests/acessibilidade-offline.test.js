@@ -32,7 +32,7 @@ test('copiar e imprimir IMC e cintura, sem PFE alterado',()=>{
 
 test('PWA preserva cache exclusivamente de assets e versão coerente',()=>{
   const versao=pkg.version;
-  assert.equal(versao,'2.8.13');
+  assert.equal(versao,'2.8.14');
   assert.ok(html.includes('styles.css?v='+versao));
   assert.ok(html.includes('app.js?v='+versao));
   assert.ok(sw.includes('calculadora-extensao-static-v'+versao));
