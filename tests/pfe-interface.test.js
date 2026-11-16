@@ -39,6 +39,20 @@ test('clicar em calcular usa somente as três manobras',async()=>{
   assert.match(element('pfe-result').innerHTML,/provisório/);
   assert.match(element('pfe-result').innerHTML,/530/);
   assert.equal(element('pfe-error').hidden,true);
+
+  // CFF 2020, p. 8: variação estritamente menor que 20 L/min.
+  element('effort1').value='420';
+  element('effort2').value='439';
+  element('effort3').value='420';
+  element('pfe-form').dispatch('submit');
+  assert.match(element('pfe-result').innerHTML,/Maior das três leituras/);
+  assert.doesNotMatch(element('pfe-result').innerHTML,/Rever repetibilidade das leituras/);
+  element('effort2').value='440'; // diferença exata de 20: advertência, sem bloqueio.
+  element('pfe-form').dispatch('submit');
+  assert.match(element('pfe-result').innerHTML,/Rever repetibilidade das leituras/);
+  assert.match(element('pfe-result').innerHTML,/provisório/);
+  assert.match(element('pfe-result').innerHTML,/440/);
+
   element('effort2').value='59';
   element('pfe-form').dispatch('submit');
   assert.match(element('pfe-error').textContent,/60 a 900/);
